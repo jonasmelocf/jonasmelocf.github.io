@@ -45,6 +45,15 @@ export default defineConfig({
         text: "Sobre mim",
         link: "/me",
       },
+      {
+        text: "Tutoriais",
+        items: [
+          {
+            text: "AstroNvim",
+            link: "./tutorial-astronvim"
+          }
+        ]
+      }
       // {
       //   text: 'Blog',
       //   items: [
