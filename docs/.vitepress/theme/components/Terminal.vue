@@ -91,7 +91,7 @@ josh.execute(`echo ${frontmatter.value.intro}`).then(log).finally(focusInput);
 					<input ref="terminal" @keydown.up="ev => handleNavigateHistory(ev, 1)"
 						@keydown.down="ev => handleNavigateHistory(ev, -1)" @keydown.enter="handleInput" v-if="!isLoading"
 						class="grow pl-2 inline-flex" />
-					<Spinner v-if="isLoading" class="size-5 inline animate-spin" />
+					<Spinner v-if="isLoading" class="ml-2 size-5 inline animate-spin" />
 				</code>
 			</div>
 		</template>
