@@ -13,9 +13,9 @@ for loop: help for<br>
 assigning a variable: $var = 10<br>
 available commands:<br>
 ${commands
-				.filter((command) => command) // this filter removes the "" command
-				.map((command) => `· ${command}`)
-				.join("<br>")}`;
+	.filter((command) => command) // this filter removes the "" command
+	.map((command) => `· ${command}`)
+	.join("<br>")}`;
 
 	switch (command) {
 		case "cachorro":

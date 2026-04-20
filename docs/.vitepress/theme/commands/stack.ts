@@ -1,5 +1,5 @@
 export function stack() {
-  return `
+	return `
   <table>
     <thead>
       <tr class="*:p-2 border"><th>Back end</th><th>Front end</th><th>Database</th></tr>
