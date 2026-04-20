@@ -97,4 +97,4 @@ Entre em contato comigo pelo email djjjonas02@gmail.com.
 
 [LinkedIn](https://linkedin.com/in/ojonasdemelo).
 
-*Não possuo outras redes como Facebook, Instagram ou Twitter.*
+_Não possuo outras redes como Facebook, Instagram ou Twitter._
