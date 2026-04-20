@@ -1,7 +1,7 @@
 ---
 # https://vitepress.dev/reference/default-theme-home-page
 layout: home
-intro: Bem vindo.<br/>Informações sobre mim e meus projetos estão na página "Sobre mim".<br/><br/>Acesse minhas redes no canto supeior direito.
+intro: Bem vindo.<br/><br/>Informações sobre mim na página "Sobre mim".<br/>Acesse minhas redes no canto superior direito.
 hero:
   name: Jonas de Melo
   text: Full stack Developer
