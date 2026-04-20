@@ -1,0 +1,5 @@
+@import "tailwindcss";
+
+div.image-bg {
+	display: none;
+}
