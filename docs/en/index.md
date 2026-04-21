@@ -4,11 +4,11 @@ layout: home
 hero:
   name: Jonas de Melo
   text: Full stack Developer
-  intro: Bem vindo.<br/>Informações sobre mim na página "Sobre mim".<br/>Acesse minhas redes no canto superior direito.
+  intro: Welcome.<br/>Information about me on page "About me".<br/>My socials are on the top right.
   actions:
     - theme: brand
-      text: Sobre mim
-      link: /br/me
+      text: About me
+      link: /me
     # - theme: alt
     #   text: API Examples
     #   link: /docs/api-examples

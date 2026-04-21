@@ -13,33 +13,51 @@ export default defineConfig({
     ],
     sidebar: [
       {
-        text: "About me",
+        text: "Sobre mim",
         link: "/me",
       },
       {
-        text: "Articles",
+        text: "Artigos",
         items: [
           {
             text: "Why coding feels magical",
-            link: "/articles/why-coding-feels-magical.md"
+            link: "/articles/why-coding-feels-magical"
           }
         ],
       },
       {
-        text: "Tutorials",
+        text: "Tutoriais",
         items: [
           {
             text: "AstroNvim",
-            link: "../tutorial-astronvim.md"
+            link: "/tutorial-astronvim"
           }
         ]
       }
-      // {
-      //   text: 'Blog',
-      //   items: [
-      //   ],
-      // }
     ],
+    returnToTopLabel: "Voltar ao começo",
+    outline: {
+      label: "Nessa página",
+    },
+    docFooter: {
+      next: "Próxima página",
+      prev: "Página anterior"
+    },
+    lastUpdated: {
+      text: "Última atualização",
+    },
+    darkModeSwitchLabel: "Aparência",
+    darkModeSwitchTitle: "Mudar para o tema escura",
+    lightModeSwitchTitle: "Mudar para o tema claro",
+    skipToContentLabel: "Pular para o conteúdo",
+    notFound: {
+      linkLabel: "voltar para a home",
+      code: "404",
+      title: "PÁGINA NÃO ENCONTRADA",
+      quote: "Não há nada aqui",
+      linkText: "Ir para a home",
+    },
+
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/DJJJonas' },
@@ -48,59 +66,37 @@ export default defineConfig({
   },
   locales: {
     root: {
-      label: "English",
-      lang: "en",
-    },
-    br: {
       label: "Português do Brasil",
       lang: "br",
+    },
+    en: {
+      label: "English",
+      lang: "en",
       themeConfig: {
         sidebar: [
           {
-            text: "Sobre mim",
-            link: "/br/me",
+            text: "About me",
+            link: "/en/me",
           },
           {
-            text: "Artigos",
+            text: "Articles",
             items: [
               {
                 text: "Why coding feels magical",
-                link: "/articles/why-coding-feels-magical"
+                link: "/en/articles/why-coding-feels-magical.md"
               }
             ],
           },
           {
-            text: "Tutoriais",
+            text: "Tutorials",
             items: [
               {
                 text: "AstroNvim",
-                link: "/tutorial-astronvim"
+                link: "/en/tutorial-astronvim"
               }
             ]
           }
         ],
-        returnToTopLabel: "Voltar ao começo",
-        outline: {
-          label: "Nessa página",
-        },
-        docFooter: {
-          next: "Próxima página",
-          prev: "Página anterior"
-        },
-        lastUpdated: {
-          text: "Última atualização",
-        },
-        darkModeSwitchLabel: "Aparência",
-        darkModeSwitchTitle: "Mudar para o tema escura",
-        lightModeSwitchTitle: "Mudar para o tema claro",
-        skipToContentLabel: "Pular para o conteúdo",
-        notFound: {
-          linkLabel: "voltar para a home",
-          code: "404",
-          title: "PÁGINA NÃO ENCONTRADA",
-          quote: "Não há nada aqui",
-          linkText: "Ir para a home",
-        },
       }
     },
   },

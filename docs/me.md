@@ -7,16 +7,16 @@ const isThingsILikePlaying = ref(true);
 const playThingsILike = () => isThingsILikePlaying.value = true;
 const stopThingsILike = () => isThingsILikePlaying.value = false;
 const thingsILike = [
-  "programming",
-  "learning",
-  "optimizing",
-  "customizing",
-  "minimalism",
+  "programar",
+  "aprender",
+  "otimizar",
+  "customizar",
+  "minimalismo",
   "linux",
-  "team working",
-  "listeing to music",
-  "puzzles",
-  "coffee",
+  "trabalhar em equipe",
+  "ouvir música",
+  "quebra-cabeças",
+  "café",
 ];
 setInterval(() => {
   if (!thingsILikeRef.value || !isThingsILikePlaying.value) return;
@@ -25,80 +25,80 @@ setInterval(() => {
 }, 3000);
 </script>
 
-# About Me
+# Sobre mim
 
-## Introduction
+## Introdução
 
-I am a **Full-stack** developer with about {{ year - 2017 }} years of programming experience and 2 years of professional experience.
+Sou desenvolvedor **Full stack** com cerca de {{ year - 2017 }} anos de experiência programando e 2 anos de experiência profissional.
 
-I mainly work with **web** development.
+Trabalho principalmente com desenvolvimento **web**.
 
-I am self-taught and a fast learner.
+Sou autodidata e aprendo rápido.
 
 <div class="flex items-center">
-I like <select ref="thingsILike" class="shadow ml-2 mr-0.5 cursor-pointer border border-gray-500/20 rounded-md px-2"><option v-for="t in thingsILike">{{t}}</option></select>.
+Gosto de <select ref="thingsILike" class="shadow ml-2 mr-0.5 cursor-pointer border border-gray-500/20 rounded-md px-2"><option v-for="t in thingsILike">{{t}}</option></select>.
 <menu class="ml-2 opacity-15 hover:opacity-50 transition-opacity *:active:size-3.5 *:size-4 *:transition-all cursor-pointer">
   <Play v-if="!isThingsILikePlaying" @click="playThingsILike" /> 
   <Pause v-if="isThingsILikePlaying" @click="stopThingsILike" />
 </menu>
 </div>
 
-## Education
+## Formação acadêmica
 
-I hold a degree in Systems Analysis and Development from Unileão in Juazeiro do Norte, Ceará.
+Sou formado em Análise e Desenvolvimento de Sistemas pela Unileão em Juazeiro do Norte, Ceará.
 
-## Languages
+## Linguas
 
-In addition to Portuguese, I am fluent in English.
+Além do português, sou fluete em inglês.
 
-## Technologies
+## Tecnologias
 
 ::: details Linux
-My main operating system for {{ year - 2020 }} years. Currently, I use the CachyOS distro. I use **bash** and **zsh** to create automation scripts.
+Meu sistema operacional principal há {{ year - 2020 }} anos. Atualmente, uso a distro CachyOS. Uso **bash** e **zsh** para criar scripts de automatização.
 :::
 
 ::: details Python & Flask
-I use **Python** when I need to create more complex automation scripts that are not as easily done with **bash**.
+Uso **Python** quando preciso fazer scripts de automação mais complexos que não são tão facilmente feitos usando **bash**.
 
-It was with **Python** that I took my first steps in building **REST API** servers using **Flask**.
+Foi usando **Python** que dei meus primeiros passos na criação de servidores **REST API** usando **Flask**.
 :::
 
 ::: details Java & Spring Boot
-I have used **Java** and **Spring Boot** with **Spring Web** to build **REST API** servers and maintain large-scale web projects using **Gradle** and **Maven**.
+Usei **Java** e **Spring Boot** com **Spring Web** para criar servidores **REST API** e manter projetos web de larga escala usando **Gradle** e **Maven**.
 
-I have also used **Java** to create **desktop** applications with **Swing** and Minecraft mods.
+Também usei **Java** para criar aplicações **desktop** usando **Swing** e mods de Minecraft.
 :::
 
 ::: details NodeJS, NextJS, VueJS & React
-**NodeJS** is the technology I use most in my day-to-day work.
-Most of my **NodeJS** projects also use **TypeScript**.
+**NodeJS** é a tecnologia que mais uso no dia a dia.
+A maioria dos meus projetos que usam **NodeJS** também usam **Typescript**.
 
-When I’m not using **NextJS** for **full-stack** projects, I build **front-end** projects using **Vite**, and I usually use **React**.
-I also really like other **front-end** frameworks such as **Svelte** and **Vue**, as they are more developer-friendly than **React**.
+Quando não estou utilizando **NextJS** para projetos **full stack**, crio projetos **front end** usando **Vite** e, geralmente, utilizo **React**.
+Gosto bastante de outros frameworks **front end**, como **Svelte** e **Vue** por serem mais conveniêntes ao desenvolvedor do que **React**.
 
-On the **back end**, I use **Hono**, which is very similar to **Express**, almost always combined with the **tRPC** library.
+No **back end**, utilizo **Hono**, que é bastante similar ao **Express**, quase sempre acompanhado da biblioteca **tRPC**.
 
-For **database** communication, I prefer using **drizzle**, but I am also proficient with **Prisma**.
+Para comunicação com o **banco de dados**, gosto de usar o **drizzle**, porém, também domino **Prisma**.
 :::
 
 ::: details PostgreSQL, MySQL & MongoDB
-I can write **SQL queries** for **PostgreSQL** and **MySQL**. I have more experience with **PostgreSQL**.
+Consigo escrever **queries SQL** para **PostgreSQL** e **MySQL**. Tenho mais experiência com **PostgreSQL**.
 
-I have also used **MongoDB** to maintain large-scale web projects.
+Já utilizei **MongoDB** para na manutenção de projetos web de larga escala.
 :::
 
 ::: details Docker & docker-compose
-I use **Docker** through **docker-compose** to run **databases** locally.
+Utilizo **Docker** através do **docker-compose** para subir **bancos de dados** localmente.
 :::
 
 ::: details AI
 
 :::
 
-## Contact
+## Contato
 
-Get in touch with me via email at [djjjonas02@gmail.com](mailto:djjjonas02@gmail.com).
+Entre em contato comigo pelo email djjjonas02@gmail.com.
 
-[LinkedIn](https://linkedin.com/in/ojonasdemelo)
+[LinkedIn](https://linkedin.com/in/ojonasdemelo).
 
-*I don’t have other social networks such as Facebook, Instagram, or Twitter.*
+_Não possuo outras redes como Facebook, Instagram ou Twitter._
