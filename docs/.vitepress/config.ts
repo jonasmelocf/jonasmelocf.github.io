@@ -46,11 +46,20 @@ export default defineConfig({
         link: "/me",
       },
       {
+        text: "Artigos",
+        items: [
+          {
+            text: "Why coding feels magical",
+            link: "../articles/why-coding-feels-magical.md"
+          }
+        ],
+      },
+      {
         text: "Tutoriais",
         items: [
           {
             text: "AstroNvim",
-            link: "./tutorial-astronvim"
+            link: "../tutorial-astronvim.md"
           }
         ]
       }
