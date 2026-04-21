@@ -4,7 +4,7 @@ layout: home
 hero:
   name: Jonas de Melo
   text: Full stack Developer
-  intro: Welcome.<br/>Information about me on page "About me".<br/>My socials are on the top right.
+  intro: Welcome.<br/>Information about me on page "About me".<br/>My socials are on the top right.<br/><br/><i>é possível mudar o idioma do site no menu do canto superior direito</i>
   actions:
     - theme: brand
       text: About me
