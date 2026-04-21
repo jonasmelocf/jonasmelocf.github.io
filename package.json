@@ -1,10 +1,10 @@
 {
   "name": "djjjonas.github.io",
   "scripts": {
-    "deploy:gh": "gh-pages -d ./docs/.vitepress/dist",
-    "docs:dev": "vitepress dev docs",
-    "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs",
+    "publish": "gh-pages -d ./docs/.vitepress/dist",
+    "dev": "vitepress dev docs",
+    "build": "vitepress build docs",
+    "preview": "vitepress preview docs",
     "format": "prettier --write **/*.md",
     "check": "biome check --write --unsafe ./docs/.vitepress/theme/"
   },
