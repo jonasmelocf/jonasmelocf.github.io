@@ -1,13 +1,9 @@
 <script setup lang="ts">
-import { useData } from "vitepress";
-import DefaultTheme from "vitepress/theme";
-import { type CSSProperties, nextTick, ref, useTemplateRef } from "vue";
+import { type CSSProperties, watch, nextTick, ref, useTemplateRef } from "vue";
 import { createJosh } from "../commands";
 import Spinner from "./Spinner.vue";
 
-const { frontmatter } = useData();
-
-const { Layout } = DefaultTheme;
+const props = defineProps(["intro"]);
 
 let historyIndex: number | undefined;
 const history = ref<string[]>([]);
@@ -69,23 +65,30 @@ async function handleInput() {
 		});
 }
 
-josh.execute(`echo ${frontmatter.value.intro}`).then(log).finally(focusInput);
+// Changing the page language doesn't refresh the page.
+// Because of that, this setup script is not re-executed.
+// So we need to watch if the prop changed and "restart" the terminal.
+watch(
+	() => props.intro,
+	(intro) => {
+		clearTerminal();
+		josh.execute(`echo ${intro}`).then(log).finally(focusInput)
+	},
+	{ immediate: true },
+);
+
 </script>
 
 <template>
-	<Layout>
-		<template #home-hero-image>
-			<div @click="focusInput" :style="{ color, zIndex: 999_999_999 }" ref="container"
-				class="bg-neutral-900 w-full md:mx-0 h-60 sm:h-80 lg:h-100 text-left font-mono border p-1 border-neutral-500 rounded mt-12 md:mt-0 overflow-y-auto scroll-smooth flex flex-col">
-				<code @click="focusInput" v-for="command in history" v-html="command"></code>
-				<code class="flex">
-					<pre>{{ prefix }}</pre>
-					<input id="terminalInput" ref="terminal" @keydown.up="ev => handleNavigateHistory(ev, 1)"
-						@keydown.down="ev => handleNavigateHistory(ev, -1)" @keydown.enter="handleInput" v-if="!isLoading"
-						class="grow" />
-					<Spinner v-if="isLoading" class="size-5 inline animate-spin" />
-				</code>
-			</div>
-		</template>
-	</Layout>
+	<div @click="focusInput" :style="{ color, zIndex: 999_999_999 }" ref="container"
+		class="bg-neutral-900 w-full md:mx-0 h-60 sm:h-80 lg:h-100 text-left font-mono border p-1 border-neutral-500 rounded mt-12 md:mt-0 overflow-y-auto scroll-smooth flex flex-col">
+		<code @click="focusInput" v-for="command in history" v-html="command"></code>
+		<code class="flex">
+			<pre>{{ prefix }}</pre>
+			<input id="terminalInput" ref="terminal" @keydown.up="ev => handleNavigateHistory(ev, 1)"
+				@keydown.down="ev => handleNavigateHistory(ev, -1)" @keydown.enter="handleInput" v-if="!isLoading"
+				class="grow" />
+			<Spinner v-if="isLoading" class="size-5 inline animate-spin" />
+		</code>
+	</div>
 </template>

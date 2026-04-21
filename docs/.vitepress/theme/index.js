@@ -1,8 +1,8 @@
 import DefaultTheme from "vitepress/theme";
-import Terminal from "./components/Terminal.vue";
+import HomeHeroImage from "./components/HomeHeroImage.vue";
 import "./tailwind.css";
 
 export default {
 	extends: DefaultTheme,
-	Layout: Terminal,
+	Layout: HomeHeroImage,
 };
