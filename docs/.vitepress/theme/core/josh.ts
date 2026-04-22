@@ -14,7 +14,6 @@ export class Josh {
 		const tokens = Array.from(
 			input.matchAll(Josh.tokenRegex).map((token) => token[1] ?? token[0]),
 		);
-		console.log(tokens);
 		return await this.parseTokens(tokens);
 	}
 
