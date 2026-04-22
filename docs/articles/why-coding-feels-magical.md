@@ -16,6 +16,6 @@ It feels **magical** to take out the logic inside your head and type it out in e
 As Gabe Newell once said,
 
 "The programmers of tomorrow are the wizards of the future."
-<iframe class="w-full aspect-video" src="https://www.youtube.com/embed/Dv7gLpW91DM?start=292" title="Why Programming Is Important?" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<iframe class="w-full aspect-video" src="https://www.youtube.com/embed/Dv7gLpW91DM?start=292" title="Why Programming Is Important?" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 I like to think that I'm a wizard creating a magic spell, but instead of unintelligible ancient words, it's just JavaScript.
