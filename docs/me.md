@@ -1,11 +1,10 @@
 <script setup>
+import AnimatedSelect from "./components/AnimatedSelect.vue";
 import { ref, useTemplateRef } from "vue";
-import { Play, Pause } from "@lucide/vue";
+
+// — Constants —
 const year = new Date().getFullYear();
-const thingsILikeRef = useTemplateRef("thingsILike");
-const isThingsILikePlaying = ref(true);
-const playThingsILike = () => isThingsILikePlaying.value = true;
-const stopThingsILike = () => isThingsILikePlaying.value = false;
+
 const thingsILike = [
   "programar",
   "aprender",
@@ -18,11 +17,6 @@ const thingsILike = [
   "quebra-cabeças",
   "café",
 ];
-setInterval(() => {
-  if (!thingsILikeRef.value || !isThingsILikePlaying.value) return;
-  const i = Math.random() * thingsILike.length | 0;
-  thingsILikeRef.value.value = thingsILike[i];
-}, 3000);
 </script>
 
 # Sobre mim
@@ -35,13 +29,7 @@ Trabalho principalmente com desenvolvimento **web**.
 
 Sou autodidata e aprendo rápido.
 
-<div class="flex items-center">
-Gosto de <select ref="thingsILike" class="shadow ml-2 mr-0.5 cursor-pointer border border-gray-500/20 rounded-md px-2"><option v-for="t in thingsILike">{{t}}</option></select>.
-<menu class="ml-2 opacity-15 hover:opacity-50 transition-opacity *:active:size-3.5 *:size-4 *:transition-all cursor-pointer">
-  <Play v-if="!isThingsILikePlaying" @click="playThingsILike" /> 
-  <Pause v-if="isThingsILikePlaying" @click="stopThingsILike" />
-</menu>
-</div>
+Gosto de <AnimatedSelect :options="thingsILike" />
 
 ## Formação acadêmica
 
@@ -91,8 +79,13 @@ Já utilizei **MongoDB** para na manutenção de projetos web de larga escala.
 Utilizo **Docker** através do **docker-compose** para subir **bancos de dados** localmente.
 :::
 
-::: details AI
+::: details Agentes de IA
+Uso vários **agentes de IA**, incluindo **Claude** e **Copilot**, para:
 
+- Analisar possíveis bugs e otimizações
+- Estudar tecnologias e suas documentações
+- Gerar códigos previsíveis e planejados
+- Organizar estrutura de codigos fonte
 :::
 
 ## Contato
