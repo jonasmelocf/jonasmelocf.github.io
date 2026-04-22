@@ -15,6 +15,9 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": [
+    "docs/components/**/*.ts",
+    "docs/components/**/*.tsx",
+    "docs/components/**/*.vue",
     "docs/.vitepress/**/*.ts",
     "docs/.vitepress/**/*.tsx",
     "docs/.vitepress/**/*.vue"
