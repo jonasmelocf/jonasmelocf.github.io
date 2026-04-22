@@ -7,7 +7,7 @@ const { options } = defineProps<{
   options: string[],
 }>();
 
-let isPlaying = ref(true);
+const isPlaying = ref(true);
 
 // — Template refs —
 const selectRef = useTemplateRef("select");
@@ -18,7 +18,7 @@ function handleIsPlayingToggle() {
 }
 
 // — Animation —
-let animId: NodeJS.Timeout;
+let animId: number;
 
 onMounted(() => {
   let i = 0;
