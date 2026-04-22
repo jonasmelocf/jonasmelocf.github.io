@@ -11,11 +11,12 @@ export function help(josh: Josh, command: string) {
 syntax: help (command)<br>
 for loop: help for<br>
 assigning a variable: $var = 10<br>
+if a command doesn't have a help page, try passing "-h" or "--help" as the first argument
 available commands:<br>
 ${commands
-	.filter((command) => command) // this filter removes the "" command
-	.map((command) => `· ${command}`)
-	.join("<br>")}`;
+				.filter((command) => command) // this filter removes the "" command
+				.map((command) => `· ${command}`)
+				.join("<br>")}`;
 
 	switch (command) {
 		case "cachorro":
@@ -29,7 +30,7 @@ ${commands
 		case "clear":
 			return "clears the terminal.";
 		case "echo":
-			return "prints the arguments and variables passed.";
+			return "prints the arguments passed. pass `-n` as the first argument to stop line break";
 		case "vars":
 			return "prints all variables and their values.";
 		case "help":
@@ -51,10 +52,9 @@ ${commands
 
 const forHelp = `
 runs a command any amount of time and stores the iteration index inside a variable.<br>
-don't prefix the variable with $.<br>
-syntax: for (var) (start) (end) (command) (arguments)<br>
+syntax: for (var) = (start) to (end) do (command) (arguments) ;<br>
 example:<br>
-for x 10 20 echo $x is a number
+for $i = 1 to 10 do echo "Iteration: $i" ;
 `;
 
 const colorHelp = `

@@ -1,8 +1,11 @@
 <script setup>
 import DefaultTheme from "vitepress/theme";
+
 const { Layout } = DefaultTheme;
+
 import { useData } from "vitepress";
 import Terminal from "./Terminal.vue";
+
 const { frontmatter } = useData();
 </script>
 
