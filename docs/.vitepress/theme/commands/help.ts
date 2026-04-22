@@ -14,9 +14,9 @@ assigning a variable: $var = 10<br>
 if a command doesn't have a help page, try passing "-h" or "--help" as the first argument
 available commands:<br>
 ${commands
-				.filter((command) => command) // this filter removes the "" command
-				.map((command) => `· ${command}`)
-				.join("<br>")}`;
+	.filter((command) => command) // this filter removes the "" command
+	.map((command) => `· ${command}`)
+	.join("<br>")}`;
 
 	switch (command) {
 		case "cachorro":

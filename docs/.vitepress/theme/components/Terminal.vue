@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { type CSSProperties, nextTick, ref, useTemplateRef, watch } from "vue";
 import { createJosh } from "../commands";
-import Spinner from "./Spinner.vue";
 import { escapeHTML } from "../lib/utils";
+import Spinner from "./Spinner.vue";
 
 // - Utilities -
 const pickRandom = <T>(arr: T[]) => arr[(Math.random() * arr.length) | 0];

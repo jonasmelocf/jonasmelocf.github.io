@@ -3,7 +3,8 @@ export class Josh {
 	variables = new Map<string, string>();
 	commandMap: Map<string, Command>;
 	static varRegex = /\$[\wçãẽĩõũáéíóú]+/i;
-	static tokenRegex = /"((?:[^\\"]||\\.)*)"|[^\s\\$]+|\S+|\$[\wçãẽĩõũáéíóú]+/sig;
+	static tokenRegex =
+		/"((?:[^\\"]||\\.)*)"|[^\s\\$]+|\S+|\$[\wçãẽĩõũáéíóú]+/gis;
 
 	constructor(commandMap = new Map<string, Command>()) {
 		this.commandMap = commandMap;
@@ -75,7 +76,7 @@ export class Josh {
 								/(?<!\\)\$\w+/gi,
 								(name) => this.variables.get(name) ?? "",
 							)
-							// - Remove escape backslash (\" -> ") - 
+							// - Remove escape backslash (\" -> ") -
 							.replace(/\\(.)/g, (_, capture) => capture),
 					);
 					token = tokens.shift();
