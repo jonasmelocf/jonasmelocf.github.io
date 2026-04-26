@@ -1,24 +1,26 @@
 <script setup lang="ts">
-import { usePuzzleMaker } from '../composables/usePuzzleMaker';
-import PuzzleEditor from './PuzzleEditor.vue';
-import TestAttributes from './TestAttributes.vue';
+import Button from "@/components/Button.vue";
+import ClipboardCopyButton from '@/components/ClipboardCopyButton.vue';
 import Input from "@/components/Input.vue";
 import Label from "@/components/Label.vue";
-import Button from "@/components/Button.vue";
+import puzzlesJSON from "@/puzzles.json";
+import { usePuzzleMaker } from '../composables/usePuzzleMaker';
 import ImportPuzzleForm from "./ImportPuzzleForm.vue";
-import { defineClientComponent } from 'vitepress';
-
-const ClipboardCopyButton = defineClientComponent(() => import('@/components/ClipboardCopyButton.vue'));
+import PuzzleEditor from './PuzzleEditor.vue';
+import OpenPuzzleForm from './OpenPuzzleForm.vue';
+import TestAttributes from './TestAttributes.vue';
 
 const { puzzle, addTest, removeTest } = usePuzzleMaker();
+const puzzles = Object.values(puzzlesJSON);
 
 const stringify = (data: unknown) => {
   try {
     return JSON.stringify(data, null, 2);
-  } catch (e) {
+  } catch (_e) {
     return undefined;
   }
 };
+
 </script>
 
 <template>
@@ -29,8 +31,11 @@ const stringify = (data: unknown) => {
   border border-neutral-700 rounded 
   text-neutral-100
 `]">
-    <ImportPuzzleForm @import="(importedPuzzle) => puzzle = importedPuzzle" />
 
+    <div class="flex gap-16">
+      <OpenPuzzleForm v-if="puzzles.length" :puzzles="puzzles" @puzzle-select="imported => puzzle = imported" />
+      <ImportPuzzleForm class="grow" @import="(importedPuzzle) => puzzle = importedPuzzle" />
+    </div>
     <hr />
 
     <div>
@@ -54,7 +59,7 @@ const stringify = (data: unknown) => {
     <!-- Generated -->
     <div
       class="relative whitespace-break-spaces border border-neutral-800 bg-neutral-950 inset-shadow-xs inset-shadow-black p-4 rounded text-sm">
-      <ClipboardCopyButton label="Copy" class="absolute top-2 right-2" :content="stringify(puzzle)" />
+      <ClipboardCopyButton label="Copy" class="absolute top-2 right-2" :content="stringify(puzzle) ?? ''" />
       {{ stringify(puzzle) ?? "Invalid JSON" }}
     </div>
   </div>

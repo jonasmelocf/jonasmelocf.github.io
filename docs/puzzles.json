@@ -1,5 +1,4 @@
 {
-  "NOTE": "AUTO GENERATED. USE PUZZLE MAKER TO MAKE NEW PUZZLES",
   "add-two-numbers": {
     "id": "add-two-numbers",
     "code": "const [x, y] = input();\nconsole.log(x);",
