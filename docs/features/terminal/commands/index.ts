@@ -1,4 +1,4 @@
-import { type Command, Josh } from "../core/josh";
+import { type Command, Josh } from "@/lib/josh";
 import { cachorro } from "./cachorro";
 import { echo } from "./echo";
 import { createHelpCommand } from "./help";

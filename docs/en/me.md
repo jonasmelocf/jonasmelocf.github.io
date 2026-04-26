@@ -1,5 +1,5 @@
 <script setup>
-import AnimatedSelect from "../components/AnimatedSelect.vue";
+import AnimatedSelect from "@/components/AnimatedSelect.vue";
 import { ref, useTemplateRef } from "vue";
 
 // — Constants —

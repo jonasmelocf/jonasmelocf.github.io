@@ -1,0 +1,34 @@
+{
+	"sidebar": [
+		{
+			"br": "Sobre mim",
+			"en": "About me",
+			"link": "/me"
+		},
+		{
+			"br": "Quebra-cabeças",
+			"en": "Puzzles",
+			"link": "/puzzles"
+		},
+		{
+			"br": "Artigos",
+			"en": "Articles",
+			"items": [
+				{
+					"text": "Why coding feels magical",
+					"link": "/articles/why-coding-feels-magical"
+				}
+			]
+		},
+		{
+			"br": "Tutoriais",
+			"en": "Tutorials",
+			"items": [
+				{
+					"text": "AstroNvim",
+					"link": "/tutorial-astronvim"
+				}
+			]
+		}
+	]
+}

@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import PlayPause from "./PlayPause.vue";
 import { onMounted, onUnmounted, ref, useTemplateRef } from "vue";
+import PlayPause from "./PlayPause.vue";
 
 // - Props -
 const { options } = defineProps<{
   options: string[],
 }>();
 
+// - Refs -
 const isPlaying = ref(true);
 
 // — Template refs —
@@ -18,7 +19,7 @@ function handleIsPlayingToggle() {
 }
 
 // — Animation —
-let animId: number;
+let animId: NodeJS.Timeout;
 
 onMounted(() => {
   let i = 0;

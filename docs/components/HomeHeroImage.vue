@@ -4,7 +4,7 @@ import DefaultTheme from "vitepress/theme";
 const { Layout } = DefaultTheme;
 
 import { useData } from "vitepress";
-import Terminal from "./Terminal.vue";
+import Terminal from "@/features/terminal/Terminal.vue";
 
 const { frontmatter } = useData();
 </script>

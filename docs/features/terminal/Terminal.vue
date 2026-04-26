@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { type CSSProperties, nextTick, ref, useTemplateRef, watch } from "vue";
-import { createJosh } from "../commands";
-import { escapeHTML } from "../lib/utils";
-import Spinner from "./Spinner.vue";
+import { escapeHTML } from "@/lib/utils";
+import Spinner from "@/components/Spinner.vue";
+import { createJosh } from "./commands";
 
 // - Utilities -
-const pickRandom = <T>(arr: T[]) => arr[(Math.random() * arr.length) | 0];
+const random = <T>(arr: T[]) => arr[(Math.random() * arr.length) | 0];
 type Color = CSSProperties["color"];
 
 // — Props —
@@ -13,7 +13,7 @@ const props = defineProps(["intro"]);
 
 // — Constants —
 const prefixes = ["$ ", "~> ", "|> ", ">. ", ">_ ", "# ", "-> ", "=> ", "> ", ">>> ", "josh> ", "👉 "];
-let prefix = pickRandom(prefixes);
+let prefix = random(prefixes);
 
 // — State —
 const color = ref<Color>("white");
@@ -44,7 +44,7 @@ async function log(...msg: string[]) {
 	scrollToBottom();
 }
 
-function handleNavigateHistory(ev: KeyboardEvent, step: number) {
+function handleNavigateHistory(step: number) {
 	if (!terminalRef.value) return;
 
 	const commands = history.value.filter((val) => val.startsWith(prefix)).reverse();
@@ -55,8 +55,6 @@ function handleNavigateHistory(ev: KeyboardEvent, step: number) {
 	} else {
 		historyIndex = Math.min(Math.max(historyIndex + step, 0), commands.length - 1);
 	}
-
-	ev.preventDefault();
 
 	const last = commands[historyIndex]?.replace(prefix, "") ?? "";
 	const terminal = terminalRef.value;
@@ -107,7 +105,7 @@ josh.commandMap.set("prefix", (arg: string) => {
 	if (arg) {
 		prefix = arg;
 	} else {
-		prefix = pickRandom(prefixes);
+		prefix = random(prefixes);
 	}
 	return "prefix updated";
 })
@@ -126,18 +124,22 @@ watch(
 	{ immediate: true },
 );
 </script>
-
 <template>
 	<div ref="container" :style="{ color, zIndex: 999_999_999 }"
 		class="bg-neutral-900 w-full md:mx-0 h-60 sm:h-80 lg:h-100 text-left font-mono border p-1 border-neutral-500 rounded mt-12 md:mt-0 overflow-y-auto scroll-smooth flex flex-col"
 		@click="focusInput">
+
 		<code v-for="command in history" v-html="command" @click="focusInput" />
+
 		<code class="flex">
 			<pre>{{ prefix }}</pre>
+
 			<input v-if="!isLoading" id="terminalInput" ref="terminal" class="grow"
-				@keydown.up="(ev) => handleNavigateHistory(ev, 1)" @keydown.down="(ev) => handleNavigateHistory(ev, -1)"
+				@keydown.up.prevent="() => handleNavigateHistory(1)" @keydown.down.prevent="() => handleNavigateHistory(-1)"
 				@keydown.enter="handleInput" />
+
 			<Spinner v-if="isLoading" class="size-5 inline animate-spin" />
 		</code>
+
 	</div>
 </template>

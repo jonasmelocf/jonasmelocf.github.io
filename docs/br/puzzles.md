@@ -1,0 +1,53 @@
+<script setup>
+import {defineClientComponent} from "vitepress";
+import puzzles from "@/puzzles.json";
+
+const PuzzleEditor = defineClientComponent(() => {
+  return import('@/features/puzzle/components/PuzzleEditor.vue')
+});
+
+</script>
+
+# Quebra-cabeças
+
+Aqui você vai encontrar problemas que precisam ser resolvidos usando JavaScript.
+
+As informações dadas para resolver os quebra-cabeças são poucas propositalmente. Use a lógica para entender o que deve ser feito e aprenda com os erros.
+
+Quando estiver confiante da sua solução, use o botão `Executar todos` ou aperte `ctrl+enter`.
+
+## Some dois números
+
+Dados dois inteiros positivos `x` e `y`, mostre a soma deles.
+
+<PuzzleEditor :puzzle="puzzles['add-two-numbers']" />
+
+## Fatorial
+
+Dado um inteiro positivo `n`, mostre seu fatorial.
+
+<PuzzleEditor :puzzle="puzzles['factorial']" />
+
+## Primo
+
+Dado um inteiro positivo `n`, mostre `true` se for um número primo, se não, `false`.
+
+<PuzzleEditor :puzzle="puzzles['prime']" />
+
+## Triangulo
+
+Dado um inteiro positivo `n`, mostre um triângulo retângulo que segue o seguinte padrão:
+
+```text
+*
+**
+***
+```
+
+<PuzzleEditor :puzzle="puzzles['triangle']" />
+
+## Hipotenusa
+
+Dados dois inteiros positivos `x` e `y` representando os catetos de um triângulo retângulo, mostre a hipotenusa.
+
+<PuzzleEditor :puzzle="puzzles['hypotenuse']"/>

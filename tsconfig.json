@@ -1,6 +1,7 @@
 {
   "extends": "@vue/tsconfig",
   "compilerOptions": {
+    "noEmit": true,
     "types": [
       "vite/client"
     ],
@@ -12,14 +13,24 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "verbatimModuleSyntax": true,
+    "paths": {
+      "@/*": [
+        "./docs/*"
+      ]
+    }
   },
   "include": [
-    "docs/components/**/*.ts",
-    "docs/components/**/*.tsx",
-    "docs/components/**/*.vue",
-    "docs/.vitepress/**/*.ts",
-    "docs/.vitepress/**/*.tsx",
-    "docs/.vitepress/**/*.vue"
+    "./**/*.js",
+    "./**/*.jsx",
+    "./**/*.ts",
+    "./**/*.tsx",
+    "./**/*.vue",
+    "./docs/.vitepress/**/*.js",
+    "./docs/.vitepress/**/*.jsx",
+    "./docs/.vitepress/**/*.ts",
+    "./docs/.vitepress/**/*.tsx",
+    "./docs/.vitepress/**/*.vue"
   ]
 }

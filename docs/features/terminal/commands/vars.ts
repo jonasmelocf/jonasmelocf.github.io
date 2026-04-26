@@ -1,4 +1,4 @@
-import type { Josh } from "../core/josh";
+import type { Josh } from "@/lib/josh";
 
 export function createVarsCommand(josh: Josh) {
 	return () => {

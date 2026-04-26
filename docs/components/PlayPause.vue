@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Play, Pause } from "@lucide/vue";
+import { Pause, Play } from "@lucide/vue";
 
 const { isPlaying = true } = defineProps<{
   isPlaying: boolean
