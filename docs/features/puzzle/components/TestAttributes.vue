@@ -45,9 +45,9 @@ function validateInput() {
   bg-neutral-800/60
 `]" />
     </button>
-    <!-- Inputs field -->
+    <!-- Input field -->
     <div class="group grid gap-2.5">
-      <Label class="transition group-hover:text-neutral-400">Inputs</Label>
+      <Label class="transition group-hover:text-neutral-400">Input</Label>
       <Input v-model="inputRef" @change="validateInput" />
       <Label v-if="inputErrorRef" class="text-red-500">{{ inputErrorRef }}</Label>
     </div>
