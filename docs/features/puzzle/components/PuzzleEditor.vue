@@ -21,10 +21,7 @@ const { puzzle, disableSave } = defineProps<{
 const { lang } = useData();
 const savedCode = localStorage.getItem(`puzzle:${puzzle.id}`);
 
-const updatePuzzleCode = (newCode: string) => {
-  puzzle.code = newCode;
-};
-const { editorId, getCode } = useEditor(disableSave ? puzzle.code : savedCode ?? puzzle.code, updatePuzzleCode);
+const { editorId, getCode } = useEditor(disableSave ? puzzle.code : savedCode ?? puzzle.code);
 const audio = new Audio("/pop.mp3");
 audio.preservesPitch = false;
 audio.volume = 0.4;
