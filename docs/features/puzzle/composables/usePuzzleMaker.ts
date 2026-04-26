@@ -1,15 +1,23 @@
 import { ref } from "vue";
 import type { Puzzle } from "../puzzle.types";
+import { useEditor } from "./useEditor";
 
 export function usePuzzleMaker() {
+  const initialCode = 'const [n] = input();\nconsole.log(n);';
+  const { editorId, getCode } = useEditor(initialCode, updatePuzzleCode);
+
   const puzzle = ref<Puzzle>({
     id: 'example-id',
-    code: 'const [msg] = input();\nconsole.log(msg);',
+    code: initialCode,
     tests: [{
       input: ['example'],
       expects: 'example',
     }]
   });
+
+  function updatePuzzleCode(newCode: string) {
+    puzzle.value.code = newCode;
+  }
 
   function addTest() {
     puzzle.value.tests.push({
@@ -23,6 +31,8 @@ export function usePuzzleMaker() {
   }
 
   return {
+    editorId,
+    getCode,
     puzzle,
     addTest,
     removeTest,

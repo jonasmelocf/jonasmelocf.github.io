@@ -10,13 +10,13 @@ import PuzzleEditor from './PuzzleEditor.vue';
 import OpenPuzzleForm from './OpenPuzzleForm.vue';
 import TestAttributes from './TestAttributes.vue';
 
-const { puzzle, addTest, removeTest } = usePuzzleMaker();
+const { puzzle, addTest, removeTest, editorId } = usePuzzleMaker();
 const puzzles = Object.values(puzzlesJSON);
 
 const stringify = (data: unknown) => {
   try {
     return JSON.stringify(data, null, 2);
-  } catch (_e) {
+  } catch {
     return undefined;
   }
 };
@@ -31,36 +31,56 @@ const stringify = (data: unknown) => {
   border border-neutral-700 rounded 
   text-neutral-100
 `]">
-
+    <!-- Top Actions -->
     <div class="flex gap-16">
       <OpenPuzzleForm v-if="puzzles.length" :puzzles="puzzles" @puzzle-select="imported => puzzle = imported" />
       <ImportPuzzleForm class="grow" @import="(importedPuzzle) => puzzle = importedPuzzle" />
     </div>
-    <hr />
-
-    <div>
-      <Label class="block mb-3">Puzzle ID</Label>
-      <Input v-model="puzzle.id" type="text" />
-    </div>
 
     <hr />
 
-    <div class="flex gap-6 items-center">
-      <Label>Test Cases</Label>
-      <Button class="w-fit aspect-square text-lg" @click="addTest">+</Button>
+    <!-- Puzzle Inspector -->
+    <div class="grid gap-8">
+      <div class="grid gap-3">
+        <Label>Puzzle ID</Label>
+        <Input v-model="puzzle.id" type="text" />
+      </div>
+
+      <div class="grid gap-3">
+        <div class="flex gap-6 items-center">
+          <Label>Test Cases</Label>
+          <Button class="w-fit aspect-square text-lg" @click="addTest">+</Button>
+        </div>
+
+        <div class="grid gap-3 grid-cols-2 mb-4">
+          <TestAttributes v-for="test, i in puzzle.tests" :test="test" @click:close="() => removeTest(i)" />
+        </div>
+      </div>
+
+      <div class="grid gap-3">
+        <Label>Initial code</Label>
+        <div class="grid text-sm min-h-64" :id="editorId" />
+      </div>
     </div>
 
-    <div class="grid grid-cols-2 gap-4 mb-4">
-      <TestAttributes v-for="test, i in puzzle.tests" :test="test" @click:close="() => removeTest(i)" />
+    <hr />
+
+    <!-- Puzzle Preview -->
+    <div class="grid gap-3">
+      <Label>Preview</Label>
+      <PuzzleEditor :disableSave="true" :puzzle="puzzle" />
     </div>
 
-    <PuzzleEditor :disableSave="true" :puzzle="puzzle" />
+    <hr />
 
-    <!-- Generated -->
-    <div
-      class="relative whitespace-break-spaces border border-neutral-800 bg-neutral-950 inset-shadow-xs inset-shadow-black p-4 rounded text-sm">
-      <ClipboardCopyButton label="Copy" class="absolute top-2 right-2" :content="stringify(puzzle) ?? ''" />
-      {{ stringify(puzzle) ?? "Invalid JSON" }}
+    <!-- Generated JSON -->
+    <div class="grid gap-3">
+      <Label>Generated JSON</Label>
+      <div
+        class="relative whitespace-break-spaces border border-neutral-800 bg-neutral-950 inset-shadow-xs inset-shadow-black p-4 rounded text-sm">
+        <ClipboardCopyButton label="Copy" class="absolute top-2 right-2" :content="stringify(puzzle) ?? ''" />
+        {{ stringify(puzzle) ?? "Invalid JSON" }}
+      </div>
     </div>
   </div>
 </template>
