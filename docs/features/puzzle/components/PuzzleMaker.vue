@@ -9,17 +9,10 @@ import ImportPuzzleForm from "./ImportPuzzleForm.vue";
 import PuzzleEditor from './PuzzleEditor.vue';
 import OpenPuzzleForm from './OpenPuzzleForm.vue';
 import TestAttributes from './TestAttributes.vue';
+import { stringify } from "@/lib/utils";
 
 const { puzzle, addTest, removeTest, editorId } = usePuzzleMaker();
 const puzzles = Object.values(puzzlesJSON);
-
-const stringify = (data: unknown) => {
-  try {
-    return JSON.stringify(data, null, 2);
-  } catch {
-    return undefined;
-  }
-};
 
 </script>
 

@@ -14,3 +14,12 @@ export function merge(...args: ClassValue[]) {
 export async function sleep(ms: number) {
 	return new Promise((resolve) => setTimeout(resolve, ms));
 }
+
+/** Tries to JSON stringify data or return `undefined` */
+export function stringify(data: unknown) {
+	try {
+		return JSON.stringify(data, null, 2);
+	} catch {
+		return undefined;
+	}
+};
