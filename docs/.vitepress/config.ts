@@ -33,16 +33,9 @@ export default defineConfig({
 	locales: {
 		br: {
 			label: "Português do Brasil",
-			lang: "br",
+			lang: "pt-BR", // html lang attribute
 			themeConfig: {
-				sidebar: routes.sidebar.map((item) => ({
-					text: item.br,
-					items: item.items?.map((subItem) => ({
-						text: subItem.text,
-						link: `/br/${subItem.link}`,
-					})),
-					link: `/br/${item.link}`,
-				})),
+				sidebar: getSidebarItems("br"),
 				...brtheme,
 			},
 		},
@@ -50,15 +43,19 @@ export default defineConfig({
 			label: "English",
 			lang: "en",
 			themeConfig: {
-				sidebar: routes.sidebar.map((item) => ({
-					text: item.en,
-					items: item.items?.map((subItem) => ({
-						text: subItem.text,
-						link: `/en/${subItem.link}`,
-					})),
-					link: `/en/${item.link}`,
-				})),
+				sidebar: getSidebarItems("en"),
 			},
 		},
 	},
 });
+
+function getSidebarItems(lang: "en" | "br") {
+	return routes.sidebar.map((item) => ({
+		text: item.en,
+		link: item.link ? `/${lang}${item.link}` : undefined,
+		items: item.items?.map((subItem) => ({
+			text: subItem.text,
+			link: subItem.link ? `/${lang}${subItem.link}` : undefined,
+		})),
+	}))
+}
