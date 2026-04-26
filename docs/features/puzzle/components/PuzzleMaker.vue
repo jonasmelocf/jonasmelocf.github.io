@@ -10,11 +10,14 @@ import ImportPuzzleForm from "./ImportPuzzleForm.vue";
 import OpenPuzzleForm from './OpenPuzzleForm.vue';
 import PuzzleEditor from './PuzzleEditor.vue';
 import TestAttributes from './TestAttributes.vue';
+import { toRaw } from "vue";
 
 const { puzzle, addTest, removeTest, editorId } = usePuzzleMaker();
 const { puzzles = [] } = defineProps<{
   puzzles: Puzzle[]
 }>();
+
+const copy = (puzzle: Puzzle) => structuredClone(toRaw(puzzle));
 </script>
 
 <template>
@@ -27,8 +30,8 @@ const { puzzles = [] } = defineProps<{
 `]">
     <!-- Top Actions -->
     <div class="flex gap-16">
-      <OpenPuzzleForm v-if="puzzles.length" :puzzles="puzzles" @puzzle-select="imported => puzzle = imported" />
-      <ImportPuzzleForm class="grow" @import="(importedPuzzle) => puzzle = importedPuzzle" />
+      <OpenPuzzleForm v-if="puzzles.length" :puzzles="puzzles" @puzzle-select="opened => puzzle = copy(opened)" />
+      <ImportPuzzleForm class="grow" @import="(imported) => puzzle = copy(imported)" />
     </div>
 
     <hr />
@@ -47,7 +50,8 @@ const { puzzles = [] } = defineProps<{
         </div>
 
         <div class="grid gap-3 grid-cols-2 mb-4">
-          <TestAttributes v-for="test, i in puzzle.tests" :test="test" @click:close="() => removeTest(i)" />
+          <TestAttributes v-for="test, i in puzzle.tests" :key="`${test.input.join() + test.expects}`" :test="test"
+            @click:close="() => removeTest(i)" />
         </div>
       </div>
 
