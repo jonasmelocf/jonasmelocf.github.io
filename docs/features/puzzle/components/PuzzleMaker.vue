@@ -3,17 +3,18 @@ import Button from "@/components/Button.vue";
 import ClipboardCopyButton from '@/components/ClipboardCopyButton.vue';
 import Input from "@/components/Input.vue";
 import Label from "@/components/Label.vue";
-import puzzlesJSON from "@/puzzles.json";
-import { usePuzzleMaker } from '../composables/usePuzzleMaker';
-import ImportPuzzleForm from "./ImportPuzzleForm.vue";
-import PuzzleEditor from './PuzzleEditor.vue';
-import OpenPuzzleForm from './OpenPuzzleForm.vue';
-import TestAttributes from './TestAttributes.vue';
 import { stringify } from "@/lib/utils";
+import { usePuzzleMaker } from '../composables/usePuzzleMaker';
+import type { Puzzle } from "../puzzle.types";
+import ImportPuzzleForm from "./ImportPuzzleForm.vue";
+import OpenPuzzleForm from './OpenPuzzleForm.vue';
+import PuzzleEditor from './PuzzleEditor.vue';
+import TestAttributes from './TestAttributes.vue';
 
 const { puzzle, addTest, removeTest, editorId } = usePuzzleMaker();
-const puzzles = Object.values(puzzlesJSON);
-
+const { puzzles = [] } = defineProps<{
+  puzzles: Puzzle[]
+}>();
 </script>
 
 <template>
