@@ -121,7 +121,7 @@ function runTest(index: number, shiftAudio = false): boolean {
       background: stateStyleMap[state],
     }" class="h-px" />
 
-    <div class="p-5 gap-5 grid grid-cols-2 text-white bg-neutral-950">
+    <div class="p-5 gap-5 flex items-start justify-evenly *:w-full text-white bg-neutral-950">
       <menu class="overflow-visible gap-2 grid">
         <!-- Run all cases button -->
         <div class="flex items-center">
@@ -137,7 +137,7 @@ function runTest(index: number, shiftAudio = false): boolean {
         </TestCaseButton>
       </menu>
 
-      <div class="group">
+      <div class="group overflow-x-auto">
         <span class="text-white/40 group-hover:text-white/80 transition font-mono text-xs font-light">
           {{ lang === 'br' ? "Saída" : "Output" }}
         </span>
