@@ -23,3 +23,19 @@ export function stringify(data: unknown) {
 		return undefined;
 	}
 }
+
+/** Run JavaScript code inside a sandbox and returns an array of logs from `console.log` calls */
+export function runSandboxedCode(code: string): string[] {
+	const globalForLogs = globalThis as unknown as {
+		sandboxedLogs: string[] | undefined;
+	};
+	globalForLogs.sandboxedLogs = [];
+
+	const sandboxedConsoleLog = `console.log = (...args) => globalThis.sandboxedLogs.push(args.join(" "));`;
+	Function(`${sandboxedConsoleLog}\n${code}`)();
+
+	const logs = globalForLogs.sandboxedLogs;
+	globalForLogs.sandboxedLogs = undefined;
+
+	return logs;
+}

@@ -4,7 +4,7 @@ import "prism-code-editor/prism/languages/javascript";
 import { useData } from 'vitepress';
 import { ref, useTemplateRef } from "vue";
 import Label from "@/components/Label.vue";
-import { sleep } from "@/lib/utils";
+import { runSandboxedCode, sleep } from "@/lib/utils";
 import { useEditor } from "../composables/useEditor";
 import type { TestCase } from "../puzzle.types";
 import EditorButton from "./EditorButton.vue";
@@ -74,21 +74,15 @@ function runTest(index: number, shiftAudio = false): boolean {
   const test = puzzle.tests[index];
   const editorButton = editorButtonRefs.value?.[index];
   const userCode = getCode();
-  const originalLog = console.log;
-  const logs: string[] = [];
 
   expected.value = "";
   saveCode();
-  editorButton?.pop();
 
   try {
     const input = `const input = () => ${JSON.stringify(test.input)};`;
     const wrappedCode = `${input}\n${userCode}`;
 
-    window.console.log = (...args) => void logs.push(args.join(" "));;
-    Function(wrappedCode)();
-    const result = logs.join("\n");
-    window.console.log = originalLog;
+    const result = runSandboxedCode(wrappedCode).join("\n");
 
     if (result === test.expects) {
       state.value = "success";
@@ -104,11 +98,13 @@ function runTest(index: number, shiftAudio = false): boolean {
     state.value = "fail";
     editorButton?.setState("fail");
     output.value = `Error: ${error instanceof Error ? error.message : String(error)}`;
-  } finally {
-    audio.playbackRate = shiftAudio ? 1 + index / max(1, puzzle.tests.length - 1) : 1;
-    audio.currentTime = 0;
-    audio.play();
   }
+
+  editorButton?.pop();
+  audio.playbackRate = shiftAudio ? 1 + index / max(1, puzzle.tests.length - 1) : 1;
+  audio.currentTime = 0;
+  audio.play();
+
   return state.value === "success";
 }
 
