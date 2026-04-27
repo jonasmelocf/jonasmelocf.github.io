@@ -5,7 +5,7 @@ import Input from "@/components/Input.vue";
 import Tabs from "@/components/Tabs.vue";
 import { copy } from "@/lib/utils";
 import { usePuzzleExport } from "../composables/usePuzzleExport";
-import { usePuzzleMaker } from "../composables/usePuzzleMaker";
+import { usePuzzleGenerator } from "../composables/usePuzzleGenerator";
 import type { Puzzle } from "../puzzle.types";
 import ImportPuzzleForm from "./ImportPuzzleForm.vue";
 import JsonBlock from "./JsonBlock.vue";
@@ -17,7 +17,7 @@ const { puzzles = [] } = defineProps<{
   puzzles?: Puzzle[];
 }>();
 
-const { puzzle, addTest, removeTest, editorId } = usePuzzleMaker();
+const { puzzle, addTest, removeTest, editorId } = usePuzzleGenerator();
 const { puzzleJson, allPuzzlesJson } = usePuzzleExport(puzzle, puzzles);
 
 type JsonView = "json" | "puzzle.json";

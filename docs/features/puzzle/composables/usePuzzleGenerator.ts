@@ -2,7 +2,7 @@ import { ref } from "vue";
 import type { Puzzle } from "../puzzle.types";
 import { useEditor } from "./useEditor";
 
-export function usePuzzleMaker() {
+export function usePuzzleGenerator() {
 	const initialCode = "const [n] = input();\nconsole.log(n);";
 	const { editorId, getCode } = useEditor(initialCode, updatePuzzleCode);
 
