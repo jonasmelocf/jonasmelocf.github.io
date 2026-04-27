@@ -6,7 +6,7 @@
     "build": "vitepress build ./docs",
     "preview": "vitepress preview ./docs",
     "format": "prettier --write ./docs/**/*.md",
-    "check": "biome check --write --unsafe ./docs/"
+    "check": "biome check --write --unsafe"
   },
   "author": "DJJJonas",
   "license": "MIT",
