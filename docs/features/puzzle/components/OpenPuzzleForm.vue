@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import Select from "@/components/Select.vue";
-import type { Puzzle } from "../puzzle.types";
+import { useData } from "vitepress";
 import { ref } from "vue";
 import Label from "@/components/Label.vue";
-import { useData } from "vitepress";
+import Select from "@/components/Select.vue";
+import type { Puzzle } from "../puzzle.types";
 
 const { lang } = useData();
 
@@ -11,9 +11,7 @@ const props = defineProps<{
   puzzles: Puzzle[];
 }>();
 
-const emit = defineEmits<{
-  (e: 'puzzle-select', puzzle: Puzzle): void;
-}>();
+const emit = defineEmits<(e: 'puzzle-select', puzzle: Puzzle) => void>();
 
 const selected = ref<Puzzle>();
 

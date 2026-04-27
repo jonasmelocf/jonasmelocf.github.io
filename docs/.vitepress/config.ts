@@ -57,5 +57,5 @@ function getSidebarItems(lang: "en" | "br") {
 			text: subItem.text,
 			link: subItem.link ? `/${lang}${subItem.link}` : undefined,
 		})),
-	}))
+	}));
 }

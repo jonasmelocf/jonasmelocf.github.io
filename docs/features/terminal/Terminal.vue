@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { type CSSProperties, nextTick, ref, useTemplateRef, watch } from "vue";
-import { escapeHTML } from "@/lib/utils";
 import Spinner from "@/components/Spinner.vue";
+import { escapeHTML } from "@/lib/utils";
 import { createJosh } from "./commands";
 
 // - Utilities -

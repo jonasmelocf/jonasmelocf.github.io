@@ -1,16 +1,15 @@
 <script setup lang="ts">
+import { Send } from '@lucide/vue';
+import { useData } from 'vitepress';
+import { ref } from "vue";
+import Button from "@/components/Button.vue";
 import Input from "@/components/Input.vue";
 import Label from "@/components/Label.vue";
-import Button from "@/components/Button.vue";
-import { Send } from '@lucide/vue';
-import { ref } from "vue";
 import type { Puzzle } from "../puzzle.types";
-import { useData } from 'vitepress';
+
 const { lang } = useData();
 
-const emit = defineEmits<{
-  (e: 'import', puzzle: Puzzle): void
-}>();
+const emit = defineEmits<(e: 'import', puzzle: Puzzle) => void>();
 const input = ref('');
 const isInvalid = ref(false);
 

@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { Play } from "@lucide/vue";
 import "prism-code-editor/prism/languages/javascript";
-import EditorButton from "./EditorButton.vue";
-import Label from "@/components/Label.vue";
-import { useEditor } from "../composables/useEditor";
-import { useTemplateRef, ref } from "vue";
-import { sleep } from "@/lib/utils";
-import type { TestCase } from "../puzzle.types";
 import { useData } from 'vitepress';
+import { ref, useTemplateRef } from "vue";
+import Label from "@/components/Label.vue";
+import { sleep } from "@/lib/utils";
+import { useEditor } from "../composables/useEditor";
+import type { TestCase } from "../puzzle.types";
+import EditorButton from "./EditorButton.vue";
 
 const { puzzle, disableSave } = defineProps<{
   puzzle: {
@@ -86,7 +86,7 @@ function runTest(index: number, shiftAudio = false): boolean {
     const wrappedCode = `${input}\n${userCode}`;
 
     window.console.log = (...args) => void logs.push(args.join(" "));;
-    eval(wrappedCode);
+    Function(wrappedCode)();
     const result = logs.join("\n");
     window.console.log = originalLog;
 
@@ -108,8 +108,8 @@ function runTest(index: number, shiftAudio = false): boolean {
     audio.playbackRate = shiftAudio ? 1 + index / max(1, puzzle.tests.length - 1) : 1;
     audio.currentTime = 0;
     audio.play();
-    return state.value === "success";
   }
+  return state.value === "success";
 }
 
 </script>

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { toRaw } from "vue";
 import Button from "@/components/Button.vue";
 import ClipboardCopyButton from '@/components/ClipboardCopyButton.vue';
 import Input from "@/components/Input.vue";
@@ -10,7 +11,6 @@ import ImportPuzzleForm from "./ImportPuzzleForm.vue";
 import OpenPuzzleForm from './OpenPuzzleForm.vue';
 import PuzzleEditor from './PuzzleEditor.vue';
 import TestAttributes from './TestAttributes.vue';
-import { toRaw } from "vue";
 
 const { puzzle, addTest, removeTest, editorId } = usePuzzleMaker();
 const { puzzles = [] } = defineProps<{

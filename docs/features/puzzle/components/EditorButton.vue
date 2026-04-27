@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { merge } from "@/lib/utils";
 import type { ClassValue } from 'clsx';
 import { useTemplateRef } from 'vue';
+import { merge } from "@/lib/utils";
 
 const buttonRef = useTemplateRef('button')
 const props = defineProps<{
   class?: ClassValue;
-  state?: 'success' | 'fail' | {};
+  state?: 'success' | 'fail' | undefined;
 }>();
 
 function pop() {
@@ -31,7 +31,7 @@ defineExpose({ pop, setState });
 </script>
 
 <template>
-  <button ref="button" :class="merge(`
+  <button type="button" ref="button" :class="merge(`
   flex justify-between items-center
   
   text-white text-left text-sm

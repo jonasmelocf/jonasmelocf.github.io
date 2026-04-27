@@ -22,4 +22,4 @@ export function stringify(data: unknown) {
 	} catch {
 		return undefined;
 	}
-};
+}
