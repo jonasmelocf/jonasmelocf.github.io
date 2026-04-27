@@ -64,7 +64,7 @@ const JSON_VIEW_OPTIONS: { label: string; value: JsonView }[] = [
 
     <!-- Generated JSON -->
     <Field label="Generated">
-      <Tabs v-model="jsonView" :options="JSON_VIEW_OPTIONS">
+      <Tabs class="*:max-h-100 *:overflow-auto" v-model="jsonView" :options="JSON_VIEW_OPTIONS">
         <JsonBlock v-if="jsonView === 'json'" :content="puzzleJson" />
         <JsonBlock v-if="jsonView === 'puzzle.json'" :content="allPuzzlesJson" />
       </Tabs>
