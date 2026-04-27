@@ -1,5 +1,6 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { toRaw } from "vue";
 
 export function escapeHTML(text: string) {
 	const div = document.createElement("div");
@@ -38,4 +39,8 @@ export function runSandboxedCode(code: string): string[] {
 	globalForLogs.sandboxedLogs = undefined;
 
 	return logs;
+}
+
+export function copy<T>(value: T): T {
+	return structuredClone(toRaw(value));
 }

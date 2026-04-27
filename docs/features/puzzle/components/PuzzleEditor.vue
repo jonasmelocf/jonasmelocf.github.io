@@ -3,11 +3,12 @@ import { Play } from "@lucide/vue";
 import "prism-code-editor/prism/languages/javascript";
 import { useData } from 'vitepress';
 import { ref, useTemplateRef } from "vue";
+import Button from "@/components/Button.vue";
 import Label from "@/components/Label.vue";
 import { runSandboxedCode, sleep } from "@/lib/utils";
 import { useEditor } from "../composables/useEditor";
 import type { TestCase } from "../puzzle.types";
-import EditorButton from "./EditorButton.vue";
+import TestCaseButton from "./TestCaseButton.vue";
 
 const { puzzle, disableSave } = defineProps<{
   puzzle: {
@@ -125,15 +126,15 @@ function runTest(index: number, shiftAudio = false): boolean {
         <!-- Run all cases button -->
         <div class="flex items-center">
           <Label>{{ lang === 'br' ? "Casos de Teste" : "Test Cases" }}</Label>
-          <EditorButton @click="runAllTests" class="size-fit py-1 text-xs ml-auto">
+          <Button @click="runAllTests" class="size-fit py-1 text-xs ml-auto">
             {{ lang === 'br' ? "Executar todos" : "Run all" }}
-          </EditorButton>
+          </Button>
         </div>
         <!-- Case buttons -->
-        <EditorButton v-for="test, i in puzzle.tests" @click="() => runTest(i)" ref="editorButtonRefs">
+        <TestCaseButton v-for="test, i in puzzle.tests" @click="() => runTest(i)" ref="editorButtonRefs">
           {{ lang === 'br' ? "Caso" : "Case" }} {{ test.input }}
           <Play class="bg-neutral-800 rounded p-1 size-6" />
-        </EditorButton>
+        </TestCaseButton>
       </menu>
 
       <div class="group">
