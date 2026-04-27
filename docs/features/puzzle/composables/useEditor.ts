@@ -14,11 +14,21 @@ import {
 } from "prism-code-editor/autocomplete/javascript";
 import { basicEditor } from "prism-code-editor/setups";
 import type { EditorTheme } from "prism-code-editor/themes";
+import { insertText } from "prism-code-editor/utils";
 import { nextTick, onMounted, ref, useId } from "vue";
 
 export function useEditor(code: string, onUpdate?: (code: string) => void) {
 	const editorId = useId();
 	const editor = ref<PrismEditor<{ theme: EditorTheme }>>();
+
+	function setCode(code: string) {
+		if (!editor.value) return;
+		insertText(editor.value, code, 0, editor.value.value.length);
+	}
+
+	function getCode() {
+		return editor.value?.value ?? "";
+	}
 
 	onMounted(() => {
 		editor.value = basicEditor(`#${editorId}`, {
@@ -78,6 +88,6 @@ export function useEditor(code: string, onUpdate?: (code: string) => void) {
 		});
 	});
 
-	return { getCode: () => editor.value?.value ?? "", editorId };
+	return { getCode, setCode, editorId };
 }
 export type Editor = ReturnType<typeof useEditor>;
