@@ -7,12 +7,10 @@ import { defineConfig } from "vitepress";
 import { brtheme } from "../lib/brtheme.ts";
 import routes from "../routes.json";
 
-const logo = "https://avatars.githubusercontent.com/u/48167880?v=4";
-
 export default defineConfig({
 	title: "Jonas de Melo",
 	description: "Fullstack Web Developer",
-	head: [["link", { rel: "icon", href: logo }]],
+	head: [["link", { rel: "icon", href: "/favicon.ico" }]],
 	vite: {
 		plugins: [tailwindcss()],
 		resolve: {
@@ -23,7 +21,7 @@ export default defineConfig({
 	},
 
 	themeConfig: {
-		logo,
+		logo: "https://avatars.githubusercontent.com/u/48167880?v=4",
 		socialLinks: [
 			{ icon: "github", link: "https://github.com/DJJJonas" },
 			{ icon: "linkedin", link: "https://linkedin.com/in/ojonasdemelo" },
@@ -51,7 +49,7 @@ export default defineConfig({
 
 function getSidebarItems(lang: "en" | "br") {
 	return routes.sidebar.map((item) => ({
-		text: item.en,
+		text: item[lang],
 		link: item.link ? `/${lang}${item.link}` : undefined,
 		items: item.items?.map((subItem) => ({
 			text: subItem.text,
