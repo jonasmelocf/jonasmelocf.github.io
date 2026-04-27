@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { merge } from '@/lib/utils';
 import type { ClassValue } from 'clsx';
+import { merge } from '@/lib/utils';
 
 const props = defineProps<{
   class?: ClassValue;
