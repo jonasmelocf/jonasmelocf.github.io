@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { X } from "@lucide/vue";
-import { ref } from 'vue';
+import { ref, useTemplateRef } from 'vue';
 import Input from "@/components/Input.vue";
 import Label from "@/components/Label.vue";
 import TextArea from '@/components/TextArea.vue';
@@ -15,6 +15,7 @@ const emit = defineEmits(["click:close"]);
 
 const inputRef = ref(JSON.stringify(test.input));
 const inputErrorRef = ref("");
+const textArea = useTemplateRef("textArea");
 
 const { t } = useTranslation();
 
@@ -29,6 +30,10 @@ function validateInput() {
     inputErrorRef.value = 'invalid json array';
   }
 }
+
+defineExpose({
+  focusTextArea: () => textArea.value?.$el.focus(),
+});
 
 </script>
 
@@ -56,7 +61,7 @@ function validateInput() {
     <!-- Expects field -->
     <div class="group grid gap-2.5">
       <Label class="transition group-hover:text-neutral-400">{{ t("Expects") }}</Label>
-      <TextArea v-model="test.expects" />
+      <TextArea ref="textArea" v-model="test.expects" />
     </div>
   </div>
 </template>
