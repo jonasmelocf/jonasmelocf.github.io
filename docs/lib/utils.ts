@@ -44,3 +44,5 @@ export function runSandboxedCode(code: string): string[] {
 export function copy<T>(value: T): T {
 	return structuredClone(toRaw(value));
 }
+
+export const commentsRegex = /\/\/.*?$|\/\*.*\*\//gms;

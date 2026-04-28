@@ -5,6 +5,7 @@ import Input from "@/components/Input.vue";
 import Label from "@/components/Label.vue";
 import TextArea from '@/components/TextArea.vue';
 import type { TestCase } from '../puzzle.types';
+import { useTranslation } from "@/composables/useTranslation";
 
 const { test } = defineProps<{
   test: TestCase;
@@ -14,6 +15,8 @@ const emit = defineEmits(["click:close"]);
 
 const inputRef = ref(JSON.stringify(test.input));
 const inputErrorRef = ref("");
+
+const { t } = useTranslation();
 
 function validateInput() {
   const data = inputRef.value.trim();
@@ -46,13 +49,13 @@ function validateInput() {
     </button>
     <!-- Input field -->
     <div class="group grid gap-2.5">
-      <Label class="transition group-hover:text-neutral-400">Input</Label>
+      <Label class="transition group-hover:text-neutral-400">{{ t("Input") }}</Label>
       <Input v-model="inputRef" @change="validateInput" />
       <Label v-if="inputErrorRef" class="text-red-500">{{ inputErrorRef }}</Label>
     </div>
     <!-- Expects field -->
     <div class="group grid gap-2.5">
-      <Label class="transition group-hover:text-neutral-400">Expects</Label>
+      <Label class="transition group-hover:text-neutral-400">{{ t("Expects") }}</Label>
       <TextArea v-model="test.expects" />
     </div>
   </div>

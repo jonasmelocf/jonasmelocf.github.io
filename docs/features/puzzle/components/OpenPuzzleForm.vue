@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { useData } from "vitepress";
 import { ref } from "vue";
 import Label from "@/components/Label.vue";
 import Select from "@/components/Select.vue";
+import { useTranslation } from "@/composables/useTranslation";
 import type { Puzzle } from "../puzzle.types";
 
-const { lang } = useData();
+const { t } = useTranslation();
 
 const props = defineProps<{
   puzzles: Puzzle[];
@@ -22,7 +22,7 @@ function handlePuzzleSelected() {
 
 <template>
   <div>
-    <Label class="block mb-3">{{ lang === 'br' ? 'Abrir' : 'Open' }}</Label>
+    <Label class="block mb-3">{{ t("Open") }}</Label>
     <Select v-model="selected" @change="handlePuzzleSelected">
       <option v-for="puzzle in props.puzzles" :key="puzzle.id" :value="puzzle">{{ puzzle.id }}</option>
     </Select>

@@ -5,9 +5,10 @@ import { ref } from "vue";
 import Button from "@/components/Button.vue";
 import Input from "@/components/Input.vue";
 import Label from "@/components/Label.vue";
+import { useTranslation } from '@/composables/useTranslation';
 import type { Puzzle } from "../puzzle.types";
 
-const { lang } = useData();
+const { t } = useTranslation();
 
 const emit = defineEmits<(e: 'import', puzzle: Puzzle) => void>();
 const input = ref('');
@@ -30,7 +31,7 @@ function handleImport() {
 </script>
 <template>
   <div>
-    <Label class="block mb-3">{{ lang === 'br' ? 'Importar' : 'Import' }}</Label>
+    <Label class="block mb-3">{{ t("Import") }}</Label>
     <div class="flex gap-3">
       <Input v-model="input" placeholder='{ "id": "example-id", tests: [{...}]}' />
       <Button @click="handleImport" class="h-full p-1">

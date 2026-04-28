@@ -1,0 +1,44 @@
+{
+	"Import": {
+		"br": "Importar"
+	},
+	"Test cases": {
+		"br": "Casos de Teste"
+	},
+	"Case": {
+		"br": "Case"
+	},
+	"Run all": {
+		"br": "Executar todos"
+	},
+	"Output": {
+		"br": "Saída"
+	},
+	"Expected": {
+		"br": "Esperado"
+	},
+	"Open": {
+		"br": "Abrir"
+	},
+	"Puzzle ID": {
+		"br": "ID do quebra-cabeça"
+	},
+	"Initial code": {
+		"br": "Código inicial"
+	},
+	"Preview": {
+		"br": "Pré-visualização"
+	},
+	"Generated": {
+		"br": "Geraldo"
+	},
+	"Input": {
+		"br": "Entrada"
+	},
+	"Expects": {
+		"br": "Esperado"
+	},
+	"Copy": {
+		"br": "Copiar"
+	}
+}

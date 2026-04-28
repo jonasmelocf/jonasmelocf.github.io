@@ -5,6 +5,7 @@ import { useData } from 'vitepress';
 import { ref, useTemplateRef } from "vue";
 import Button from "@/components/Button.vue";
 import Label from "@/components/Label.vue";
+import { useTranslation } from "@/composables/useTranslation";
 import { runSandboxedCode, sleep } from "@/lib/utils";
 import { useEditor } from "../composables/useEditor";
 import type { TestCase } from "../puzzle.types";
@@ -19,7 +20,7 @@ const { puzzle, disableSave } = defineProps<{
   disableSave?: boolean;
 }>();
 
-const { lang } = useData();
+const { t } = useTranslation();
 const savedCode = localStorage.getItem(`puzzle:${puzzle.id}`);
 
 const { editorId, getCode } = useEditor(disableSave ? puzzle.code : savedCode ?? puzzle.code);
@@ -125,28 +126,28 @@ function runTest(index: number, shiftAudio = false): boolean {
       <menu class="overflow-visible gap-2 grid">
         <!-- Run all cases button -->
         <div class="flex items-center">
-          <Label>{{ lang === 'br' ? "Casos de Teste" : "Test Cases" }}</Label>
+          <Label>{{ t("Test cases") }}</Label>
           <Button @click="runAllTests" class="size-fit py-1 text-xs ml-auto">
-            {{ lang === 'br' ? "Executar todos" : "Run all" }}
+            {{ t("Run all") }}
           </Button>
         </div>
         <!-- Case buttons -->
         <TestCaseButton v-for="test, i in puzzle.tests" @click="() => runTest(i)" ref="editorButtonRefs">
-          {{ lang === 'br' ? "Caso" : "Case" }} {{ test.input }}
+          {{ t("Case") }} {{ test.input }}
           <Play class="bg-neutral-800 rounded p-1 size-6" />
         </TestCaseButton>
       </menu>
 
       <div class="group overflow-x-auto">
         <span class="text-white/40 group-hover:text-white/80 transition font-mono text-xs font-light">
-          {{ lang === 'br' ? "Saída" : "Output" }}
+          {{ t("Output") }}
         </span>
 
 
         <div class="font-mono whitespace-break-spaces">
           {{ output }}
           <div v-if="expected">
-            <br />{{ lang === 'br' ? "Esperado" : "Expected" }}:<br />{{ expected }}
+            <br />{{ t("Expected") }}:<br />{{ expected }}
           </div>
         </div>
       </div>
