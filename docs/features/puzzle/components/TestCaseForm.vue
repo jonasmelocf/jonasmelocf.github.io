@@ -4,8 +4,8 @@ import { ref } from 'vue';
 import Input from "@/components/Input.vue";
 import Label from "@/components/Label.vue";
 import TextArea from '@/components/TextArea.vue';
-import type { TestCase } from '../puzzle.types';
 import { useTranslation } from "@/composables/useTranslation";
+import type { TestCase } from '../puzzle.types';
 
 const { test } = defineProps<{
   test: TestCase;
