@@ -17,15 +17,32 @@
 	"linter": {
 		"enabled": true,
 		"rules": {
-			"recommended": true
+			"recommended": true,
+			"nursery": {
+				"useSortedClasses": {
+					"fix": "unsafe",
+					"level": "warn",
+					"options": {
+						"functions": ["merge", "clsx", "twMerge"]
+					}
+				}
+			}
 		}
 	},
 	"html": {
-		"experimentalFullSupportEnabled": true
+		"experimentalFullSupportEnabled": true,
+		"formatter": {
+			"enabled": true
+		}
 	},
 	"javascript": {
 		"formatter": {
 			"quoteStyle": "double"
+		}
+	},
+	"css": {
+		"parser": {
+			"tailwindDirectives": true
 		}
 	},
 	"assist": {
