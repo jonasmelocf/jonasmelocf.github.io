@@ -12,7 +12,20 @@ type Color = CSSProperties["color"];
 const props = defineProps(["intro"]);
 
 // — Constants —
-const prefixes = ["$ ", "~> ", "|> ", ">. ", ">_ ", "# ", "-> ", "=> ", "> ", ">>> ", "josh> ", "👉 "];
+const prefixes = [
+	"$ ",
+	"~> ",
+	"|> ",
+	">. ",
+	">_ ",
+	"# ",
+	"-> ",
+	"=> ",
+	"> ",
+	">>> ",
+	"josh> ",
+	"👉 ",
+];
 let prefix = random(prefixes);
 
 // — State —
@@ -47,13 +60,18 @@ async function log(...msg: string[]) {
 function handleNavigateHistory(step: number) {
 	if (!terminalRef.value) return;
 
-	const commands = history.value.filter((val) => val.startsWith(prefix)).reverse();
+	const commands = history.value
+		.filter((val) => val.startsWith(prefix))
+		.reverse();
 	if (!commands.length) return;
 
 	if (historyIndex === undefined) {
 		historyIndex = 0;
 	} else {
-		historyIndex = Math.min(Math.max(historyIndex + step, 0), commands.length - 1);
+		historyIndex = Math.min(
+			Math.max(historyIndex + step, 0),
+			commands.length - 1,
+		);
 	}
 
 	const last = commands[historyIndex]?.replace(prefix, "") ?? "";
@@ -100,7 +118,7 @@ josh.commandMap.set("color", (...args: string[]) => {
 
 josh.commandMap.set("prefix", (arg: string) => {
 	if (["-h", "--help"].includes(arg)) {
-		return "changes the prefix with the argument. pass no arguments for a random prefix. example: prefix \"%> \" ";
+		return 'changes the prefix with the argument. pass no arguments for a random prefix. example: prefix "%> " ';
 	}
 	if (arg) {
 		prefix = arg;
@@ -108,7 +126,7 @@ josh.commandMap.set("prefix", (arg: string) => {
 		prefix = random(prefixes);
 	}
 	return "prefix updated";
-})
+});
 
 // — Watchers —
 // Changing the page language doesn't refresh the page.
@@ -125,21 +143,28 @@ watch(
 );
 </script>
 <template>
-	<div ref="container" :style="{ color, zIndex: 999_999_999 }"
+	<div
+		ref="container"
+		:style="{ color, zIndex: 999_999_999 }"
 		class="bg-neutral-900 w-full md:mx-0 h-60 sm:h-80 lg:h-100 text-left font-mono border p-1 border-neutral-500 rounded mt-12 md:mt-0 overflow-y-auto scroll-smooth flex flex-col"
-		@click="focusInput">
-
+		@click="focusInput"
+	>
 		<code v-for="command in history" v-html="command" @click="focusInput" />
 
 		<code class="flex">
 			<pre>{{ prefix }}</pre>
 
-			<input v-if="!isLoading" id="terminalInput" ref="terminal" class="grow"
-				@keydown.up.prevent="() => handleNavigateHistory(1)" @keydown.down.prevent="() => handleNavigateHistory(-1)"
-				@keydown.enter="handleInput" />
+			<input
+				v-if="!isLoading"
+				id="terminalInput"
+				ref="terminal"
+				class="grow"
+				@keydown.up.prevent="() => handleNavigateHistory(1)"
+				@keydown.down.prevent="() => handleNavigateHistory(-1)"
+				@keydown.enter="handleInput"
+			>
 
 			<Spinner v-if="isLoading" class="size-5 inline animate-spin" />
 		</code>
-
 	</div>
 </template>

@@ -1,14 +1,15 @@
 <script setup lang="ts">
-import type { ClassValue } from 'clsx';
-import { merge } from '@/lib/utils';
+import type { ClassValue } from "clsx";
+import { merge } from "@/lib/utils";
 
 const props = defineProps<{
-  class?: ClassValue;
+	class?: ClassValue;
 }>();
-
 </script>
 <template>
-  <button type="button" :class="merge(`
+	<button
+		type="button"
+		:class="merge(`
 border
 border-neutral-700/15
 bg-neutral-900
@@ -23,7 +24,8 @@ font-medium
 text-sm
 shadow-md
 px-2 py-0.5
-`, props.class)">
-    <slot />
-  </button>
+`, props.class)"
+	>
+		<slot />
+	</button>
 </template>

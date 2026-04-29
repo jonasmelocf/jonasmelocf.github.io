@@ -1,43 +1,45 @@
 <script setup lang="ts">
-import { Send } from '@lucide/vue';
-import { useData } from 'vitepress';
+import { Send } from "@lucide/vue";
+import { useData } from "vitepress";
 import { ref } from "vue";
 import Button from "@/components/Button.vue";
 import Input from "@/components/Input.vue";
 import Label from "@/components/Label.vue";
-import { useTranslation } from '@/composables/useTranslation';
+import { useTranslation } from "@/composables/useTranslation";
 import type { Puzzle } from "../puzzle.types";
 
 const { t } = useTranslation();
 
-const emit = defineEmits<(e: 'import', puzzle: Puzzle) => void>();
-const input = ref('');
+const emit = defineEmits<(e: "import", puzzle: Puzzle) => void>();
+const input = ref("");
 const isInvalid = ref(false);
 
 function handleImport() {
-  isInvalid.value = false;
-  try {
-    const data: Puzzle = JSON.parse(input.value);
-    emit('import', data);
-    input.value = '';
-  } catch {
-    isInvalid.value = true;
-    setTimeout(() => {
-      isInvalid.value = false;
-    }, 3000);
-  }
+	isInvalid.value = false;
+	try {
+		const data: Puzzle = JSON.parse(input.value);
+		emit("import", data);
+		input.value = "";
+	} catch {
+		isInvalid.value = true;
+		setTimeout(() => {
+			isInvalid.value = false;
+		}, 3000);
+	}
 }
-
 </script>
 <template>
-  <div>
-    <Label class="block mb-3">{{ t("Import") }}</Label>
-    <div class="flex gap-3">
-      <Input v-model="input" placeholder='{ "id": "example-id", tests: [{...}]}' />
-      <Button @click="handleImport" class="h-full p-1">
-        <Send strokeWidth="1" :size="20" />
-      </Button>
-    </div>
-    <Label v-if="isInvalid" class="text-red-500 mt-2">Invalid JSON</Label>
-  </div>
+	<div>
+		<Label class="block mb-3">{{ t("Import") }}</Label>
+		<div class="flex gap-3">
+			<Input
+				v-model="input"
+				placeholder='{ "id": "example-id", tests: [{...}]}'
+			/>
+			<Button @click="handleImport" class="h-full p-1">
+				<Send strokeWidth="1" :size="20" />
+			</Button>
+		</div>
+		<Label v-if="isInvalid" class="text-red-500 mt-2">Invalid JSON</Label>
+	</div>
 </template>

@@ -2,17 +2,20 @@
 import { merge } from "@/lib/utils";
 
 const props = defineProps<{
-  class?: string;
+	class?: string;
 }>();
 const model = defineModel<string>();
 </script>
 
 <template>
-  <textarea v-model="model" :class="merge(`
+	<textarea
+		v-model="model"
+		:class="merge(`
   w-full p-2
   bg-neutral-900
   border border-neutral-800 rounded
   inset-shadow-xs inset-shadow-black
   text-base
-`, props.class)" />
+`, props.class)"
+	/>
 </template>

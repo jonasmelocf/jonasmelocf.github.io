@@ -10,9 +10,9 @@ const { frontmatter } = useData();
 </script>
 
 <template>
-  <Layout>
-    <template #home-hero-image>
-      <Terminal :intro="frontmatter.hero.intro" />
-    </template>
-  </Layout>
+	<Layout>
+		<template #home-hero-image>
+			<Terminal :intro="frontmatter.hero.intro" />
+		</template>
+	</Layout>
 </template>

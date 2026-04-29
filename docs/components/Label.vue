@@ -2,11 +2,11 @@
 import { merge } from "@/lib/utils";
 
 const props = defineProps<{
-  class?: string;
+	class?: string;
 }>();
 </script>
 <template>
-  <span :class="merge('text-xs font-semibold text-neutral-500', props.class)">
-    <slot />
-  </span>
+	<span :class="merge('font-semibold text-neutral-500 text-xs', props.class)">
+		<slot />
+	</span>
 </template>

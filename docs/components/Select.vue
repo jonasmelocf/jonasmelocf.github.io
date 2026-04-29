@@ -2,14 +2,16 @@
 import { merge } from "@/lib/utils";
 
 const props = defineProps<{
-  class?: string;
+	class?: string;
 }>();
 
 const model = defineModel();
 </script>
 
 <template>
-  <select v-model="model" :class="merge(`
+	<select
+		v-model="model"
+		:class="merge(`
     py-0.5 px-2
     text-neutral-100
     bg-neutral-900
@@ -17,7 +19,8 @@ const model = defineModel();
     inset-shadow-xs inset-shadow-black
     text-base
     cursor-pointer
-  `, props.class)">
-    <slot />
-  </select>
+  `, props.class)"
+	>
+		<slot />
+	</select>
 </template>
