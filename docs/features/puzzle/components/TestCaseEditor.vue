@@ -35,7 +35,7 @@ function handleAddTestCase() {
       <Button class="w-fit aspect-square text-lg" @click="handleAddTestCase">+</Button>
     </div>
     <div class="grid gap-3 grid-cols-2 mb-4">
-      <TestCaseForm ref="test-case-form" v-for="(test, i) in tests" :key="i" :test="test"
+      <TestCaseForm ref="test-case-form" v-for="(test, i) in tests" :key="test.input.join()" :test="test"
         @click:close="() => emit('remove', i)" />
     </div>
   </div>
