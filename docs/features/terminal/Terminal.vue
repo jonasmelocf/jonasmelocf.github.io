@@ -158,7 +158,7 @@ watch(
 				v-if="!isLoading"
 				id="terminalInput"
 				ref="terminal"
-				class="grow"
+				class="grow focus:outline-none"
 				@keydown.up.prevent="() => handleNavigateHistory(1)"
 				@keydown.down.prevent="() => handleNavigateHistory(-1)"
 				@keydown.enter="handleInput"
