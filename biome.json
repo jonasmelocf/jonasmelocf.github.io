@@ -20,7 +20,7 @@
 			"recommended": true,
 			"nursery": {
 				"useSortedClasses": {
-					"fix": "unsafe",
+					"fix": "safe",
 					"level": "warn",
 					"options": {
 						"functions": ["merge", "clsx", "twMerge"]
@@ -36,12 +36,28 @@
 		}
 	},
 	"javascript": {
+		"assist": {
+			"enabled": true
+		},
 		"formatter": {
-			"quoteStyle": "double"
+			"enabled": true
+		},
+		"linter": {
+			"enabled": true
 		}
 	},
 	"css": {
+		"assist": {
+			"enabled": true
+		},
+		"formatter": {
+			"enabled": true
+		},
+		"linter": {
+			"enabled": true
+		},
 		"parser": {
+			"cssModules": true,
 			"tailwindDirectives": true
 		}
 	},
@@ -49,7 +65,9 @@
 		"enabled": true,
 		"actions": {
 			"source": {
-				"organizeImports": "on"
+				"recommended": true,
+				"organizeImports": "on",
+				"useSortedAttributes": "on"
 			}
 		}
 	}
