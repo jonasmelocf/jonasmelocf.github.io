@@ -1,327 +1,216 @@
 {
-  "add-two-numbers": {
-    "id": "add-two-numbers",
-    "code": "const [x, y] = input();\nconsole.log(x);",
-    "tests": [
-      {
-        "input": [
-          1,
-          2
-        ],
-        "expects": "3"
-      },
-      {
-        "input": [
-          5,
-          7
-        ],
-        "expects": "12"
-      },
-      {
-        "input": [
-          10,
-          15
-        ],
-        "expects": "25"
-      },
-      {
-        "input": [
-          58,
-          69
-        ],
-        "expects": "127"
-      },
-      {
-        "input": [
-          45,
-          2
-        ],
-        "expects": "47"
-      }
-    ]
-  },
-  "factorial": {
-    "id": "factorial",
-    "code": "const [n] = input();\nconsole.log(n);",
-    "tests": [
-      {
-        "input": [
-          1
-        ],
-        "expects": "1"
-      },
-      {
-        "input": [
-          2
-        ],
-        "expects": "2"
-      },
-      {
-        "input": [
-          3
-        ],
-        "expects": "6"
-      },
-      {
-        "input": [
-          4
-        ],
-        "expects": "24"
-      },
-      {
-        "input": [
-          5
-        ],
-        "expects": "120"
-      },
-      {
-        "input": [
-          6
-        ],
-        "expects": "720"
-      },
-      {
-        "input": [
-          10
-        ],
-        "expects": "3628800"
-      }
-    ]
-  },
-  "prime": {
-    "id": "prime",
-    "code": "const [n] = input();\nconsole.log(n);",
-    "tests": [
-      {
-        "input": [
-          1
-        ],
-        "expects": "false"
-      },
-      {
-        "input": [
-          2
-        ],
-        "expects": "true"
-      },
-      {
-        "input": [
-          3
-        ],
-        "expects": "true"
-      },
-      {
-        "input": [
-          5
-        ],
-        "expects": "true"
-      },
-      {
-        "input": [
-          7
-        ],
-        "expects": "true"
-      },
-      {
-        "input": [
-          51
-        ],
-        "expects": "false"
-      },
-      {
-        "input": [
-          343
-        ],
-        "expects": "false"
-      },
-      {
-        "input": [
-          99
-        ],
-        "expects": "false"
-      },
-      {
-        "input": [
-          101
-        ],
-        "expects": "true"
-      },
-      {
-        "input": [
-          12345
-        ],
-        "expects": "false"
-      }
-    ]
-  },
-  "triangle": {
-    "id": "triangle",
-    "code": "const [n] = input();\nconsole.log(n);",
-    "tests": [
-      {
-        "input": [
-          1
-        ],
-        "expects": "*"
-      },
-      {
-        "input": [
-          2
-        ],
-        "expects": "*\n**"
-      },
-      {
-        "input": [
-          3
-        ],
-        "expects": "*\n**\n***"
-      },
-      {
-        "input": [
-          4
-        ],
-        "expects": "*\n**\n***\n****"
-      },
-      {
-        "input": [
-          5
-        ],
-        "expects": "*\n**\n***\n****\n*****"
-      },
-      {
-        "input": [
-          6
-        ],
-        "expects": "*\n**\n***\n****\n*****\n******"
-      },
-      {
-        "input": [
-          7
-        ],
-        "expects": "*\n**\n***\n****\n*****\n******\n*******"
-      },
-      {
-        "input": [
-          8
-        ],
-        "expects": "*\n**\n***\n****\n*****\n******\n*******\n********"
-      },
-      {
-        "input": [
-          9
-        ],
-        "expects": "*\n**\n***\n****\n*****\n******\n*******\n********\n*********"
-      },
-      {
-        "input": [
-          10
-        ],
-        "expects": "*\n**\n***\n****\n*****\n******\n*******\n********\n*********\n**********"
-      }
-    ]
-  },
-  "hypotenuse": {
-    "id": "hypotenuse",
-    "code": "const [x, y] = input();\nconsole.log(x, y);",
-    "tests": [
-      {
-        "input": [
-          3,
-          4
-        ],
-        "expects": "5"
-      },
-      {
-        "input": [
-          5,
-          12
-        ],
-        "expects": "13"
-      },
-      {
-        "input": [
-          8,
-          15
-        ],
-        "expects": "17"
-      },
-      {
-        "input": [
-          7,
-          24
-        ],
-        "expects": "25"
-      },
-      {
-        "input": [
-          20,
-          21
-        ],
-        "expects": "29"
-      },
-      {
-        "input": [
-          9,
-          40
-        ],
-        "expects": "41"
-      },
-      {
-        "input": [
-          12,
-          35
-        ],
-        "expects": "37"
-      },
-      {
-        "input": [
-          11,
-          60
-        ],
-        "expects": "61"
-      },
-      {
-        "input": [
-          16,
-          63
-        ],
-        "expects": "65"
-      },
-      {
-        "input": [
-          28,
-          45
-        ],
-        "expects": "53"
-      },
-      {
-        "input": [
-          33,
-          56
-        ],
-        "expects": "65"
-      },
-      {
-        "input": [
-          48,
-          55
-        ],
-        "expects": "73"
-      },
-      {
-        "input": [
-          13,
-          84
-        ],
-        "expects": "85"
-      },
-      {
-        "input": [
-          36,
-          77
-        ],
-        "expects": "85"
-      }
-    ]
-  }
+	"add-two-numbers": {
+		"id": "add-two-numbers",
+		"code": "const [x, y] = input();\nconsole.log(x);",
+		"tests": [
+			{
+				"input": [1, 2],
+				"expects": "3"
+			},
+			{
+				"input": [5, 7],
+				"expects": "12"
+			},
+			{
+				"input": [10, 15],
+				"expects": "25"
+			},
+			{
+				"input": [58, 69],
+				"expects": "127"
+			},
+			{
+				"input": [45, 2],
+				"expects": "47"
+			}
+		]
+	},
+	"factorial": {
+		"id": "factorial",
+		"code": "const [n] = input();\nconsole.log(n);",
+		"tests": [
+			{
+				"input": [1],
+				"expects": "1"
+			},
+			{
+				"input": [2],
+				"expects": "2"
+			},
+			{
+				"input": [3],
+				"expects": "6"
+			},
+			{
+				"input": [4],
+				"expects": "24"
+			},
+			{
+				"input": [5],
+				"expects": "120"
+			},
+			{
+				"input": [6],
+				"expects": "720"
+			},
+			{
+				"input": [10],
+				"expects": "3628800"
+			}
+		]
+	},
+	"prime": {
+		"id": "prime",
+		"code": "const [n] = input();\nconsole.log(n);",
+		"tests": [
+			{
+				"input": [1],
+				"expects": "false"
+			},
+			{
+				"input": [2],
+				"expects": "true"
+			},
+			{
+				"input": [3],
+				"expects": "true"
+			},
+			{
+				"input": [5],
+				"expects": "true"
+			},
+			{
+				"input": [7],
+				"expects": "true"
+			},
+			{
+				"input": [51],
+				"expects": "false"
+			},
+			{
+				"input": [343],
+				"expects": "false"
+			},
+			{
+				"input": [99],
+				"expects": "false"
+			},
+			{
+				"input": [101],
+				"expects": "true"
+			},
+			{
+				"input": [12345],
+				"expects": "false"
+			}
+		]
+	},
+	"triangle": {
+		"id": "triangle",
+		"code": "const [n] = input();\nconsole.log(n);",
+		"tests": [
+			{
+				"input": [1],
+				"expects": "*"
+			},
+			{
+				"input": [2],
+				"expects": "*\n**"
+			},
+			{
+				"input": [3],
+				"expects": "*\n**\n***"
+			},
+			{
+				"input": [4],
+				"expects": "*\n**\n***\n****"
+			},
+			{
+				"input": [5],
+				"expects": "*\n**\n***\n****\n*****"
+			},
+			{
+				"input": [6],
+				"expects": "*\n**\n***\n****\n*****\n******"
+			},
+			{
+				"input": [7],
+				"expects": "*\n**\n***\n****\n*****\n******\n*******"
+			},
+			{
+				"input": [8],
+				"expects": "*\n**\n***\n****\n*****\n******\n*******\n********"
+			},
+			{
+				"input": [9],
+				"expects": "*\n**\n***\n****\n*****\n******\n*******\n********\n*********"
+			},
+			{
+				"input": [10],
+				"expects": "*\n**\n***\n****\n*****\n******\n*******\n********\n*********\n**********"
+			}
+		]
+	},
+	"hypotenuse": {
+		"id": "hypotenuse",
+		"code": "const [x, y] = input();\nconsole.log(x, y);",
+		"tests": [
+			{
+				"input": [3, 4],
+				"expects": "5"
+			},
+			{
+				"input": [5, 12],
+				"expects": "13"
+			},
+			{
+				"input": [8, 15],
+				"expects": "17"
+			},
+			{
+				"input": [7, 24],
+				"expects": "25"
+			},
+			{
+				"input": [20, 21],
+				"expects": "29"
+			},
+			{
+				"input": [9, 40],
+				"expects": "41"
+			},
+			{
+				"input": [12, 35],
+				"expects": "37"
+			},
+			{
+				"input": [11, 60],
+				"expects": "61"
+			},
+			{
+				"input": [16, 63],
+				"expects": "65"
+			},
+			{
+				"input": [28, 45],
+				"expects": "53"
+			},
+			{
+				"input": [33, 56],
+				"expects": "65"
+			},
+			{
+				"input": [48, 55],
+				"expects": "73"
+			},
+			{
+				"input": [13, 84],
+				"expects": "85"
+			},
+			{
+				"input": [36, 77],
+				"expects": "85"
+			}
+		]
+	}
 }

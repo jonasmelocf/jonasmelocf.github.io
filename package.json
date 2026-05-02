@@ -1,33 +1,35 @@
 {
-  "name": "djjjonas.github.io",
-  "scripts": {
-    "publish": "gh-pages -d ./docs/.vitepress/dist",
-    "dev": "vitepress dev ./docs",
-    "build": "vitepress build ./docs",
-    "preview": "vitepress preview ./docs",
-    "format": "prettier --write ./docs/**/*.md",
-    "check": "biome check --write --unsafe"
-  },
-  "author": "DJJJonas",
-  "license": "MIT",
-  "type": "module",
-  "devDependencies": {
-    "@biomejs/biome": "^2.4.12",
-    "@types/node": "^25.6.0",
-    "@vue/tsconfig": "^0.9.1",
-    "gh-pages": "^6.3.0",
-    "prettier": "^3.8.3",
-    "typescript": "^6.0.3",
-    "vitepress": "^2.0.0-alpha.17"
-  },
-  "dependencies": {
-    "@lucide/vue": "^1.8.0",
-    "@tailwindcss/vite": "^4.2.4",
-    "clsx": "^2.1.1",
-    "prism-code-editor": "^5.1.0",
-    "tailwind-merge": "^3.5.0",
-    "tailwindcss": "^4.2.4",
-    "vue": "^3.5.32",
-    "zod": "^4.3.6"
-  }
+	"name": "djjjonas.github.io",
+	"scripts": {
+		"publish": "gh-pages -d ./docs/.vitepress/dist",
+		"dev": "vitepress dev ./docs",
+		"build": "vitepress build ./docs",
+		"preview": "vitepress preview ./docs",
+		"format": "prettier --write ./docs/**/*.md",
+		"check": "biome check --write --unsafe"
+	},
+	"author": "DJJJonas",
+	"license": "MIT",
+	"type": "module",
+	"devDependencies": {
+		"@biomejs/biome": "^2.4.12",
+		"@types/node": "^25.6.0",
+		"@vue/tsconfig": "^0.9.1",
+		"gh-pages": "^6.3.0",
+		"prettier": "^3.8.3",
+		"typescript": "^6.0.3",
+		"vitepress": "^2.0.0-alpha.17"
+	},
+	"dependencies": {
+		"@lucide/vue": "^1.8.0",
+		"@tailwindcss/vite": "^4.2.4",
+		"@types/howler": "^2.2.12",
+		"clsx": "^2.1.1",
+		"howler": "^2.2.4",
+		"prism-code-editor": "^5.1.0",
+		"tailwind-merge": "^3.5.0",
+		"tailwindcss": "^4.2.4",
+		"vue": "^3.5.32",
+		"zod": "^4.3.6"
+	}
 }

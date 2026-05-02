@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { Play } from "@lucide/vue";
 import "prism-code-editor/prism/languages/javascript";
-import { useData } from "vitepress";
 import { ref, useTemplateRef } from "vue";
+import { audio } from "@/assets/audio";
 import Button from "@/components/Button.vue";
 import Label from "@/components/Label.vue";
 import { useTranslation } from "@/composables/useTranslation";
@@ -26,9 +26,6 @@ const savedCode = localStorage.getItem(`puzzle:${puzzle.id}`);
 const { editorId, getCode } = useEditor(
 	disableSave ? puzzle.code : (savedCode ?? puzzle.code),
 );
-const audio = new Audio("/pop.mp3");
-audio.preservesPitch = false;
-audio.volume = 0.4;
 
 // - Utils -
 const max = Math.max;
@@ -105,11 +102,8 @@ function runTest(index: number, shiftAudio = false): boolean {
 	}
 
 	editorButton?.pop();
-	audio.playbackRate = shiftAudio
-		? 1 + index / max(1, puzzle.tests.length - 1)
-		: 1;
-	audio.currentTime = 0;
-	audio.play();
+	audio.pop.rate(shiftAudio ? 1 + index / max(1, puzzle.tests.length - 1) : 1);
+	audio.pop.play();
 
 	return state.value === "success";
 }
@@ -125,8 +119,8 @@ function runTest(index: number, shiftAudio = false): boolean {
 
 		<div
 			:style="{
-      background: stateStyleMap[state],
-    }"
+			background: stateStyleMap[state],
+		}"
 			class="h-px"
 		/>
 

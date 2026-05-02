@@ -1,36 +1,29 @@
 {
-  "extends": "@vue/tsconfig",
-  "compilerOptions": {
-    "noEmit": true,
-    "types": [
-      "vite/client"
-    ],
-    "lib": [
-      "DOM",
-      "esnext"
-    ],
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "erasableSyntaxOnly": true,
-    "noFallthroughCasesInSwitch": true,
-    "verbatimModuleSyntax": true,
-    "paths": {
-      "@/*": [
-        "./docs/*"
-      ]
-    }
-  },
-  "include": [
-    "./**/*.js",
-    "./**/*.jsx",
-    "./**/*.ts",
-    "./**/*.tsx",
-    "./**/*.vue",
-    "./docs/.vitepress/**/*.js",
-    "./docs/.vitepress/**/*.jsx",
-    "./docs/.vitepress/**/*.ts",
-    "./docs/.vitepress/**/*.tsx",
-    "./docs/.vitepress/**/*.vue"
-  ]
+	"extends": "@vue/tsconfig",
+	"compilerOptions": {
+		"noEmit": true,
+		"types": ["vite/client"],
+		"lib": ["DOM", "esnext"],
+		"strict": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"erasableSyntaxOnly": true,
+		"noFallthroughCasesInSwitch": true,
+		"verbatimModuleSyntax": true,
+		"paths": {
+			"@/*": ["./docs/*"]
+		}
+	},
+	"include": [
+		"./**/*.js",
+		"./**/*.jsx",
+		"./**/*.ts",
+		"./**/*.tsx",
+		"./**/*.vue",
+		"./docs/.vitepress/**/*.js",
+		"./docs/.vitepress/**/*.jsx",
+		"./docs/.vitepress/**/*.ts",
+		"./docs/.vitepress/**/*.tsx",
+		"./docs/.vitepress/**/*.vue"
+	]
 }
