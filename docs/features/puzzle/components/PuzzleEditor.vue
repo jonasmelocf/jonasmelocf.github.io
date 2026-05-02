@@ -8,17 +8,16 @@ import Label from "@/components/Label.vue";
 import { useTranslation } from "@/composables/useTranslation";
 import { runSandboxedCode, sleep } from "@/lib/utils";
 import { useEditor } from "../composables/useEditor";
-import type { TestCase } from "../puzzle.types";
+import type { Puzzle } from "../puzzle.types";
 import TestCaseButton from "./TestCaseButton.vue";
 
-const { puzzle, disableSave } = defineProps<{
-	puzzle: {
-		id: string;
-		code: string;
-		tests: TestCase[];
-	};
+type State = "success" | "fail" | "undefined";
+type Props = {
+	puzzle: Puzzle;
 	disableSave?: boolean;
-}>();
+};
+
+const { puzzle, disableSave } = defineProps<Props>();
 
 const { t } = useTranslation();
 const savedCode = localStorage.getItem(`puzzle:${puzzle.id}`);
@@ -27,26 +26,20 @@ const { editorId, getCode } = useEditor(
 	disableSave ? puzzle.code : (savedCode ?? puzzle.code),
 );
 
-// - Utils -
 const max = Math.max;
 
-// - States -
 const editorButtonRefs = useTemplateRef("editorButtonRefs");
 const output = ref("");
 const state = ref<State>("undefined");
 const expected = ref("");
 
-// - Types -
-type State = "success" | "fail" | "undefined";
-
-// - Constants -
+// using `style` because tailwind with clsx lags
 const stateStyleMap: Record<State, string> = {
 	success: "var(--color-emerald-500)",
 	fail: "var(--color-red-500)",
 	undefined: "var(--color-gray-500)",
 };
 
-// - Actions -
 function saveCode() {
 	if (disableSave) return;
 	const userCode = getCode();
@@ -114,16 +107,11 @@ function runTest(index: number, shiftAudio = false): boolean {
 		class="border relative border-neutral-500/15 overflow-hidden rounded-lg shadow"
 		@keydown.ctrl.enter.capture.stop="runAllTests"
 	>
-		<!-- Code Editor -->
+		<!-- Code editor -->
 		<div class="grid text-sm min-h-64" :id="editorId" />
-
-		<div
-			:style="{
-			background: stateStyleMap[state],
-		}"
-			class="h-px"
-		/>
-
+		<!-- Status line -->
+		<div :style="{ background: stateStyleMap[state] }" class="h-px" />
+		<!-- Cases and output -->
 		<div
 			class="p-5 gap-5 flex items-start justify-evenly *:w-full text-white bg-neutral-950"
 		>
