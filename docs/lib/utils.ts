@@ -1,5 +1,4 @@
 import { type ClassValue, clsx } from "clsx";
-import format from "pretty-format";
 import { twMerge } from "tailwind-merge";
 import { toRaw } from "vue";
 
@@ -37,10 +36,7 @@ export function runSandboxedCode(code: string): string[] {
 	runSandbox(sandboxConsole);
 
 	return logs.map((data) =>
-		format(data, {
-			printBasicPrototype: false,
-			printFunctionName: true,
-		}),
+		typeof data === "object" ? JSON.stringify(data, null, 2) : String(data),
 	);
 }
 
