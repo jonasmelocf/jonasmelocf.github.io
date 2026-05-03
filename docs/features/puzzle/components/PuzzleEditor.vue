@@ -1,37 +1,30 @@
 <script setup lang="ts">
 import { Play } from "@lucide/vue";
-import "prism-code-editor/prism/languages/javascript";
-import { ref, useTemplateRef } from "vue";
 import { audio } from "@/assets/audio";
 import Button from "@/components/Button.vue";
 import Label from "@/components/Label.vue";
 import { useTranslation } from "@/composables/useTranslation";
-import { runSandboxedCode, sleep } from "@/lib/utils";
-import { useEditor } from "../composables/useEditor";
+import CodeEditor from "@/features/editor/CodeEditor.vue";
+import { sleep } from "@/lib/utils";
+import "prism-code-editor/prism/languages/javascript";
+import { ref, useTemplateRef } from "vue";
+import { loadCode, runTest, saveCode } from "../puzzle.service";
 import type { Puzzle } from "../puzzle.types";
 import TestCaseButton from "./TestCaseButton.vue";
 
 type State = "success" | "fail" | "undefined";
-type Props = {
+
+const { puzzle, disableSave } = defineProps<{
 	puzzle: Puzzle;
 	disableSave?: boolean;
-};
-
-const { puzzle, disableSave } = defineProps<Props>();
+}>();
 
 const { t } = useTranslation();
-const savedCode = localStorage.getItem(`puzzle:${puzzle.id}`);
-
-const { editorId, getCode } = useEditor(
-	disableSave ? puzzle.code : (savedCode ?? puzzle.code),
-);
-
-const max = Math.max;
-
-const editorButtonRefs = useTemplateRef("editorButtonRefs");
-const output = ref("");
-const state = ref<State>("undefined");
-const expected = ref("");
+const testCaseButtonRefs = useTemplateRef("test-case-buttons");
+const userCodeRef = ref(loadCode(puzzle.id) ?? puzzle.code);
+const outputRef = ref("");
+const stateRef = ref<State>("undefined");
+const expectedRef = ref("");
 
 // using `style` because tailwind with clsx lags
 const stateStyleMap: Record<State, string> = {
@@ -40,77 +33,62 @@ const stateStyleMap: Record<State, string> = {
 	undefined: "var(--color-gray-500)",
 };
 
-function saveCode() {
-	if (disableSave) return;
-	const userCode = getCode();
-	localStorage.setItem(`puzzle:${puzzle.id}`, userCode);
-}
-
-function resetTests() {
-	puzzle.tests.forEach((_, i) => {
-		const editorButton = editorButtonRefs.value?.[i];
-		editorButton?.setState(undefined);
+function reset() {
+	testCaseButtonRefs.value?.forEach((button) => {
+		button?.setState(undefined);
 	});
-	state.value = "undefined";
-	output.value = "";
-	expected.value = "";
+	stateRef.value = "undefined";
+	outputRef.value = "";
+	expectedRef.value = "";
 }
 
-async function runAllTests() {
-	resetTests();
+async function handleRunAllTests() {
+	reset();
+	saveCode(puzzle.id, userCodeRef.value);
 	for (let i = 0; i < puzzle.tests.length; i++) {
-		if (!runTest(i, true)) break;
-		await sleep(max(100, 200 - i * 30));
+		const popRate = 1 + i / puzzle.tests.length;
+		const passed = handleRunTest(i, popRate, false);
+		if (!passed) break;
+		await sleep(Math.max(80, 200 - i * 30));
 	}
 }
 
-function runTest(index: number, shiftAudio = false): boolean {
+function handleRunTest(index: number, popRate = 1, save = true) {
 	const test = puzzle.tests[index];
-	const editorButton = editorButtonRefs.value?.[index];
-	const userCode = getCode();
+	const editorButton = testCaseButtonRefs.value?.[index];
+	if (!disableSave && save) saveCode(puzzle.id, userCodeRef.value);
+	expectedRef.value = "";
 
-	expected.value = "";
-	saveCode();
+	const [output, passed, error] = runTest(test, userCodeRef.value);
 
-	try {
-		const input = `const input = () => ${JSON.stringify(test.input)};`;
-		const wrappedCode = `${input}\n${userCode}`;
-
-		const result = runSandboxedCode(wrappedCode).join("\n");
-
-		if (result === test.expects) {
-			state.value = "success";
-			editorButton?.setState("success");
-		} else {
-			state.value = "fail";
-			editorButton?.setState("fail");
-			expected.value = `${test.expects}`;
-		}
-
-		output.value = result;
-	} catch (error) {
-		state.value = "fail";
+	if (passed) {
+		stateRef.value = "success";
+		editorButton?.setState("success");
+	} else {
+		stateRef.value = "fail";
 		editorButton?.setState("fail");
-		output.value = `Error: ${error instanceof Error ? error.message : String(error)}`;
+		expectedRef.value = `${test.expects}`;
 	}
+
+	outputRef.value = error ? `Error: ${error.message}` : output;
 
 	editorButton?.pop();
-	audio.pop.rate(shiftAudio ? 1 + index / max(1, puzzle.tests.length - 1) : 1);
+	audio.pop.rate(popRate);
 	audio.pop.play();
 
-	return state.value === "success";
+	return passed;
 }
 </script>
 
 <template>
 	<div
 		class="border relative border-neutral-500/15 overflow-hidden rounded-lg shadow"
-		@keydown.ctrl.enter.capture.stop="runAllTests"
+		@keydown.ctrl.enter.prevent="handleRunAllTests"
 	>
 		<!-- Code editor -->
-		<div class="grid text-sm min-h-64" :id="editorId" />
+		<CodeEditor v-model="userCodeRef" />
 		<!-- Status line -->
-		<div :style="{ background: stateStyleMap[state] }" class="h-px" />
+		<div :style="{ background: stateStyleMap[stateRef] }" class="h-px" />
 		<!-- Cases and output -->
 		<div
 			class="p-5 gap-5 flex items-start justify-evenly *:w-full text-white bg-neutral-950"
@@ -119,15 +97,17 @@ function runTest(index: number, shiftAudio = false): boolean {
 				<!-- Run all cases button -->
 				<div class="flex items-center">
 					<Label>{{ t("Test cases") }}</Label>
-					<Button @click="runAllTests" class="size-fit py-1 text-xs ml-auto">
+					<Button
+						@click="handleRunAllTests"
+						class="size-fit py-1 text-xs ml-auto"
+					>
 						{{ t("Run all") }}
 					</Button>
 				</div>
-				<!-- Case buttons -->
 				<TestCaseButton
 					v-for="test, i in puzzle.tests"
-					@click="() => runTest(i)"
-					ref="editorButtonRefs"
+					@click.stop="() => handleRunTest(i)"
+					ref="test-case-buttons"
 				>
 					{{ t("Case") }} {{ test.input }}
 					<Play class="bg-neutral-800 rounded p-1 size-6" />
@@ -142,8 +122,10 @@ function runTest(index: number, shiftAudio = false): boolean {
 				</span>
 
 				<div class="font-mono whitespace-break-spaces">
-					{{ output }}
-					<div v-if="expected"><br>{{ t("Expected") }}:<br>{{ expected }}</div>
+					{{ outputRef }}
+					<div v-if="expectedRef">
+						<br>{{ t("Expected") }}:<br>{{ expectedRef }}
+					</div>
 				</div>
 			</div>
 		</div>

@@ -1,36 +1,29 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import Field from "@/components/Field.vue";
 import Input from "@/components/Input.vue";
 import Tabs from "@/components/Tabs.vue";
 import { useTranslation } from "@/composables/useTranslation";
 import CodeEditor from "@/features/editor/CodeEditor.vue";
-import { copy } from "@/lib/utils";
-import { usePuzzleExport } from "../composables/usePuzzleExport";
+import { copy, stringify } from "@/lib/utils";
+import { getExamplePuzzle, toJsonFile } from "../puzzle.service";
 import type { Puzzle } from "../puzzle.types";
 import ImportPuzzleForm from "./ImportPuzzleForm.vue";
 import JsonBlock from "./JsonBlock.vue";
 import OpenPuzzleForm from "./OpenPuzzleForm.vue";
 import PuzzleEditor from "./PuzzleEditor.vue";
 import TestCaseEditor from "./TestCaseEditor.vue";
+import "@ctechhindi/vue3-json-viewer/dist/index.css";
 
 const { puzzles = [] } = defineProps<{
 	puzzles?: Puzzle[];
 }>();
 
-const puzzle = ref<Puzzle>({
-	id: "example-id",
-	code: "const [n] = input();\nconsole.log(n);",
-	tests: [
-		{
-			input: ["example"],
-			expects: "example",
-		},
-	],
-});
-
-const { puzzleJson, allPuzzlesJson } = usePuzzleExport(puzzle, puzzles);
 const { t } = useTranslation();
+
+const puzzle = ref<Puzzle>(getExamplePuzzle());
+const puzzleJson = computed(() => stringify(puzzle.value) ?? "Invalid JSON");
+const puzzlesJsonFile = computed(() => toJsonFile([...puzzles, puzzle.value]));
 
 const addTest = () => puzzle.value.tests.push({ input: [], expects: "" });
 const removeTest = (index: number) => puzzle.value.tests.splice(index, 1);
@@ -99,7 +92,7 @@ const JSON_VIEW_OPTIONS: { label: string; value: JsonView }[] = [
 				<JsonBlock v-if="jsonView === 'json'" :content="puzzleJson" />
 				<JsonBlock
 					v-if="jsonView === 'puzzle.json'"
-					:content="allPuzzlesJson"
+					:content="puzzlesJsonFile"
 				/>
 			</Tabs>
 		</Field>
