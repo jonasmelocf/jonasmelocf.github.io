@@ -2,8 +2,8 @@
 import {defineClientComponent} from "vitepress";
 import puzzles from "@/puzzles.json";
 
-const PuzzleEditor = defineClientComponent(() => {
-  return import('@/features/puzzle/components/PuzzleEditor.vue')
+const PuzzleIDE = defineClientComponent(() => {
+  return import('@/features/puzzle/components/PuzzleIDE.vue')
 });
 
 </script>
@@ -20,19 +20,19 @@ When you are confident in your solution, use the `Run all` button or press `ctrl
 
 Given two positive integers `x` and `y`, show their sum.
 
-<PuzzleEditor :puzzle="puzzles['add-two-numbers']" />
+<PuzzleIDE :puzzle="puzzles['add-two-numbers']" />
 
 ## Factorial
 
 Given a positive integer `n`, show its factorial.
 
-<PuzzleEditor :puzzle="puzzles['factorial']" />
+<PuzzleIDE :puzzle="puzzles['factorial']" />
 
 ## Prime
 
 Given a positive integer `n`, show `true` if it is a prime number, otherwise, `false`.
 
-<PuzzleEditor  :puzzle="puzzles['prime']" />
+<PuzzleIDE  :puzzle="puzzles['prime']" />
 
 ## Triangle
 
@@ -44,10 +44,10 @@ Given a positive integer `n`, show a right triangle that follows the following p
 ***
 ```
 
-<PuzzleEditor  :puzzle="puzzles['triangle']" />
+<PuzzleIDE  :puzzle="puzzles['triangle']" />
 
 ## Hypotenuse
 
 Given two positive integers `x` and `y` representing the legs of a right triangle, show the hypotenuse.
 
-<PuzzleEditor :puzzle="puzzles['hypotenuse']"/>
+<PuzzleIDE :puzzle="puzzles['hypotenuse']"/>

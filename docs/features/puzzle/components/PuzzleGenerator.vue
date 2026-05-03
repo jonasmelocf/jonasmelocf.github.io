@@ -11,7 +11,7 @@ import type { Puzzle } from "../puzzle.types";
 import ImportPuzzleForm from "./ImportPuzzleForm.vue";
 import JsonBlock from "./JsonBlock.vue";
 import OpenPuzzleForm from "./OpenPuzzleForm.vue";
-import PuzzleEditor from "./PuzzleEditor.vue";
+import PuzzleIDE from "./PuzzleIDE.vue";
 import TestCaseEditor from "./TestCaseEditor.vue";
 import "@ctechhindi/vue3-json-viewer/dist/index.css";
 
@@ -77,7 +77,7 @@ const JSON_VIEW_OPTIONS: { label: string; value: JsonView }[] = [
 
 		<!-- Puzzle Preview -->
 		<Field :label="t('Preview')">
-			<PuzzleEditor disableSave :puzzle="puzzle" />
+			<PuzzleIDE disableSave :puzzle="puzzle" />
 		</Field>
 
 		<hr>

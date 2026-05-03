@@ -2,8 +2,8 @@
 import {defineClientComponent} from "vitepress";
 import puzzles from "@/puzzles.json";
 
-const PuzzleEditor = defineClientComponent(() => {
-  return import('@/features/puzzle/components/PuzzleEditor.vue')
+const PuzzleIDE = defineClientComponent(() => {
+  return import('@/features/puzzle/components/PuzzleIDE.vue')
 });
 
 </script>
@@ -20,19 +20,19 @@ Quando estiver confiante da sua solução, use o botão `Executar todos` ou aper
 
 Dados dois inteiros positivos `x` e `y`, mostre a soma deles.
 
-<PuzzleEditor :puzzle="puzzles['add-two-numbers']" />
+<PuzzleIDE :puzzle="puzzles['add-two-numbers']" />
 
 ## Fatorial
 
 Dado um inteiro positivo `n`, mostre seu fatorial.
 
-<PuzzleEditor :puzzle="puzzles['factorial']" />
+<PuzzleIDE :puzzle="puzzles['factorial']" />
 
 ## Primo
 
 Dado um inteiro positivo `n`, mostre `true` se for um número primo, se não, `false`.
 
-<PuzzleEditor :puzzle="puzzles['prime']" />
+<PuzzleIDE :puzzle="puzzles['prime']" />
 
 ## Triangulo
 
@@ -44,10 +44,10 @@ Dado um inteiro positivo `n`, mostre um triângulo retângulo que segue o seguin
 ***
 ```
 
-<PuzzleEditor :puzzle="puzzles['triangle']" />
+<PuzzleIDE :puzzle="puzzles['triangle']" />
 
 ## Hipotenusa
 
 Dados dois inteiros positivos `x` e `y` representando os catetos de um triângulo retângulo, mostre a hipotenusa.
 
-<PuzzleEditor :puzzle="puzzles['hypotenuse']"/>
+<PuzzleIDE :puzzle="puzzles['hypotenuse']"/>
