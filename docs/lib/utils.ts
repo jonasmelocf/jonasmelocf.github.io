@@ -1,4 +1,5 @@
 import { type ClassValue, clsx } from "clsx";
+import format from "pretty-format";
 import { twMerge } from "tailwind-merge";
 import { toRaw } from "vue";
 
@@ -27,18 +28,20 @@ export function stringify(data: unknown) {
 
 /** Run JavaScript code inside a sandbox and returns an array of logs from `console.log` calls */
 export function runSandboxedCode(code: string): string[] {
-	const globalForLogs = globalThis as unknown as {
-		sandboxedLogs: string[] | undefined;
+	const logs: unknown[] = [];
+	const sandboxConsole = {
+		log: (...args: unknown[]) => logs.push(...args),
 	};
-	globalForLogs.sandboxedLogs = [];
 
-	const sandboxedConsoleLog = `console.log = (...args) => globalThis.sandboxedLogs.push(args.join(" "));`;
-	Function(`${sandboxedConsoleLog}\n${code}`)();
+	const runSandbox = new Function("console", code);
+	runSandbox(sandboxConsole);
 
-	const logs = globalForLogs.sandboxedLogs;
-	globalForLogs.sandboxedLogs = undefined;
-
-	return logs;
+	return logs.map((data) =>
+		format(data, {
+			printBasicPrototype: false,
+			printFunctionName: true,
+		}),
+	);
 }
 
 export function copy<T>(value: T): T {
