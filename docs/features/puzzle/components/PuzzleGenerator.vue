@@ -4,9 +4,9 @@ import Field from "@/components/Field.vue";
 import Input from "@/components/Input.vue";
 import Tabs from "@/components/Tabs.vue";
 import { useTranslation } from "@/composables/useTranslation";
+import CodeEditor from "@/features/editor/CodeEditor.vue";
 import { copy } from "@/lib/utils";
 import { usePuzzleExport } from "../composables/usePuzzleExport";
-import { usePuzzleGenerator } from "../composables/usePuzzleGenerator";
 import type { Puzzle } from "../puzzle.types";
 import ImportPuzzleForm from "./ImportPuzzleForm.vue";
 import JsonBlock from "./JsonBlock.vue";
@@ -18,9 +18,22 @@ const { puzzles = [] } = defineProps<{
 	puzzles?: Puzzle[];
 }>();
 
-const { puzzle, addTest, removeTest, editorId } = usePuzzleGenerator();
+const puzzle = ref<Puzzle>({
+	id: "example-id",
+	code: "const [n] = input();\nconsole.log(n);",
+	tests: [
+		{
+			input: ["example"],
+			expects: "example",
+		},
+	],
+});
+
 const { puzzleJson, allPuzzlesJson } = usePuzzleExport(puzzle, puzzles);
 const { t } = useTranslation();
+
+const addTest = () => puzzle.value.tests.push({ input: [], expects: "" });
+const removeTest = (index: number) => puzzle.value.tests.splice(index, 1);
 
 type JsonView = "json" | "puzzle.json";
 const jsonView = ref<JsonView>("json");
@@ -63,7 +76,7 @@ const JSON_VIEW_OPTIONS: { label: string; value: JsonView }[] = [
 			/>
 
 			<Field :label="t('Initial code')">
-				<div class="grid text-sm min-h-64" :id="editorId" />
+				<CodeEditor v-model="puzzle.code" />
 			</Field>
 		</div>
 
