@@ -12,8 +12,6 @@ import { loadCode, runTest, saveCode } from "../puzzle.service";
 import type { Puzzle } from "../puzzle.types";
 import TestCaseButton from "./TestCaseButton.vue";
 
-type State = "success" | "fail" | "undefined";
-
 const { puzzle, disableSave } = defineProps<{
 	puzzle: Puzzle;
 	disableSave?: boolean;
@@ -23,21 +21,12 @@ const { t } = useTranslation();
 const testCaseButtonRefs = useTemplateRef("test-case-buttons");
 const userCodeRef = ref(loadCode(puzzle.id) ?? puzzle.code);
 const outputRef = ref("");
-const stateRef = ref<State>("undefined");
 const expectedRef = ref("");
-
-// using `style` because tailwind with clsx lags
-const stateStyleMap: Record<State, string> = {
-	success: "var(--color-emerald-500)",
-	fail: "var(--color-red-500)",
-	undefined: "var(--color-gray-500)",
-};
 
 function reset() {
 	testCaseButtonRefs.value?.forEach((button) => {
 		button?.setState(undefined);
 	});
-	stateRef.value = "undefined";
 	outputRef.value = "";
 	expectedRef.value = "";
 }
@@ -62,10 +51,8 @@ function handleRunTest(index: number, popRate = 1, save = true) {
 	const [output, passed, error] = runTest(test, userCodeRef.value);
 
 	if (passed) {
-		stateRef.value = "success";
 		editorButton?.setState("success");
 	} else {
-		stateRef.value = "fail";
 		editorButton?.setState("fail");
 		expectedRef.value = `${test.expects}`;
 	}
@@ -82,19 +69,18 @@ function handleRunTest(index: number, popRate = 1, save = true) {
 
 <template>
 	<div
-		class="border relative border-neutral-500/15 overflow-hidden rounded-lg shadow"
+		class="border relative border-neutral-500/15 overflow-hidden rounded-lg shadow bg-neutral-950"
 		@keydown.ctrl.enter.prevent="handleRunAllTests"
 	>
 		<!-- Code editor -->
-		<CodeEditor v-model="userCodeRef" />
-		<!-- Status line -->
-		<div :style="{ background: stateStyleMap[stateRef] }" class="h-px" />
-		<!-- Cases and output -->
-		<div
-			class="p-5 gap-5 flex items-start justify-evenly *:w-full text-white bg-neutral-950"
-		>
+		<CodeEditor
+			class="rounded mx-1 mt-1 overflow-hidden"
+			v-model="userCodeRef"
+		/>
+
+		<div class="p-5 gap-5 flex items-start justify-evenly *:w-full text-white">
+			<!-- Test cases -->
 			<menu class="overflow-visible gap-2 grid">
-				<!-- Run all cases button -->
 				<div class="flex items-center">
 					<Label>{{ t("Test cases") }}</Label>
 					<Button
@@ -105,22 +91,17 @@ function handleRunTest(index: number, popRate = 1, save = true) {
 					</Button>
 				</div>
 				<TestCaseButton
+					ref="test-case-buttons"
 					v-for="test, i in puzzle.tests"
 					@click.stop="() => handleRunTest(i)"
-					ref="test-case-buttons"
 				>
 					{{ t("Case") }} {{ test.input }}
 					<Play class="bg-neutral-800 rounded p-1 size-6" />
 				</TestCaseButton>
 			</menu>
-
-			<div class="group overflow-x-auto">
-				<span
-					class="text-white/40 group-hover:text-white/80 transition font-mono text-xs font-light"
-				>
-					{{ t("Output") }}
-				</span>
-
+			<!-- Output -->
+			<div class="overflow-auto">
+				<Label>{{ t("Output") }}</Label>
 				<div class="font-mono whitespace-break-spaces">
 					{{ outputRef }}
 					<div v-if="expectedRef">
