@@ -4,18 +4,19 @@
 import path from "node:path";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "vitepress";
-import { brtheme } from "../lib/brtheme.ts";
 import routes from "../routes.json";
+import { brtheme } from "../../src/lib/brtheme.ts";
 
 export default defineConfig({
 	title: "Jonas de Melo",
 	description: "Fullstack Web Developer",
 	head: [["link", { rel: "icon", href: "/favicon.ico" }]],
 	vite: {
+		publicDir: path.resolve(__dirname, "../../public/"),
 		plugins: [tailwindcss()],
 		resolve: {
 			alias: {
-				"@": path.resolve(__dirname, "../"),
+				"@": path.resolve(__dirname, "../../src/"),
 			},
 		},
 	},

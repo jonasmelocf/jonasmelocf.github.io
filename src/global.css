@@ -1,0 +1,8 @@
+@import "tailwindcss";
+@source "../src/";
+
+/* Removes the invisible div that stays
+on top of the Terminal in the home page */
+div.image-bg {
+	display: none;
+}

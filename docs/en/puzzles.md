@@ -1,6 +1,6 @@
 <script setup>
 import {defineClientComponent} from "vitepress";
-import puzzles from "@/puzzles.json";
+import puzzles from "@/assets/puzzles.json";
 
 const PuzzleIDE = defineClientComponent(() => {
   return import('@/features/puzzle/components/PuzzleIDE.vue')

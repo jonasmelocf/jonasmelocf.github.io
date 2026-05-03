@@ -1,6 +1,6 @@
 import { useData } from "vitepress";
+import translationsFile from "@/assets/translations.jsonc?raw";
 import { commentsRegex } from "@/lib/utils";
-import translationsFile from "@/translations.jsonc?raw";
 
 type Translations = {
 	[textInEnglish: string]: { [langCode: string]: string };

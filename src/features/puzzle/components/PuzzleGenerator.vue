@@ -13,7 +13,6 @@ import JsonBlock from "./JsonBlock.vue";
 import OpenPuzzleForm from "./OpenPuzzleForm.vue";
 import PuzzleIDE from "./PuzzleIDE.vue";
 import TestCaseEditor from "./TestCaseEditor.vue";
-import "@ctechhindi/vue3-json-viewer/dist/index.css";
 
 const { puzzles = [] } = defineProps<{
 	puzzles?: Puzzle[];
