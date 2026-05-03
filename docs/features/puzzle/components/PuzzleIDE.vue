@@ -68,33 +68,21 @@ function handleRunTest(index: number, popRate = 1, save = true) {
 </script>
 
 <template>
-	<div
-		class="border relative border-neutral-500/15 overflow-hidden rounded-lg shadow bg-neutral-950"
-		@keydown.ctrl.enter.prevent="handleRunAllTests"
-	>
+	<div class="border relative border-neutral-500/15 overflow-hidden rounded-lg shadow bg-neutral-950"
+		@keydown.ctrl.enter.capture.stop.prevent="handleRunAllTests">
 		<!-- Code editor -->
-		<CodeEditor
-			class="rounded mx-1 mt-1 overflow-hidden"
-			v-model="userCodeRef"
-		/>
+		<CodeEditor class="rounded mx-1 mt-1 overflow-hidden" v-model="userCodeRef" />
 
 		<div class="p-5 gap-5 flex items-start justify-evenly *:w-full text-white">
 			<!-- Test cases -->
 			<menu class="overflow-visible gap-2 grid">
 				<div class="flex items-center">
 					<Label>{{ t("Test cases") }}</Label>
-					<Button
-						@click="handleRunAllTests"
-						class="size-fit py-1 text-xs ml-auto"
-					>
+					<Button @click="handleRunAllTests" class="size-fit py-1 text-xs ml-auto">
 						{{ t("Run all") }}
 					</Button>
 				</div>
-				<TestCaseButton
-					ref="test-case-buttons"
-					v-for="test, i in puzzle.tests"
-					@click.stop="() => handleRunTest(i)"
-				>
+				<TestCaseButton ref="test-case-buttons" v-for="test, i in puzzle.tests" @click.stop="() => handleRunTest(i)">
 					{{ t("Case") }} {{ test.input }}
 					<Play class="bg-neutral-800 rounded p-1 size-6" />
 				</TestCaseButton>
