@@ -26,6 +26,7 @@
 		"@types/howler": "^2.2.12",
 		"clsx": "^2.1.1",
 		"howler": "^2.2.4",
+		"pretty-format": "^30.3.0",
 		"prism-code-editor": "^5.1.0",
 		"tailwind-merge": "^3.5.0",
 		"tailwindcss": "^4.2.4",
