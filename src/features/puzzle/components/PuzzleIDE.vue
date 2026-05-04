@@ -36,13 +36,20 @@ async function handleRunAllTests() {
 	saveCode(puzzle.id, userCodeRef.value);
 	for (let i = 0; i < puzzle.tests.length; i++) {
 		const popRate = 1 + i / puzzle.tests.length;
-		const passed = handleRunTest(i, popRate, false);
+		const passed = handleRunTest(i, { popRate, save: false, center: true });
 		if (!passed) break;
 		await sleep(Math.max(80, 200 - i * 30));
 	}
 }
 
-function handleRunTest(index: number, popRate = 1, save = true) {
+type HandleRunTestOpts = Partial<{
+	popRate: number;
+	save: boolean;
+	center: boolean;
+}>;
+function handleRunTest(index: number, opts: HandleRunTestOpts = {}) {
+	const { popRate = 1, save = true, center = false } = opts;
+
 	const test = puzzle.tests[index];
 	const editorButton = testCaseButtonRefs.value?.[index];
 	if (!disableSave && save) saveCode(puzzle.id, userCodeRef.value);
@@ -63,7 +70,7 @@ function handleRunTest(index: number, popRate = 1, save = true) {
 		editorButton.pop();
 		const el: HTMLButtonElement = editorButton.$el;
 		const isReduced = window.matchMedia("(prefers-reduced-motion)").matches;
-		if (!isReduced) {
+		if (!isReduced && center) {
 			el.scrollIntoView({
 				behavior: "smooth",
 				block: "center",
