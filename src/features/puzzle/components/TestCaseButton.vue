@@ -9,12 +9,15 @@ const props = defineProps<{
 	state?: "success" | "fail" | undefined;
 }>();
 
-function pop() {
+function pop(brightnessModifier = 0) {
 	buttonRef.value?.animate(
 		[
-			{ transform: "scale(1)" },
-			{ transform: "scale(1.05)" },
-			{ transform: "scale(1)" },
+			{ transform: "scale(1)", filter: "brightness(1)" },
+			{
+				transform: "scale(1.05)",
+				filter: `brightness(${1 + brightnessModifier / 10})`,
+			},
+			{ transform: "scale(1)", filter: "brightness(1)" },
 		],
 		{
 			duration: 300,

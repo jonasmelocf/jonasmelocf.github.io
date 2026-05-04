@@ -36,7 +36,12 @@ async function handleRunAllTests() {
 	saveCode(puzzle.id, userCodeRef.value);
 	for (let i = 0; i < puzzle.tests.length; i++) {
 		const popRate = 1 + i / puzzle.tests.length;
-		const passed = handleRunTest(i, { popRate, save: false, center: true });
+		const passed = handleRunTest(i, {
+			popRate,
+			save: false,
+			center: true,
+			brightnessModifier: i,
+		});
 		if (!passed) break;
 		await sleep(Math.max(80, 200 - i * 30));
 	}
@@ -46,9 +51,15 @@ type HandleRunTestOpts = Partial<{
 	popRate: number;
 	save: boolean;
 	center: boolean;
+	brightnessModifier: number;
 }>;
 function handleRunTest(index: number, opts: HandleRunTestOpts = {}) {
-	const { popRate = 1, save = true, center = false } = opts;
+	const {
+		popRate = 1,
+		save = true,
+		center = false,
+		brightnessModifier = 0,
+	} = opts;
 
 	const test = puzzle.tests[index];
 	const editorButton = testCaseButtonRefs.value?.[index];
@@ -67,7 +78,7 @@ function handleRunTest(index: number, opts: HandleRunTestOpts = {}) {
 	outputRef.value = error ? `Error: ${error.message}` : output;
 
 	if (editorButton) {
-		editorButton.pop();
+		editorButton.pop(brightnessModifier);
 		const el: HTMLButtonElement = editorButton.$el;
 		const isReduced = window.matchMedia("(prefers-reduced-motion)").matches;
 		if (!isReduced && center) {
