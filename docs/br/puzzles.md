@@ -51,3 +51,9 @@ Dado um inteiro positivo `n`, mostre um triângulo retângulo que segue o seguin
 Dados dois inteiros positivos `x` e `y` representando os catetos de um triângulo retângulo, mostre a hipotenusa.
 
 <PuzzleIDE :puzzle="puzzles['hypotenuse']"/>
+
+## Fibonacci
+
+Dado um inteiro positivo `n`, mostre o número da sequência de Fibonacci na posição `n`, sendo a posição 1 o número 0 e a posição 2 o número 1. 
+
+<PuzzleIDE :puzzle="puzzles['fibonacci']"/>

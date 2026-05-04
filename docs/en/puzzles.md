@@ -51,3 +51,9 @@ Given a positive integer `n`, show a right triangle that follows the following p
 Given two positive integers `x` and `y` representing the legs of a right triangle, show the hypotenuse.
 
 <PuzzleIDE :puzzle="puzzles['hypotenuse']"/>
+
+## Fibonacci
+
+Given a positive integer `n`, show the number of the Fibonacci sequence at the `n`th position, where the position 1 is the number 0 and the position 2 the number 1.
+
+<PuzzleIDE :puzzle="puzzles['fibonacci']"/>
