@@ -19,9 +19,7 @@ const editor = usePrismEditor({
 });
 
 onMounted(() => {
-	if (model.value !== editor.getCode()) {
-		editor.setCode(model.value);
-	}
+	editor.setCode(model.value);
 });
 </script>
 
