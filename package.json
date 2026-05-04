@@ -1,6 +1,7 @@
 {
 	"name": "djjjonas.github.io",
 	"scripts": {
+		"bublish": "npm run build && npm run publish",
 		"publish": "gh-pages -d ./docs/.vitepress/dist",
 		"dev": "vitepress dev ./docs",
 		"build": "vitepress build ./docs",
