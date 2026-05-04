@@ -59,7 +59,17 @@ function handleRunTest(index: number, popRate = 1, save = true) {
 
 	outputRef.value = error ? `Error: ${error.message}` : output;
 
-	editorButton?.pop();
+	if (editorButton) {
+		editorButton.pop();
+		const el: HTMLButtonElement = editorButton.$el;
+		const isReduced = window.matchMedia("(prefers-reduced-motion)").matches;
+		if (!isReduced) {
+			el.scrollIntoView({
+				behavior: "smooth",
+				block: "center",
+			});
+		}
+	}
 	audio.pop.rate(popRate);
 	audio.pop.play();
 
