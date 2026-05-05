@@ -18,10 +18,7 @@ export function useTranslation() {
 		if (!(textInEnglish in translations)) {
 			throw new Error(`missing "${lang}" translation "${textInEnglish}"`);
 		}
-		if (lang === "en") {
-			return textInEnglish;
-		}
-		return translations[textInEnglish][lang];
+		return translations[textInEnglish][lang] ?? textInEnglish;
 	}
 
 	return { t };
