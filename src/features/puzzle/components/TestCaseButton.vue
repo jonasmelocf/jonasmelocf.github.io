@@ -44,14 +44,11 @@ defineExpose({ pop, setState });
 		type="button"
 		ref="button"
 		:class="merge(`
-  flex justify-between items-center
-  
+  grid grid-flow-col justify-between items-center
   text-white text-left text-sm
   px-3 py-2
-
   border border-neutral-500/50 rounded
   hover:border-neutral-500/70
-  
   bg-neutral-950
   active:bg-neutral-200/10      
   hover:bg-neutral-900 
