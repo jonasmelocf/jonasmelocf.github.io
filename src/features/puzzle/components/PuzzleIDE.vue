@@ -5,16 +5,23 @@ import Button from "@/components/Button.vue";
 import Label from "@/components/Label.vue";
 import { useTranslation } from "@/composables/useTranslation";
 import CodeEditor from "@/features/editor/CodeEditor.vue";
-import { sleep } from "@/lib/utils";
+import { nanToZero, sleep } from "@/lib/utils";
 import "prism-code-editor/prism/languages/javascript";
 import { ref, useTemplateRef } from "vue";
 import { loadCode, runTest, saveCode } from "../puzzle.service";
 import type { Puzzle } from "../puzzle.types";
 import TestCaseButton from "./TestCaseButton.vue";
 
-const { puzzle, disableSave } = defineProps<{
+const {
+	puzzle,
+	disableSave,
+	minPopTime = 40,
+	getPopTime = (i) => 200 - i * 8,
+} = defineProps<{
 	puzzle: Puzzle;
 	disableSave?: boolean;
+	minPopTime?: number;
+	getPopTime?: (index: number) => number;
 }>();
 
 const { t } = useTranslation();
@@ -43,7 +50,7 @@ async function handleRunAllTests() {
 			brightnessModifier: i,
 		});
 		if (!passed) break;
-		await sleep(Math.max(80, 200 - i * 8));
+		await sleep(Math.max(minPopTime, nanToZero(getPopTime(i))));
 	}
 }
 
