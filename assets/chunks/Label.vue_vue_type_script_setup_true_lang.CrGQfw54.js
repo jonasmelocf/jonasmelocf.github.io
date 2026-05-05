@@ -1,0 +1,1 @@
+import{m as o}from"./theme.CW9uM7Zm.js";import{d as t,o as r,c as n,n as l,k as c,r as m}from"./framework.C6Di05Hi.js";const u=t({__name:"Label",props:{class:{}},setup(s){const e=s;return(a,p)=>(r(),n("span",{class:l(c(o)("font-semibold text-neutral-500 text-xs",e.class))},[m(a.$slots,"default")],2))}});export{u as _};
