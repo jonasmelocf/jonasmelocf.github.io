@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import Label from "@/components/Label.vue";
+import { merge } from "@/lib/utils";
 
-const { label } = defineProps<{
+const { label, inline = false } = defineProps<{
 	label: string;
+	inline?: boolean;
 }>();
 </script>
 
 <template>
-	<div class="grid gap-3">
+	<div :class="merge({ 'flex items-center gap-2': inline, 'grid gap-3': !inline })">
 		<Label>{{ label }}</Label>
 		<slot />
 	</div>
