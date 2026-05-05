@@ -43,7 +43,7 @@ async function handleRunAllTests() {
 			brightnessModifier: i,
 		});
 		if (!passed) break;
-		await sleep(Math.max(80, 200 - i * 30));
+		await sleep(Math.max(80, 200 - i * 8));
 	}
 }
 
