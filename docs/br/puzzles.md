@@ -2,58 +2,37 @@
 import {defineClientComponent} from "vitepress";
 import puzzles from "@/assets/puzzles.json";
 
-const PuzzleIDE = defineClientComponent(() => {
-  return import('@/features/puzzle/components/PuzzleIDE.vue')
+const PuzzleDisplay = defineClientComponent(() => {
+  return import("@/features/puzzle/components/PuzzleDisplay.vue")
 });
-
 </script>
 
 # Quebra-cabeças
 
-Aqui você vai encontrar problemas que precisam ser resolvidos usando JavaScript.
-
-As informações dadas para resolver os quebra-cabeças são poucas propositalmente. Use a lógica para entender o que deve ser feito e aprenda com os erros.
+Para resolver os quebra-cabeças, você precisará criar um programa usando **JavaScript** que receberá uma determinada entrada, através da função `input`, e mostrará uma determinada saída, através da função `console.log`. Cada quebra-cabeça contém exemplos de entrada e saída esperada.
 
 Quando estiver confiante da sua solução, use o botão `Executar todos` ou aperte `ctrl+enter`.
 
-## Some dois números
+## Soma
 
-Dados dois inteiros positivos `x` e `y`, mostre a soma deles.
-
-<PuzzleIDE :puzzle="puzzles['add-two-numbers']" />
+<PuzzleDisplay :puzzle="puzzles['add-two-numbers']" />
 
 ## Fatorial
 
-Dado um inteiro positivo `n`, mostre seu fatorial.
-
-<PuzzleIDE :puzzle="puzzles['factorial']" />
+<PuzzleDisplay :puzzle="puzzles['factorial']" />
 
 ## Primo
 
-Dado um inteiro positivo `n`, mostre `true` se for um número primo, se não, `false`.
-
-<PuzzleIDE :puzzle="puzzles['prime']" />
+<PuzzleDisplay :puzzle="puzzles['prime']" />
 
 ## Triangulo
 
-Dado um inteiro positivo `n`, mostre um triângulo retângulo que segue o seguinte padrão:
-
-```text
-*
-**
-***
-```
-
-<PuzzleIDE :puzzle="puzzles['triangle']" />
+<PuzzleDisplay :puzzle="puzzles['triangle']" />
 
 ## Hipotenusa
 
-Dados dois inteiros positivos `x` e `y` representando os catetos de um triângulo retângulo, mostre a hipotenusa.
-
-<PuzzleIDE :puzzle="puzzles['hypotenuse']"/>
+<PuzzleDisplay :puzzle="puzzles['hypotenuse']"/>
 
 ## Fibonacci
 
-Dado um inteiro positivo `n`, mostre o número da sequência de Fibonacci na posição `n`, sendo a posição 1 o número 0 e a posição 2 o número 1. 
-
-<PuzzleIDE :puzzle="puzzles['fibonacci']"/>
+<PuzzleDisplay :puzzle="puzzles['fibonacci']"/>
