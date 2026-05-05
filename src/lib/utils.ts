@@ -45,3 +45,13 @@ export function copy<T>(value: T): T {
 }
 
 export const commentsRegex = /\/\/.*?$|\/\*.*\*\//gms;
+
+export const nanToZero = (n: number) => (Number.isNaN(n) ? 0 : n);
+
+export const tryOr = <T, K>(fn: () => T, or: K) => {
+	try {
+		return fn();
+	} catch {
+		return or;
+	}
+};
