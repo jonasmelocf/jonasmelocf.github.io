@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { nextTick, type Ref, useTemplateRef } from "vue";
+import { nextTick, useTemplateRef } from "vue";
 import Button from "@/components/Button.vue";
 import Label from "@/components/Label.vue";
 import { useTranslation } from "@/composables/useTranslation";
 import type { TestCase } from "../puzzle.types";
 import TestCaseForm from "./TestCaseForm.vue";
+import { Plus } from "@lucide/vue";
 
 defineProps<{
 	tests: TestCase[];
@@ -32,9 +33,9 @@ function handleAddTestCase() {
 	<div class="grid gap-3">
 		<div class="flex gap-6 items-center">
 			<Label>{{ t("Test cases") }}</Label>
-			<Button class="w-fit aspect-square text-lg" @click="handleAddTestCase"
-				>+</Button
-			>
+			<Button class="p-1 aspect-square" @click="handleAddTestCase">
+				<Plus :size="16" />
+			</Button>
 		</div>
 		<div class="grid gap-3 grid-cols-2 mb-4">
 			<TestCaseForm
