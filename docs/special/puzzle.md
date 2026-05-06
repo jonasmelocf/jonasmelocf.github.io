@@ -1,10 +1,7 @@
 <script setup>
-import { ref } from "vue";
-import PuzzleDisplay from "@/features/puzzle/components/PuzzleDisplay.vue";
-import { getQueryParam } from "@/lib/utils";
+import {defineClientComponent} from "vitepress"
 
-const b64puzzle = getQueryParam("puzzle");
-const puzzle = JSON.parse(decodeURIComponent(atob(b64puzzle)));
+const QueryParamPuzzleDisplay = defineClientComponent(() => import("@/features/puzzle/components/QueryParamPuzzleDisplay.vue"))
 </script>
 
-<PuzzleDisplay :puzzle />
+<QueryParamPuzzleDisplay />
