@@ -23,14 +23,11 @@ const { t } = useTranslation();
 				v-for="test in puzzle.tests.slice(exampleStartFrom, exampleStartFrom + exampleAmount)"
 				class="flex flex-col grow rounded-lg p-3 bg-(--vp-c-bg-alt) gap-4"
 			>
-				<Field :label="t('Input')" class="w-full self-start">
-					{{ test.input }}
+				<Field :label="t('Input')">
+					<span class="font-mono">{{ test.input }}</span>
 				</Field>
-				<Field
-					:label="t('Expects')"
-					class="w-full self-start whitespace-break-spaces"
-				>
-					{{ test.expects }}
+				<Field :label="t('Expects')" class="whitespace-break-spaces">
+					<span class="font-mono">{{ test.expects }}</span>
 				</Field>
 			</div>
 		</div>
