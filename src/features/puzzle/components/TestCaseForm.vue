@@ -50,7 +50,7 @@ defineExpose({
 		<!-- Input field -->
 		<div class="group grid gap-2.5">
 			<Label>{{ t("Input") }}</Label>
-			<Input v-model="inputRef" @change="validateInput" />
+			<Input class="font-mono" v-model="inputRef" @change="validateInput" />
 			<Label v-if="inputErrorRef" class="text-(--vp-c-danger-1)"
 				>{{ inputErrorRef }}</Label
 			>
@@ -60,7 +60,7 @@ defineExpose({
 			<Label class="transition group-hover:text-neutral-400"
 				>{{ t("Expects") }}</Label
 			>
-			<TextArea ref="textArea" v-model="test.expects" />
+			<TextArea ref="textArea" class="font-mono" v-model="test.expects" />
 		</div>
 	</div>
 </template>
