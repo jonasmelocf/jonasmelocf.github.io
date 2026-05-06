@@ -20,26 +20,30 @@ const { puzzles = [] } = defineProps<{
 
 const { t } = useTranslation();
 
+const to64 = (json: string) => encodeURIComponent(btoa(json));
+
 const puzzle = ref<Puzzle>(getExamplePuzzle());
 const puzzleJson = computed(() => stringify(puzzle.value) ?? "Invalid JSON");
 const puzzlesJsonFile = computed(() => toJsonFile([...puzzles, puzzle.value]));
+const puzzleUrl = computed(
+	() => `${window.origin}/special/puzzle?puzzle=${to64(puzzleJson.value)}`,
+);
 
 const addTest = () => puzzle.value.tests.push({ input: [], expects: "" });
 const removeTest = (index: number) => puzzle.value.tests.splice(index, 1);
 
-type JsonView = "json" | "puzzle.json";
+type JsonView = "json" | "puzzle.json" | "url";
 const jsonView = ref<JsonView>("json");
 
 const JSON_VIEW_OPTIONS: { label: string; value: JsonView }[] = [
 	{ label: "JSON", value: "json" },
 	{ label: "puzzles.json", value: "puzzle.json" },
+	{ label: "URL", value: "url" },
 ];
 </script>
 
 <template>
-	<div
-		class="grid gap-3 mt-12 mb-8 p-8 bg-linear-to-br from-neutral-900 to-neutral-950 border border-neutral-700 rounded text-neutral-100"
-	>
+	<div class="grid gap-3 mt-12 mb-8 p-8 bg-(--vp-c-gray-soft) rounded">
 		<!-- Top Actions -->
 		<div class="flex gap-16">
 			<OpenPuzzleForm
@@ -93,6 +97,9 @@ const JSON_VIEW_OPTIONS: { label: string; value: JsonView }[] = [
 					v-if="jsonView === 'puzzle.json'"
 					:content="puzzlesJsonFile"
 				/>
+				<a v-if="jsonView === 'url'" :href="puzzleUrl" target="blank"
+					>{{ puzzleUrl }}
+				</a>
 			</Tabs>
 		</Field>
 	</div>
