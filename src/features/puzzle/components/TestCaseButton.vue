@@ -28,12 +28,26 @@ function pop(brightnessModifier = 0) {
 
 function setState(state: "success" | "fail" | undefined) {
 	if (!buttonRef.value) return;
+	switch (state) {
+		case "success":
+			buttonRef.value.style.background = "var(--vp-c-success-3)";
+			buttonRef.value.style.color = "var(--vp-c-white)";
+			break;
+		case "fail":
+			buttonRef.value.style.background = "var(--vp-c-danger-3)";
+			buttonRef.value.style.color = "var(--vp-c-white)";
+			break;
+		default:
+			buttonRef.value.style.background = "var(--vp-button-alt-bg)";
+			buttonRef.value.style.color = "var(--vp-button-alt-text)";
+			break;
+	}
 	buttonRef.value.style.background =
 		state === "success"
-			? "var(--color-emerald-700)"
+			? "var(--vp-c-success-3)"
 			: state === "fail"
-				? "var(--color-red-700)"
-				: "none";
+				? "var(--vp-c-danger-3)"
+				: "var(--vp-button-alt-bg)";
 }
 
 defineExpose({ pop, setState });
@@ -45,13 +59,16 @@ defineExpose({ pop, setState });
 		ref="button"
 		:class="merge(`
   grid grid-flow-col justify-between items-center
-  text-white text-left text-sm
+  text-(--vp-button-alt-text) text-left text-sm
   px-3 py-2
-  border border-neutral-500/50 rounded
-  hover:border-neutral-500/70
-  bg-neutral-950
-  active:bg-neutral-200/10      
-  hover:bg-neutral-900 
+  border border-(--vp-button-alt-border) rounded
+  bg-(--vp-button-alt-bg)
+  active:bg-(--vp-button-alt-active-bg)
+  active:border-(--vp-button-alt-active-border)
+  active:text-(--vp-button-alt-active-text)
+  hover:bg-(--vp-button-alt-hover-bg)
+  hover:border-(--vp-button-alt-hover-border)
+  hover:text-(--vp-button-alt-hover-text)
 `, props.class)"
 	>
 		<slot />

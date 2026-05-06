@@ -13,17 +13,18 @@ import {
 	jsSnipets,
 } from "prism-code-editor/autocomplete/javascript";
 import { basicEditor } from "prism-code-editor/setups";
-import type { EditorTheme } from "prism-code-editor/themes";
+import type { EditorTheme as Theme } from "prism-code-editor/themes";
 import { insertText } from "prism-code-editor/utils";
 import { nextTick, onMounted, type Ref, ref } from "vue";
 
-type Editor = PrismEditor<{ theme: EditorTheme }>;
+type Editor = PrismEditor<{ theme: Theme }>;
 type Fn<T> = (arg: T) => void;
 
 type Opts = {
 	code?: string;
 	onUpdate?: (code: string) => void;
 	containerRef: Ref<HTMLElement | null | undefined>;
+	theme?: Theme;
 };
 export function usePrismEditor(opts: Opts) {
 	const { code, onUpdate, containerRef: container } = opts;
@@ -34,12 +35,13 @@ export function usePrismEditor(opts: Opts) {
 	const size = () => getCode().length;
 	const getCode = () => using((editor) => editor.value) ?? "";
 	const setCode = (code = "") => using((e) => insertText(e, code, 0, size()));
+	const setTheme = (theme: Theme) => using((e) => e.setOptions({ theme }));
 
 	onMounted(() => {
 		if (!container.value) return;
 
 		const editor = basicEditor(container.value, {
-			theme: "github-dark",
+			theme: opts.theme ?? "github-dark",
 			language: "js",
 			lineNumbers: true,
 			value: code,
@@ -75,5 +77,5 @@ export function usePrismEditor(opts: Opts) {
 		});
 	});
 
-	return { getCode, setCode };
+	return { getCode, setCode, setTheme };
 }

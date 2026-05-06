@@ -9,7 +9,9 @@ const { label, inline = false } = defineProps<{
 </script>
 
 <template>
-	<div :class="merge({ 'flex items-center gap-2': inline, 'grid gap-3': !inline })">
+	<div
+		:class="merge({ 'flex items-center gap-2': inline, 'grid gap-3': !inline })"
+	>
 		<Label>{{ label }}</Label>
 		<slot />
 	</div>

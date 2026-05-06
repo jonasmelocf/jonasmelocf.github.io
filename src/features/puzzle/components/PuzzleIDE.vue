@@ -104,7 +104,7 @@ function handleRunTest(index: number, opts: HandleRunTestOpts = {}) {
 
 <template>
 	<div
-		class="border relative border-neutral-500/15 overflow-hidden rounded-lg shadow bg-neutral-950"
+		class="relative overflow-hidden rounded-lg shadow bg-(--vp-c-bg-alt)"
 		@keydown.ctrl.enter.capture.stop.prevent="handleRunAllTests"
 	>
 		<!-- Code editor -->
@@ -113,7 +113,7 @@ function handleRunTest(index: number, opts: HandleRunTestOpts = {}) {
 			v-model="userCodeRef"
 		/>
 
-		<div class="p-5 gap-5 flex items-start justify-evenly *:w-full text-white">
+		<div class="p-5 gap-5 flex items-start justify-evenly *:w-full">
 			<!-- Test cases -->
 			<menu class="overflow-visible gap-2 grid">
 				<div class="flex items-center">
@@ -131,7 +131,7 @@ function handleRunTest(index: number, opts: HandleRunTestOpts = {}) {
 					@click.stop="() => handleRunTest(i)"
 				>
 					{{ t("Case") }} {{ test.input }}
-					<Play class="bg-neutral-800 rounded p-1 size-6" />
+					<Play class="rounded p-1 size-6" />
 				</TestCaseButton>
 			</menu>
 			<!-- Output -->

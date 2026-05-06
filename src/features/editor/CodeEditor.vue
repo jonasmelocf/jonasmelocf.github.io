@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { ClassValue } from "clsx";
-import { onMounted, useTemplateRef } from "vue";
+import { useData } from "vitepress";
+import { onMounted, useTemplateRef, watch } from "vue";
 import { merge } from "@/lib/utils";
 import { usePrismEditor } from "./usePrismEditor";
 
@@ -11,12 +12,17 @@ type Props = {
 const p = defineProps<Props>();
 const model = defineModel<string>({ default: "" });
 
+const { isDark } = useData();
 const codeEditorContainer = useTemplateRef("code-editor-container");
 const editor = usePrismEditor({
 	code: model.value,
 	onUpdate: (code) => (model.value = code),
 	containerRef: codeEditorContainer,
 });
+
+watch(isDark, () =>
+	editor.setTheme(isDark.value ? "github-dark" : "github-light"),
+);
 
 onMounted(() => {
 	editor.setCode(model.value);
