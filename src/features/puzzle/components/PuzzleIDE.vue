@@ -40,7 +40,7 @@ function reset() {
 
 async function handleRunAllTests() {
 	reset();
-	saveCode(puzzle.id, userCodeRef.value);
+	if (!disableSave) saveCode(puzzle.id, userCodeRef.value);
 	for (let i = 0; i < puzzle.tests.length; i++) {
 		const popRate = 1 + i / puzzle.tests.length;
 		const passed = handleRunTest(i, {
