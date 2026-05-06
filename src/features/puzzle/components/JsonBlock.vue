@@ -13,11 +13,11 @@ const { t } = useTranslation();
 	<div
 		class="relative whitespace-break-spaces border border-neutral-800 bg-neutral-950 inset-shadow-xs inset-shadow-black p-4 rounded text-sm"
 	>
+		{{ content }}
 		<CopyButton
 			:label="t('Copy')"
 			class="absolute top-2 right-2"
 			:content="content"
 		/>
-		{{ content }}
 	</div>
 </template>
