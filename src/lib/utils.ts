@@ -55,3 +55,8 @@ export const tryOr = <T, K>(fn: () => T, or: K) => {
 		return or;
 	}
 };
+
+export const getQueryParam = (key: string) => {
+	const params = new URLSearchParams(window.location.search);
+	return params.get(key);
+};
