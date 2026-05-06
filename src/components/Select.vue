@@ -13,11 +13,9 @@ const model = defineModel();
 		v-model="model"
 		:class="merge(`
     py-0.5 px-2
-    text-neutral-100
-    bg-neutral-900
-    border border-neutral-800 rounded
-    inset-shadow-xs inset-shadow-black
-    text-base
+    border rounded
+    border-(--vp-input-border-color)
+    bg-(--vp-input-bg-color)
     cursor-pointer
   `, props.class)"
 	>

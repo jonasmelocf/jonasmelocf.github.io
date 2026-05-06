@@ -11,11 +11,13 @@ const model = defineModel<string>();
 	<textarea
 		v-model="model"
 		:class="merge(`
-  w-full p-2
-  bg-neutral-900
-  border border-neutral-800 rounded
-  inset-shadow-xs inset-shadow-black
-  text-base
+	outline-none
+  p-2
+  border rounded
+  border-(--vp-input-border-color)
+  bg-(--vp-input-bg-color)
+  disabled:bg-neutral-800
+  disabled:text-neutral-500
 `, props.class)"
 	/>
 </template>

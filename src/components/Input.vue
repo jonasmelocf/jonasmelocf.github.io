@@ -5,19 +5,18 @@ const props = defineProps<{
 	class?: string;
 }>();
 
-const model = defineModel();
+const model = defineModel<string>();
 </script>
 
 <template>
 	<input
 		v-model="model"
 		:class="merge(`
-    w-full h-7 p-2
-    text-neutral-200
-    bg-neutral-900
-    border border-neutral-800 rounded
-    inset-shadow-xs inset-shadow-black
-    text-base
+    outline-none
+    h-7 p-2
+    border rounded
+    border-(--vp-input-border-color)
+    bg-(--vp-input-bg-color)
     disabled:bg-neutral-800
     disabled:text-neutral-500
   `, props.class)"
