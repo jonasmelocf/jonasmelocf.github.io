@@ -36,3 +36,7 @@ When you are confident in your solution, use the `Run all` button or press `ctrl
 ## Fibonacci
 
 <PuzzleDisplay :puzzle="puzzles['fibonacci']"/>
+
+## Square
+
+<PuzzleDisplay :puzzle="puzzles['square']"/>

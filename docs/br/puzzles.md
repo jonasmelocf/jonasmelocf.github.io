@@ -36,3 +36,7 @@ Quando estiver confiante da sua solução, use o botão `Executar todos` ou aper
 ## Fibonacci
 
 <PuzzleDisplay :puzzle="puzzles['fibonacci']"/>
+
+## Quadrado
+
+<PuzzleDisplay :puzzle="puzzles['square']"/>
