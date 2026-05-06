@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { Send } from "@lucide/vue";
-import { useData } from "vitepress";
 import { ref } from "vue";
 import Button from "@/components/Button.vue";
 import Input from "@/components/Input.vue";
@@ -36,8 +35,8 @@ function handleImport() {
 				v-model="input"
 				placeholder='{ "id": "example-id", tests: [{...}]}'
 			/>
-			<Button @click="handleImport" class="h-full p-1">
-				<Send strokeWidth="1" :size="20" />
+			<Button @click="handleImport" class="h-7 p-1">
+				<Send :strokeWidth="1" :size="18" />
 			</Button>
 		</div>
 		<Label v-if="isInvalid" class="text-red-500 mt-2">Invalid JSON</Label>
