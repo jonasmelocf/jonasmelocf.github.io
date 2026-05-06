@@ -1,11 +1,11 @@
 <script setup lang="ts">
+import { Plus } from "@lucide/vue";
 import { nextTick, useTemplateRef } from "vue";
 import Button from "@/components/Button.vue";
 import Label from "@/components/Label.vue";
 import { useTranslation } from "@/composables/useTranslation";
 import type { TestCase } from "../puzzle.types";
 import TestCaseForm from "./TestCaseForm.vue";
-import { Plus } from "@lucide/vue";
 
 defineProps<{
 	tests: TestCase[];
