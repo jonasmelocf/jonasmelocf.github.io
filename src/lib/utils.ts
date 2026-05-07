@@ -60,3 +60,7 @@ export const getQueryParam = (key: string) => {
 	const params = new URLSearchParams(window.location.search);
 	return params.get(key);
 };
+
+export function clamp(n: number, min: number, max: number) {
+	return Math.max(Math.min(n, max), min);
+}
