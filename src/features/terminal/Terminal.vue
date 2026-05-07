@@ -1,30 +1,19 @@
 <script setup lang="ts">
 import { type CSSProperties, nextTick, ref, useTemplateRef, watch } from "vue";
 import Spinner from "@/components/Spinner.vue";
-import { escapeHTML } from "@/lib/utils";
+import { escapeHTML, random } from "@/lib/utils";
 import { createJosh } from "./commands";
 
-// - Utilities -
-const random = <T>(arr: T[]) => arr[(Math.random() * arr.length) | 0];
 type Color = CSSProperties["color"];
 
-// — Props —
 const props = defineProps(["intro"]);
 
-// — Constants —
+// biome-ignore format: please, biome, don't format this array, ok?
 const prefixes = [
-	"$ ",
-	"~> ",
-	"|> ",
-	">. ",
-	">_ ",
-	"# ",
-	"-> ",
-	"=> ",
-	"> ",
-	">>> ",
-	"josh> ",
-	"👉 ",
+	"$ ", "~> ", "|> ",
+	">. ", ">_ ", "# ",
+	"-> ", "=> ", "> ",
+	">>> ", "josh> ", "👉 ",
 ];
 let prefix = random(prefixes);
 
