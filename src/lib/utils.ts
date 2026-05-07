@@ -64,3 +64,15 @@ export const getQueryParam = (key: string) => {
 export function clamp(n: number, min: number, max: number) {
 	return Math.max(Math.min(n, max), min);
 }
+
+/** Returns a random element from an array */
+export function random<T>(arr: T[]): T;
+/** Returns a random number between min and max (inclusive) */
+export function random(min: number, max: number): number;
+export function random<T>(arrOrMin: T[] | number, max?: number) {
+	if (Array.isArray(arrOrMin)) {
+		return arrOrMin[random(0, arrOrMin.length - 1)];
+	}
+	max ??= arrOrMin;
+	return Math.floor(Math.random() * (max - arrOrMin + 1) + arrOrMin);
+}
