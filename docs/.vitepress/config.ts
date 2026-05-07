@@ -27,6 +27,9 @@ export default defineConfig({
 			{ icon: "github", link: "https://github.com/DJJJonas" },
 			{ icon: "linkedin", link: "https://linkedin.com/in/ojonasdemelo" },
 		],
+		sidebar: {
+			"/debug/": getDebugSidebarItems()
+		}
 	},
 
 	locales: {
@@ -57,4 +60,11 @@ function getSidebarItems(lang: "en" | "br") {
 			link: subItem.link ? `/${lang}${subItem.link}` : undefined,
 		})),
 	}));
+}
+
+function getDebugSidebarItems() {
+	return routes.debugSidebar.map((item) => ({
+		text: item.text,
+		link: `/debug${item.link}`,
+	}))
 }

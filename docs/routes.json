@@ -30,5 +30,11 @@
 				}
 			]
 		}
+	],
+	"debugSidebar": [
+		{
+			"text": "Puzzle IDE",
+			"link": "/puzzle-ide"
+		}
 	]
 }
