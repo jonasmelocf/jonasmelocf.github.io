@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import type { ClassValue } from "clsx";
 import { useTemplateRef } from "vue";
-import { merge } from "@/lib/utils";
+import { audio } from "@/assets/audio";
+import { clamp, merge } from "@/lib/utils";
 
 const buttonRef = useTemplateRef("button");
 const props = defineProps<{
@@ -9,13 +10,23 @@ const props = defineProps<{
 	state?: "success" | "fail" | undefined;
 }>();
 
-function pop(brightnessModifier = 0) {
+type PopOpts = {
+	brightnessModifier?: number;
+	audioRate?: number;
+};
+function pop(opts: PopOpts) {
+	opts.brightnessModifier ??= 1;
+	opts.audioRate ??= 1;
+
+	audio.pop.rate(opts.audioRate);
+	audio.pop.play();
+
 	buttonRef.value?.animate(
 		[
 			{ transform: "scale(1)", filter: "brightness(1)" },
 			{
 				transform: "scale(1.05)",
-				filter: `brightness(${1 + brightnessModifier / 10})`,
+				filter: `brightness(${1 + clamp(opts.brightnessModifier / 10, -1, 8)})`,
 			},
 			{ transform: "scale(1)", filter: "brightness(1)" },
 		],
@@ -42,12 +53,6 @@ function setState(state: "success" | "fail" | undefined) {
 			buttonRef.value.style.color = "var(--vp-button-alt-text)";
 			break;
 	}
-	buttonRef.value.style.background =
-		state === "success"
-			? "var(--vp-c-success-3)"
-			: state === "fail"
-				? "var(--vp-c-danger-3)"
-				: "var(--vp-button-alt-bg)";
 }
 
 defineExpose({ pop, setState });

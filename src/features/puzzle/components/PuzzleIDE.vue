@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { Play } from "@lucide/vue";
-import { audio } from "@/assets/audio";
 import Button from "@/components/Button.vue";
 import Label from "@/components/Label.vue";
 import { useTranslation } from "@/composables/useTranslation";
@@ -42,15 +41,15 @@ async function handleRunAllTests() {
 	reset();
 	if (!disableSave) saveCode(puzzle.id, userCodeRef.value);
 	for (let i = 0; i < puzzle.tests.length; i++) {
-		const popRate = 1 + i / puzzle.tests.length;
 		const passed = handleRunTest(i, {
-			popRate,
+			popRate: 1 + i / puzzle.tests.length,
 			save: false,
 			center: true,
 			brightnessModifier: i,
 		});
 		if (!passed) break;
-		await sleep(Math.max(minPopTime, nanToZero(getPopTime(i))));
+		const popTime = nanToZero(getPopTime(i));
+		await sleep(Math.max(minPopTime, popTime));
 	}
 }
 
@@ -85,9 +84,12 @@ function handleRunTest(index: number, opts: HandleRunTestOpts = {}) {
 	outputRef.value = error ? `Error: ${error.message}` : output;
 
 	if (editorButton) {
-		editorButton.pop(brightnessModifier);
-		const el: HTMLButtonElement = editorButton.$el;
+		editorButton.pop({
+			brightnessModifier,
+			audioRate: popRate,
+		});
 		const isReduced = window.matchMedia("(prefers-reduced-motion)").matches;
+		const el: HTMLButtonElement = editorButton.$el;
 		if (!isReduced && center) {
 			el.scrollIntoView({
 				behavior: "smooth",
@@ -95,8 +97,6 @@ function handleRunTest(index: number, opts: HandleRunTestOpts = {}) {
 			});
 		}
 	}
-	audio.pop.rate(popRate);
-	audio.pop.play();
 
 	return passed;
 }
