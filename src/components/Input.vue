@@ -5,7 +5,7 @@ const props = defineProps<{
 	class?: string;
 }>();
 
-const model = defineModel<string>();
+const model = defineModel();
 </script>
 
 <template>

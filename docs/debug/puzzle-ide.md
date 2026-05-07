@@ -1,4 +1,5 @@
-<script setup> import {defineClientComponent} from "vitepress";
+<script setup>
+import {defineClientComponent} from "vitepress";
 import { ref, computed } from "vue";
 import lorem from "@/assets/lorem.txt?raw";
 import { tryOr } from "@/lib/utils.ts"
@@ -12,7 +13,7 @@ const PuzzleIDE = defineClientComponent(() => {
 
 const wordAmount = ref(1);
 const testCaseAmount = ref(32);
-const wordsRegex = computed(() => Array(+wordAmount.value).fill("\\w+").join(".*?"));
+const wordsRegex = computed(() => Array(wordAmount.value).fill("\\w+").join(".*?"));
 const loremWords = computed(() => lorem.match(new RegExp(wordsRegex.value, "g")));
 
 const startingPopTime = ref(200);
@@ -73,7 +74,7 @@ const puzzleForDebug = computed(() => ({
         type="range"
         :min="1"
         :max="15"
-        v-model="wordAmount" 
+        v-model.number="wordAmount" 
       />
     </Field>
 
@@ -86,7 +87,7 @@ const puzzleForDebug = computed(() => ({
         type="number"
         class="w-16"
         :disabled="customFunc.length"
-        v-model="startingPopTime" 
+        v-model.number="startingPopTime" 
       />
     </Field>
     <Field label="Pop time multiplier">
@@ -94,14 +95,14 @@ const puzzleForDebug = computed(() => ({
         type="number"
         class="w-16"
         :disabled="customFunc.length"
-        v-model="popTimeMultiplier" 
+        v-model.number="popTimeMultiplier" 
       />
     </Field>
     <Field label="Minimum pop time">
       <Input
         type="number"
         class="w-16"
-        v-model="minPopTime" 
+        v-model.number="minPopTime" 
       />
     </Field>
   </div>
