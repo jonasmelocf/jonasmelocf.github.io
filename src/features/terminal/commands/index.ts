@@ -1,5 +1,6 @@
 import { type Command, Josh } from "@/lib/josh";
 import { cachorro } from "./cachorro";
+import { debug } from "./debug";
 import { echo } from "./echo";
 import { createHelpCommand } from "./help";
 import { stack } from "./stack";
@@ -14,6 +15,7 @@ export function createJosh() {
 		["vars", createVarsCommand(josh)],
 		["help", createHelpCommand(josh)],
 		["cachorro", cachorro],
+		["debug", debug],
 	]);
 	josh.commandMap = commandMap;
 	return josh;
