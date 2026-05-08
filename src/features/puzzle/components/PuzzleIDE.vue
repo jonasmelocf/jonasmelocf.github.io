@@ -107,7 +107,7 @@ function handleRunTest(index: number, opts: HandleRunTestOpts = {}) {
 		@keydown.ctrl.enter.capture.stop.prevent="handleRunAllTests"
 	>
 		<!-- Code editor -->
-		<CodeEditor class="rounded mx-1 mt-1" v-model="userCodeRef" />
+		<CodeEditor class="rounded px-1 pt-1" v-model="userCodeRef" />
 
 		<div class="p-5 gap-5 flex items-start justify-evenly *:w-full">
 			<!-- Test cases -->
