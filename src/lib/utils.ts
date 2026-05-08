@@ -36,7 +36,7 @@ export function runSandboxedCode(code: string): string[] {
 	runSandbox(sandboxConsole);
 
 	return logs.map((data) =>
-		typeof data === "object" ? JSON.stringify(data, null, 2) : String(data),
+		typeof data === "object" ? JSON.stringify(data) : String(data),
 	);
 }
 
