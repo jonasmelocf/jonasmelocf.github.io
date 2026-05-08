@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { ClassValue } from "clsx";
 import { useData } from "vitepress";
-import { onMounted, useTemplateRef, watch } from "vue";
+import { useTemplateRef, watch } from "vue";
 import { merge } from "@/lib/utils";
-import { usePrismEditor } from "./usePrismEditor";
+import { useEditor } from "./useEditor";
 
 type Props = {
 	class?: ClassValue;
@@ -14,24 +14,42 @@ const model = defineModel<string>({ default: "" });
 
 const { isDark } = useData();
 const codeEditorContainer = useTemplateRef("code-editor-container");
-const editor = usePrismEditor({
+const editor = useEditor({
 	code: model.value,
+	// when the editor change, also change model.value
 	onUpdate: (code) => (model.value = code),
 	containerRef: codeEditorContainer,
+	theme: isDark.value ? "vs-dark" : "vs",
 });
 
-watch(isDark, () =>
-	editor.setTheme(isDark.value ? "github-dark" : "github-light"),
-);
-
-onMounted(() => {
-	editor.setCode(model.value);
+watch(isDark, () => editor.setTheme(isDark.value ? "vs-dark" : "vs"));
+watch(model, () => {
+	// if model.value was changed but not by the editor
+	if (model.value !== editor.getCode()) {
+		editor.setCode(model.value);
+	}
 });
+
+// Vitepress has a css rule called ".vp-doc a"
+// which adds the following css rules to ALL <a>:
+// font-weight: 500;
+// text-decoration: underline;
+// text-underline-offset: 2px;
+// transition: color 0.25s, opacity 0.25s;
+//
+// This variable has tailwind classes to revert
+// theses rules so the editor doesn't look weird when opening
+// the context menu (ctrl+space) or the commands menu (F1)
+const revertVpDocA = `
+[&_a]:no-underline!
+[&_a]:transition-none!
+[&_a]:font-normal!
+`;
 </script>
 
 <template>
 	<div
 		ref="code-editor-container"
-		:class="merge('grid min-h-64 text-sm', p.class)"
+		:class="merge(`min-h-96 ${revertVpDocA}`, p.class)"
 	/>
 </template>

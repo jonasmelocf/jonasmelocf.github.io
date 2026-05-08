@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import { Play } from "@lucide/vue";
+import { ref, useTemplateRef } from "vue";
 import Button from "@/components/Button.vue";
 import Label from "@/components/Label.vue";
 import { useTranslation } from "@/composables/useTranslation";
 import CodeEditor from "@/features/editor/CodeEditor.vue";
 import { nanToZero, sleep } from "@/lib/utils";
-import "prism-code-editor/prism/languages/javascript";
-import { ref, useTemplateRef } from "vue";
 import { loadCode, runTest, saveCode } from "../puzzle.service";
 import type { Puzzle } from "../puzzle.types";
 import TestCaseButton from "./TestCaseButton.vue";
@@ -104,14 +103,11 @@ function handleRunTest(index: number, opts: HandleRunTestOpts = {}) {
 
 <template>
 	<div
-		class="relative overflow-hidden rounded-lg shadow bg-(--vp-c-bg-alt)"
+		class="relative rounded-lg shadow bg-(--vp-c-bg-alt)"
 		@keydown.ctrl.enter.capture.stop.prevent="handleRunAllTests"
 	>
 		<!-- Code editor -->
-		<CodeEditor
-			class="rounded mx-1 mt-1 overflow-hidden"
-			v-model="userCodeRef"
-		/>
+		<CodeEditor class="rounded mx-1 mt-1" v-model="userCodeRef" />
 
 		<div class="p-5 gap-5 flex items-start justify-evenly *:w-full">
 			<!-- Test cases -->
