@@ -1,322 +1,322 @@
 {
 	"add-two-numbers": {
 		"id": "add-two-numbers",
-		"code": "const [x, y] = input();\nconsole.log(x);",
+		"code": "const [x, y] = input().map(Number);\nconsole.log(x, y);",
 		"tests": [
 			{
-				"input": [1, 2],
+				"input": ["1", "2"],
 				"expects": "3"
 			},
 			{
-				"input": [5, 7],
+				"input": ["5", "7"],
 				"expects": "12"
 			},
 			{
-				"input": [10, 15],
+				"input": ["10", "15"],
 				"expects": "25"
 			},
 			{
-				"input": [58, 69],
+				"input": ["58", "69"],
 				"expects": "127"
 			},
 			{
-				"input": [45, 2],
+				"input": ["45", "2"],
 				"expects": "47"
 			}
 		]
 	},
 	"factorial": {
 		"id": "factorial",
-		"code": "const [n] = input();\nconsole.log(n);",
+		"code": "const [n] = input().map(Number);\nconsole.log(n);",
 		"tests": [
 			{
-				"input": [1],
+				"input": ["1"],
 				"expects": "1"
 			},
 			{
-				"input": [2],
+				"input": ["2"],
 				"expects": "2"
 			},
 			{
-				"input": [3],
+				"input": ["3"],
 				"expects": "6"
 			},
 			{
-				"input": [4],
+				"input": ["4"],
 				"expects": "24"
 			},
 			{
-				"input": [5],
+				"input": ["5"],
 				"expects": "120"
 			},
 			{
-				"input": [6],
+				"input": ["6"],
 				"expects": "720"
 			},
 			{
-				"input": [10],
+				"input": ["10"],
 				"expects": "3628800"
 			}
 		]
 	},
 	"prime": {
 		"id": "prime",
-		"code": "const [n] = input();\nconsole.log(n);",
+		"code": "const [n] = input().map(Number);\nconsole.log(n);",
 		"tests": [
 			{
-				"input": [1],
+				"input": ["1"],
 				"expects": "false"
 			},
 			{
-				"input": [2],
+				"input": ["2"],
 				"expects": "true"
 			},
 			{
-				"input": [3],
+				"input": ["3"],
 				"expects": "true"
 			},
 			{
-				"input": [5],
+				"input": ["5"],
 				"expects": "true"
 			},
 			{
-				"input": [7],
+				"input": ["7"],
 				"expects": "true"
 			},
 			{
-				"input": [51],
+				"input": ["51"],
 				"expects": "false"
 			},
 			{
-				"input": [343],
+				"input": ["343"],
 				"expects": "false"
 			},
 			{
-				"input": [99],
+				"input": ["99"],
 				"expects": "false"
 			},
 			{
-				"input": [101],
+				"input": ["101"],
 				"expects": "true"
 			},
 			{
-				"input": [12345],
+				"input": ["12345"],
 				"expects": "false"
 			}
 		]
 	},
 	"triangle": {
 		"id": "triangle",
-		"code": "const [n] = input();\nconsole.log(n);",
+		"code": "const [n] = input().map(Number);\nconsole.log(n);",
 		"tests": [
 			{
-				"input": [1],
+				"input": ["1"],
 				"expects": "*"
 			},
 			{
-				"input": [2],
+				"input": ["2"],
 				"expects": "*\n**"
 			},
 			{
-				"input": [3],
+				"input": ["3"],
 				"expects": "*\n**\n***"
 			},
 			{
-				"input": [4],
+				"input": ["4"],
 				"expects": "*\n**\n***\n****"
 			},
 			{
-				"input": [5],
+				"input": ["5"],
 				"expects": "*\n**\n***\n****\n*****"
 			},
 			{
-				"input": [6],
+				"input": ["6"],
 				"expects": "*\n**\n***\n****\n*****\n******"
 			},
 			{
-				"input": [7],
+				"input": ["7"],
 				"expects": "*\n**\n***\n****\n*****\n******\n*******"
 			},
 			{
-				"input": [8],
+				"input": ["8"],
 				"expects": "*\n**\n***\n****\n*****\n******\n*******\n********"
 			},
 			{
-				"input": [9],
+				"input": ["9"],
 				"expects": "*\n**\n***\n****\n*****\n******\n*******\n********\n*********"
 			},
 			{
-				"input": [10],
+				"input": ["10"],
 				"expects": "*\n**\n***\n****\n*****\n******\n*******\n********\n*********\n**********"
 			}
 		]
 	},
 	"hypotenuse": {
 		"id": "hypotenuse",
-		"code": "const [x, y] = input();\nconsole.log(x, y);",
+		"code": "const [x, y] = input().map(Number);\nconsole.log(x, y);",
 		"tests": [
 			{
-				"input": [3, 4],
+				"input": ["3", "4"],
 				"expects": "5"
 			},
 			{
-				"input": [5, 12],
+				"input": ["5", "12"],
 				"expects": "13"
 			},
 			{
-				"input": [8, 15],
+				"input": ["8", "15"],
 				"expects": "17"
 			},
 			{
-				"input": [7, 24],
+				"input": ["7", "24"],
 				"expects": "25"
 			},
 			{
-				"input": [20, 21],
+				"input": ["20", "21"],
 				"expects": "29"
 			},
 			{
-				"input": [9, 40],
+				"input": ["9", "40"],
 				"expects": "41"
 			},
 			{
-				"input": [12, 35],
+				"input": ["12", "35"],
 				"expects": "37"
 			},
 			{
-				"input": [11, 60],
+				"input": ["11", "60"],
 				"expects": "61"
 			},
 			{
-				"input": [16, 63],
+				"input": ["16", "63"],
 				"expects": "65"
 			},
 			{
-				"input": [28, 45],
+				"input": ["28", "45"],
 				"expects": "53"
 			},
 			{
-				"input": [33, 56],
+				"input": ["33", "56"],
 				"expects": "65"
 			},
 			{
-				"input": [48, 55],
+				"input": ["48", "55"],
 				"expects": "73"
 			},
 			{
-				"input": [13, 84],
+				"input": ["13", "84"],
 				"expects": "85"
 			},
 			{
-				"input": [36, 77],
+				"input": ["36", "77"],
 				"expects": "85"
 			}
 		]
 	},
 	"fibonacci": {
 		"id": "fibonacci",
-		"code": "const [n] = input();\nconsole.log(n);",
+		"code": "const [n] = input().map(Number);\nconsole.log(n);",
 		"tests": [
 			{
-				"input": [1],
+				"input": ["1"],
 				"expects": "0"
 			},
 			{
-				"input": [2],
+				"input": ["2"],
 				"expects": "1"
 			},
 			{
-				"input": [3],
+				"input": ["3"],
 				"expects": "1"
 			},
 			{
-				"input": [8],
+				"input": ["8"],
 				"expects": "13"
 			},
 			{
-				"input": [35],
+				"input": ["35"],
 				"expects": "5_702_887"
 			},
 			{
-				"input": [96],
+				"input": ["96"],
 				"expects": "31_940_434_634_990_099_905"
 			},
 			{
-				"input": [98],
+				"input": ["98"],
 				"expects": "83_621_143_489_848_422_977"
 			},
 			{
-				"input": [99],
+				"input": ["99"],
 				"expects": "135_301_852_344_706_746_049"
 			},
 			{
-				"input": [100],
+				"input": ["100"],
 				"expects": "218_922_995_834_555_169_026"
 			},
 			{
-				"input": [116],
+				"input": ["116"],
 				"expects": "483_162_952_612_010_163_284_885"
 			},
 			{
-				"input": [119],
+				"input": ["119"],
 				"expects": "2_046_711_111_473_984_623_691_759"
 			},
 			{
-				"input": [120],
+				"input": ["120"],
 				"expects": "3_311_648_143_516_982_017_180_081"
 			},
 			{
-				"input": [121],
+				"input": ["121"],
 				"expects": "5_358_359_254_990_966_640_871_840"
 			},
 			{
-				"input": [122],
+				"input": ["122"],
 				"expects": "8_670_007_398_507_948_658_051_921"
 			}
 		]
 	},
 	"square": {
 		"id": "square",
-		"code": "const [c, y, x] = input();\nconsole.log(c, s);",
+		"code": "const inputs = input();\nconst c = inputs.shift();\nconst [h, w] = inputs.map(Number);\n\nconsole.log(c, h, w);",
 		"tests": [
 			{
-				"input": [1, "~", "~"],
+				"input": ["1", "~", "~"],
 				"expects": "~"
 			},
 			{
-				"input": [2, "-", "X"],
+				"input": ["2", "-", "X"],
 				"expects": "--\n--"
 			},
 			{
-				"input": [3, "=", "|"],
+				"input": ["3", "=", "|"],
 				"expects": "===\n| |\n==="
 			},
 			{
-				"input": [5, ".", ","],
+				"input": ["5", ".", ","],
 				"expects": ".....\n,   ,\n,   ,\n,   ,\n....."
 			},
 			{
-				"input": [8, "^", "l"],
+				"input": ["8", "^", "l"],
 				"expects": "^^^^^^^^\nl      l\nl      l\nl      l\nl      l\nl      l\nl      l\n^^^^^^^^"
 			},
 			{
-				"input": [10, "_", "<"],
+				"input": ["10", "_", "<"],
 				"expects": "__________\n<        <\n<        <\n<        <\n<        <\n<        <\n<        <\n<        <\n<        <\n__________"
 			},
 			{
-				"input": [12, ":", ";"],
+				"input": ["12", ":", ";"],
 				"expects": "::::::::::::\n;          ;\n;          ;\n;          ;\n;          ;\n;          ;\n;          ;\n;          ;\n;          ;\n;          ;\n;          ;\n::::::::::::"
 			},
 			{
-				"input": [14, "<", "3"],
+				"input": ["14", "<", "3"],
 				"expects": "<<<<<<<<<<<<<<\n3            3\n3            3\n3            3\n3            3\n3            3\n3            3\n3            3\n3            3\n3            3\n3            3\n3            3\n3            3\n<<<<<<<<<<<<<<"
 			},
 			{
-				"input": [16, "+", "1"],
+				"input": ["16", "+", "1"],
 				"expects": "++++++++++++++++\n1              1\n1              1\n1              1\n1              1\n1              1\n1              1\n1              1\n1              1\n1              1\n1              1\n1              1\n1              1\n1              1\n1              1\n++++++++++++++++"
 			},
 			{
-				"input": [18, "<", ">"],
+				"input": ["18", "<", ">"],
 				"expects": "<<<<<<<<<<<<<<<<<<\n>                >\n>                >\n>                >\n>                >\n>                >\n>                >\n>                >\n>                >\n>                >\n>                >\n>                >\n>                >\n>                >\n>                >\n>                >\n>                >\n<<<<<<<<<<<<<<<<<<"
 			}
 		]
