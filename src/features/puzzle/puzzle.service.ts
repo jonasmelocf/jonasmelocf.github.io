@@ -21,7 +21,7 @@ export function runTest(test: TestCase, code: string): TestResult {
 	try {
 		const inputCode = `const input = () => ${JSON.stringify(test.input)};`;
 		const sandboxCode = `${inputCode}\n${code}`;
-		const result = runSandboxedCode(sandboxCode).join("\n");
+		const result = runSandboxedCode(sandboxCode).join(" ");
 		return [result, result === test.expects];
 	} catch (error) {
 		if (error instanceof Error) return ["", false, error];
