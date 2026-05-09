@@ -118,7 +118,7 @@ const puzzleForDebug = computed(() => ({
 
 [go to bottom](######bottom)
 
-<PuzzleIDE :puzzle="puzzleForDebug" :minPopTime :getPopTime />
+<PuzzleIDE :puzzle="puzzleForDebug" code="console.log(input()[0]);" :minPopTime :getPopTime />
 
 `ctrl+enter` to repeat
 

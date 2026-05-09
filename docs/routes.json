@@ -35,6 +35,10 @@
 		{
 			"text": "Puzzle IDE",
 			"link": "/puzzle-ide"
+		},
+		{
+			"text": "Puzzle Trial",
+			"link": "/puzzle-trial"
 		}
 	]
 }
