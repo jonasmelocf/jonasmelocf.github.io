@@ -4,29 +4,31 @@ import { ref, useTemplateRef } from "vue";
 import Button from "@/components/Button.vue";
 import Label from "@/components/Label.vue";
 import { useTranslation } from "@/composables/useTranslation";
+import { playPop } from "@/features/animations/pop";
 import CodeEditor from "@/features/editor/CodeEditor.vue";
-import { nanToZero, sleep } from "@/lib/utils";
-import { loadCode, runTest, saveCode } from "../puzzle.service";
+import { clamp, nanToZero, sleep } from "@/lib/utils";
+import { runTest } from "../puzzle.service";
 import type { Puzzle } from "../puzzle.types";
 import TestCaseButton from "./TestCaseButton.vue";
 
 const {
 	puzzle,
-	disableSave,
 	minPopTime = 40,
 	getPopTime = (i) => 200 - i * 8,
 } = defineProps<{
 	puzzle: Puzzle;
-	disableSave?: boolean;
 	minPopTime?: number;
 	getPopTime?: (index: number) => number;
 }>();
 
 const { t } = useTranslation();
 const testCaseButtonRefs = useTemplateRef("test-case-buttons");
-const userCodeRef = ref(loadCode(puzzle.id) ?? puzzle.code);
 const outputRef = ref("");
 const expectedRef = ref("");
+
+const code = defineModel<string>("code", {
+	default: "",
+});
 
 function reset() {
 	testCaseButtonRefs.value?.forEach((button) => {
@@ -36,13 +38,14 @@ function reset() {
 	expectedRef.value = "";
 }
 
+const emit = defineEmits<(e: "success") => void>();
+
 async function handleRunAllTests() {
 	reset();
-	if (!disableSave) saveCode(puzzle.id, userCodeRef.value);
+	let passed = false;
 	for (let i = 0; i < puzzle.tests.length; i++) {
-		const passed = handleRunTest(i, {
-			popRate: 1 + i / puzzle.tests.length,
-			save: false,
+		passed = handleRunTest(i, {
+			audioRate: 1 + i / puzzle.tests.length,
 			center: true,
 			brightnessModifier: i,
 		});
@@ -50,28 +53,25 @@ async function handleRunAllTests() {
 		const popTime = nanToZero(getPopTime(i));
 		await sleep(Math.max(minPopTime, popTime));
 	}
+	if (passed) {
+		emit("success");
+	}
 }
 
 type HandleRunTestOpts = Partial<{
-	popRate: number;
-	save: boolean;
+	audioRate: number;
 	center: boolean;
 	brightnessModifier: number;
 }>;
 function handleRunTest(index: number, opts: HandleRunTestOpts = {}) {
-	const {
-		popRate = 1,
-		save = true,
-		center = false,
-		brightnessModifier = 0,
-	} = opts;
+	opts.center ??= false;
+	opts.brightnessModifier ??= 0;
 
 	const test = puzzle.tests[index];
 	const editorButton = testCaseButtonRefs.value?.[index];
-	if (!disableSave && save) saveCode(puzzle.id, userCodeRef.value);
 	expectedRef.value = "";
 
-	const [output, passed, error] = runTest(test, userCodeRef.value);
+	const [testOutput, passed, error] = runTest(test, code.value);
 
 	if (passed) {
 		editorButton?.setState("success");
@@ -80,21 +80,20 @@ function handleRunTest(index: number, opts: HandleRunTestOpts = {}) {
 		expectedRef.value = `${test.expects}`;
 	}
 
-	outputRef.value = error ? `Error: ${error.message}` : output;
+	outputRef.value = error ? `Error: ${error.message}` : testOutput;
 
 	if (editorButton) {
-		editorButton.pop({
-			brightnessModifier,
-			audioRate: popRate,
-		});
-		const isReduced = window.matchMedia("(prefers-reduced-motion)").matches;
 		const el: HTMLButtonElement = editorButton.$el;
-		if (!isReduced && center) {
+		if (opts.center) {
 			el.scrollIntoView({
 				behavior: "smooth",
 				block: "center",
 			});
 		}
+		playPop(el, {
+			brightness: 1 + clamp(opts.brightnessModifier / 10, -1, 8),
+			audioRate: opts.audioRate,
+		});
 	}
 
 	return passed;
@@ -107,7 +106,7 @@ function handleRunTest(index: number, opts: HandleRunTestOpts = {}) {
 		@keydown.ctrl.enter.capture.stop.prevent="handleRunAllTests"
 	>
 		<!-- Code editor -->
-		<CodeEditor class="rounded px-1 pt-1" v-model="userCodeRef" />
+		<CodeEditor class="rounded px-1 pt-1" v-model="code" />
 
 		<div class="p-5 gap-5 flex items-start justify-evenly *:w-full">
 			<!-- Test cases -->

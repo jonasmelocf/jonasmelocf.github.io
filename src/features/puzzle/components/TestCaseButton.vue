@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { ClassValue } from "clsx";
 import { useTemplateRef } from "vue";
-import { audio } from "@/assets/audio";
 import { clamp, merge } from "@/lib/utils";
 
 const buttonRef = useTemplateRef("button");
@@ -9,33 +8,6 @@ const props = defineProps<{
 	class?: ClassValue;
 	state?: "success" | "fail" | undefined;
 }>();
-
-type PopOpts = {
-	brightnessModifier?: number;
-	audioRate?: number;
-};
-function pop(opts: PopOpts) {
-	opts.brightnessModifier ??= 1;
-	opts.audioRate ??= 1;
-
-	audio.pop.rate(opts.audioRate);
-	audio.pop.play();
-
-	buttonRef.value?.animate(
-		[
-			{ transform: "scale(1)", filter: "brightness(1)" },
-			{
-				transform: "scale(1.05)",
-				filter: `brightness(${1 + clamp(opts.brightnessModifier / 10, -1, 8)})`,
-			},
-			{ transform: "scale(1)", filter: "brightness(1)" },
-		],
-		{
-			duration: 300,
-			easing: "ease-out",
-		},
-	);
-}
 
 function setState(state: "success" | "fail" | undefined) {
 	if (!buttonRef.value) return;
@@ -55,7 +27,7 @@ function setState(state: "success" | "fail" | undefined) {
 	}
 }
 
-defineExpose({ pop, setState });
+defineExpose({ setState });
 </script>
 
 <template>
