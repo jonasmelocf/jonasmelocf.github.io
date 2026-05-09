@@ -12,7 +12,7 @@ export function playPop(el: Animatable, opts: Opts = {}) {
 	opts.audio ??= true;
 	opts.audioRate ??= 1;
 
-	if (audio) {
+	if (opts.audio) {
 		audio.pop.rate(opts.audioRate);
 		audio.pop.play();
 	}
