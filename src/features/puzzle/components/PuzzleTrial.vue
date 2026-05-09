@@ -91,7 +91,6 @@ onMounted(() => {
 					:puzzle
 					:progress="progresses[puzzle.id]"
 					@click="setPuzzle(i)"
-					@click.right.prevent="() => playLockOpen(getTrialButton(puzzle.id)!.$el)"
 				/>
 			</PuzzleTrialMenuEntry>
 		</PuzzleTrialMenu>
