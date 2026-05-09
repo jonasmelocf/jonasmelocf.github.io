@@ -30,6 +30,13 @@ const code = defineModel<string>("code", {
 	default: "",
 });
 
+const emit = defineEmits<(e: "success") => void>();
+
+defineExpose({
+	runSingleTest,
+	runAllTests,
+});
+
 function reset() {
 	testCaseButtonRefs.value?.forEach((button) => {
 		button?.setState(undefined);
@@ -38,13 +45,11 @@ function reset() {
 	expectedRef.value = "";
 }
 
-const emit = defineEmits<(e: "success") => void>();
-
-async function handleRunAllTests() {
+async function runAllTests() {
 	reset();
 	let passed = false;
 	for (let i = 0; i < puzzle.tests.length; i++) {
-		passed = handleRunTest(i, {
+		passed = runSingleTest(i, {
 			audioRate: 1 + i / puzzle.tests.length,
 			center: true,
 			brightnessModifier: i,
@@ -63,7 +68,7 @@ type HandleRunTestOpts = Partial<{
 	center: boolean;
 	brightnessModifier: number;
 }>;
-function handleRunTest(index: number, opts: HandleRunTestOpts = {}) {
+function runSingleTest(index: number, opts: HandleRunTestOpts = {}) {
 	opts.center ??= false;
 	opts.brightnessModifier ??= 0;
 
@@ -101,10 +106,7 @@ function handleRunTest(index: number, opts: HandleRunTestOpts = {}) {
 </script>
 
 <template>
-	<div
-		class="relative rounded-lg shadow bg-(--vp-c-bg-alt)"
-		@keydown.ctrl.enter.capture.stop.prevent="handleRunAllTests"
-	>
+	<div class="relative rounded-lg shadow bg-(--vp-c-bg-alt)" @keydown.ctrl.enter.capture.stop.prevent="runAllTests">
 		<!-- Code editor -->
 		<CodeEditor class="rounded px-1 pt-1" v-model="code" />
 
@@ -113,18 +115,11 @@ function handleRunTest(index: number, opts: HandleRunTestOpts = {}) {
 			<menu class="overflow-visible gap-2 grid">
 				<div class="flex items-center">
 					<Label>{{ t("Test cases") }}</Label>
-					<Button
-						@click="handleRunAllTests"
-						class="size-fit py-1 text-xs ml-auto"
-					>
+					<Button @click="runAllTests" class="size-fit py-1 text-xs ml-auto">
 						{{ t("Run all") }}
 					</Button>
 				</div>
-				<TestCaseButton
-					ref="test-case-buttons"
-					v-for="test, i in puzzle.tests"
-					@click.stop="() => handleRunTest(i)"
-				>
+				<TestCaseButton ref="test-case-buttons" v-for="test, i in puzzle.tests" @click.stop="() => runSingleTest(i)">
 					{{ t("Case") }} {{ test.input }}
 					<Play class="rounded p-1 size-6" />
 				</TestCaseButton>
