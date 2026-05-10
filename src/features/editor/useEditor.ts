@@ -35,6 +35,10 @@ export function useEditor(opts: Opts) {
 			theme: "vs-dark",
 			automaticLayout: true,
 			wordBasedSuggestions: "currentDocument",
+			scrollBeyondLastLine: false,
+			scrollbar: {
+				alwaysConsumeMouseWheel: false,
+			},
 		});
 
 		if (onUpdate) editor.onDidChangeModelContent(() => onUpdate(getCode()));
