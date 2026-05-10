@@ -124,6 +124,7 @@ function setPuzzle(index: number) {
 	puzzleIndex.value = index;
 	ideCode.value =
 		currentProgress.value?.lastCode ?? currentPuzzle.value?.code ?? "";
+	puzzleIde.value?.reset();
 }
 
 onMounted(() => {
@@ -155,7 +156,7 @@ onMounted(() => {
 		<PuzzleIDE
 			ref="puzzle-ide"
 			:puzzle="currentPuzzle"
-			v-model:code="ideCode"
+			:code="ideCode"
 			@success="onSuccess"
 			@test="onTest"
 			class="rounded-t-none"

@@ -40,6 +40,7 @@ const emit = defineEmits<{
 defineExpose({
 	runSingleTest,
 	runAllTests,
+	reset,
 });
 
 function reset() {
