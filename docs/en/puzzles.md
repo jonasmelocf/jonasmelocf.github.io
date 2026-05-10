@@ -2,41 +2,19 @@
 import {defineClientComponent} from "vitepress";
 import puzzles from "@/assets/puzzles.json";
 
-const PuzzleDisplay = defineClientComponent(() => {
-  return import("@/features/puzzle/components/PuzzleDisplay.vue")
+const LocalPuzzleTrial = defineClientComponent(() => {
+  return import("@/features/puzzle/components/LocalPuzzleTrial.vue")
 });
 </script>
 
 # Puzzles
 
-To solve the puzzles, you will need to create a program using **JavaScript** that will receive a specified input, throught the `input` function, and need to show a specified output, through `console.log`. Each puzzle contains examples of input and expected output.
+Use **JavaScript** to solve the puzzles.
+Look for the input and the expected output of each test case and discover what to do.
 
-When you are confident in your solution, use the `Run all` button or press `ctrl+enter`.
+To run the test cases, use the `Run all` button or press `ctrl+enter`.
+Good luck!
 
-## Sum
+---
 
-<PuzzleDisplay :puzzle="puzzles['add-two-numbers']" />
-
-## Factorial
-
-<PuzzleDisplay :puzzle="puzzles['factorial']" />
-
-## Prime
-
-<PuzzleDisplay  :puzzle="puzzles['prime']" />
-
-## Triangle
-
-<PuzzleDisplay  :puzzle="puzzles['triangle']" />
-
-## Hypotenuse
-
-<PuzzleDisplay :puzzle="puzzles['hypotenuse']"/>
-
-## Fibonacci
-
-<PuzzleDisplay :puzzle="puzzles['fibonacci']"/>
-
-## Square
-
-<PuzzleDisplay :puzzle="puzzles['square']"/>
+<LocalPuzzleTrial />
