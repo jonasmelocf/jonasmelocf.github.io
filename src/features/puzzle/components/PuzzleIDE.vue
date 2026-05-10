@@ -34,7 +34,7 @@ const code = defineModel<string>("code", {
 
 const emit = defineEmits<{
 	success: [];
-	test: [result: TestResult];
+	test: [result: TestResult, isRunningAll: boolean];
 }>();
 
 defineExpose({
@@ -52,13 +52,15 @@ function reset() {
 
 async function runAllTests() {
 	reset();
-	let passed = false;
+	let passed: boolean = false;
 	for (let i = 0; i < props.puzzle.tests.length; i++) {
-		passed = runSingleTest(i, {
+		const result = runSingleTest(i, {
 			audioRate: 1 + i / props.puzzle.tests.length,
 			center: true,
 			brightnessModifier: i,
 		});
+		emit("test", result, true);
+		passed = result[1];
 		if (!passed) break;
 		const popTime = nanToZero(props.getPopTime(i));
 		await sleep(Math.max(props.minPopTime, popTime));
@@ -82,7 +84,7 @@ function runSingleTest(index: number, opts: HandleRunTestOpts = {}) {
 	expectedRef.value = "";
 
 	const result = runTest(test, code.value);
-	emit("test", result);
+	emit("test", result, false);
 
 	const [testOutput, passed, error] = result;
 	if (passed) {
@@ -108,7 +110,7 @@ function runSingleTest(index: number, opts: HandleRunTestOpts = {}) {
 		});
 	}
 
-	return passed;
+	return result;
 }
 </script>
 

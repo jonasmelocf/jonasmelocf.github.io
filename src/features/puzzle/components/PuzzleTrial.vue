@@ -34,7 +34,7 @@ const getTrialButton = (puzzleId: string) =>
 	trialButtons.value?.find((btn) => btn?.puzzle.id === puzzleId);
 
 const emit = defineEmits<{
-	test: [result: TestResult];
+	test: [result: TestResult, isRunningAll: boolean];
 	success: [puzzle: Puzzle];
 	unlock: [puzzle: Puzzle];
 }>();
@@ -104,6 +104,17 @@ async function onSuccess() {
 	emit("unlock", nextPuzzle);
 }
 
+function onTest(test: TestResult, isRunningAll: boolean) {
+	const currentId = currentPuzzle.value?.id;
+	if (!currentId) {
+		return;
+	}
+
+	if (test[1] === false || isRunningAll === false) {
+		progressMap.value[currentId].lastCode = ideCode.value;
+	}
+}
+
 function setPuzzle(index: number) {
 	if (index < 0 || index >= props.puzzles.length) {
 		return;
@@ -144,7 +155,7 @@ onMounted(() => {
 			:puzzle="currentPuzzle"
 			v-model:code="ideCode"
 			@success="onSuccess"
-			@test="(result) => emit('test', result)"
+			@test="onTest"
 			class="rounded-t-none"
 		/>
 	</div>
