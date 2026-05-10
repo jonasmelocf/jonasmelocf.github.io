@@ -7,19 +7,21 @@ import { useTranslation } from "@/composables/useTranslation";
 import { playPop } from "@/features/animations/pop";
 import CodeEditor from "@/features/editor/CodeEditor.vue";
 import { clamp, nanToZero, sleep } from "@/lib/utils";
-import { runTest } from "../puzzle.service";
+import { runTest, type TestResult } from "../puzzle.service";
 import type { Puzzle } from "../puzzle.types";
 import TestCaseButton from "./TestCaseButton.vue";
 
-const {
-	puzzle,
-	minPopTime = 40,
-	getPopTime = (i) => 200 - i * 8,
-} = defineProps<{
-	puzzle: Puzzle;
-	minPopTime?: number;
-	getPopTime?: (index: number) => number;
-}>();
+const props = withDefaults(
+	defineProps<{
+		puzzle: Puzzle;
+		minPopTime?: number;
+		getPopTime?: (index: number) => number;
+	}>(),
+	{
+		minPopTime: 40,
+		getPopTime: (i: number) => 200 - i * 8,
+	},
+);
 
 const { t } = useTranslation();
 const testCaseButtonRefs = useTemplateRef("test-case-buttons");
@@ -30,7 +32,10 @@ const code = defineModel<string>("code", {
 	default: "",
 });
 
-const emit = defineEmits<(e: "success") => void>();
+const emit = defineEmits<{
+	success: [];
+	test: [result: TestResult];
+}>();
 
 defineExpose({
 	runSingleTest,
@@ -48,15 +53,15 @@ function reset() {
 async function runAllTests() {
 	reset();
 	let passed = false;
-	for (let i = 0; i < puzzle.tests.length; i++) {
+	for (let i = 0; i < props.puzzle.tests.length; i++) {
 		passed = runSingleTest(i, {
-			audioRate: 1 + i / puzzle.tests.length,
+			audioRate: 1 + i / props.puzzle.tests.length,
 			center: true,
 			brightnessModifier: i,
 		});
 		if (!passed) break;
-		const popTime = nanToZero(getPopTime(i));
-		await sleep(Math.max(minPopTime, popTime));
+		const popTime = nanToZero(props.getPopTime(i));
+		await sleep(Math.max(props.minPopTime, popTime));
 	}
 	if (passed) {
 		emit("success");
@@ -72,12 +77,14 @@ function runSingleTest(index: number, opts: HandleRunTestOpts = {}) {
 	opts.center ??= false;
 	opts.brightnessModifier ??= 0;
 
-	const test = puzzle.tests[index];
+	const test = props.puzzle.tests[index];
 	const editorButton = testCaseButtonRefs.value?.[index];
 	expectedRef.value = "";
 
-	const [testOutput, passed, error] = runTest(test, code.value);
+	const result = runTest(test, code.value);
+	emit("test", result);
 
+	const [testOutput, passed, error] = result;
 	if (passed) {
 		editorButton?.setState("success");
 	} else {
@@ -107,7 +114,7 @@ function runSingleTest(index: number, opts: HandleRunTestOpts = {}) {
 
 <template>
 	<div
-		class="relative rounded-lg shadow bg-(--vp-c-bg-alt)"
+		class="relative rounded-lg bg-(--vp-c-bg-alt)"
 		@keydown.ctrl.enter.capture.stop.prevent="runAllTests"
 	>
 		<!-- Code editor -->
@@ -124,7 +131,7 @@ function runSingleTest(index: number, opts: HandleRunTestOpts = {}) {
 				</div>
 				<TestCaseButton
 					ref="test-case-buttons"
-					v-for="test, i in puzzle.tests"
+					v-for="test, i in props.puzzle.tests"
 					@click.stop="() => runSingleTest(i)"
 				>
 					{{ t("Case") }} {{ test.input }}

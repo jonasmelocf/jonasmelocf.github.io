@@ -1,8 +1,10 @@
 <script setup lang="ts">
+import type { ClassValue } from "clsx";
 import { computed, nextTick, onMounted, ref, useTemplateRef } from "vue";
 import { playLockOpen } from "@/features/animations/lock-open";
 import { playPop } from "@/features/animations/pop";
-import { sleep } from "@/lib/utils";
+import { merge, sleep } from "@/lib/utils";
+import type { TestResult } from "../puzzle.service";
 import type { Puzzle, PuzzleProgressMap } from "../puzzle.types";
 import PuzzleExamples from "./PuzzleExamples.vue";
 import PuzzleIDE from "./PuzzleIDE.vue";
@@ -12,6 +14,7 @@ import PuzzleTrialMenuEntry from "./PuzzleTrialMenuEntry.vue";
 
 const props = defineProps<{
 	puzzles: Puzzle[];
+	class?: ClassValue;
 }>();
 
 const progressMap = defineModel<PuzzleProgressMap>("progress-map", {
@@ -29,6 +32,12 @@ const puzzleIde = useTemplateRef("puzzle-ide");
 
 const getTrialButton = (puzzleId: string) =>
 	trialButtons.value?.find((btn) => btn?.puzzle.id === puzzleId);
+
+const emit = defineEmits<{
+	test: [result: TestResult];
+	success: [puzzle: Puzzle];
+	unlock: [puzzle: Puzzle];
+}>();
 
 defineExpose({ setPuzzle, puzzleIde });
 
@@ -57,6 +66,7 @@ async function onSuccess() {
 	progressMap.value[currentId].puzzleState = "done";
 	progressMap.value[currentId].lastCode = ideCode.value;
 	await playPop(currentEl);
+	emit("success", currentPuzzle.value);
 
 	const nextIndex = puzzleIndex.value + 1;
 	const nextPuzzle = props.puzzles.at(nextIndex);
@@ -91,6 +101,7 @@ async function onSuccess() {
 
 	await nextTick();
 	setPuzzle(nextIndex);
+	emit("unlock", nextPuzzle);
 }
 
 function setPuzzle(index: number) {
@@ -108,7 +119,10 @@ onMounted(() => {
 </script>
 
 <template>
-	<div class="flex flex-col" v-if="currentPuzzle">
+	<div
+		:class="merge('flex flex-col rounded-t bg-(--vp-c-bg-alt)', props.class)"
+		v-if="currentPuzzle"
+	>
 		<PuzzleTrialMenu>
 			<PuzzleTrialMenuEntry v-for="puzzle, i in props.puzzles" :i>
 				<PuzzleTrialButton
@@ -130,7 +144,8 @@ onMounted(() => {
 			:puzzle="currentPuzzle"
 			v-model:code="ideCode"
 			@success="onSuccess"
-			class="rounded-tl-none rounded-tr-none"
+			@test="(result) => emit('test', result)"
+			class="rounded-t-none"
 		/>
 	</div>
 </template>
