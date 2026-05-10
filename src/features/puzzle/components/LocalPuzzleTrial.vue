@@ -2,19 +2,18 @@
 import { ref, watch } from "vue";
 import { getDefaultPuzzles } from "../puzzle.service";
 import {
-	savePuzzleProgressMap,
-	syncPuzzleProgress,
+	saveLocalProgressMap,
+	syncLocalProgressMap,
 } from "../puzzle-progress.service";
 import PuzzleTrial from "./PuzzleTrial.vue";
 
 const puzzles = getDefaultPuzzles();
-const progressMap = ref(syncPuzzleProgress(puzzles));
+const progressMap = ref(syncLocalProgressMap(puzzles));
 
+//biome-ignore format: biome formats this to single line
 watch(
 	progressMap.value,
-	() => {
-		savePuzzleProgressMap(progressMap.value);
-	},
+	() => saveLocalProgressMap(progressMap.value),
 	{ deep: true },
 );
 </script>

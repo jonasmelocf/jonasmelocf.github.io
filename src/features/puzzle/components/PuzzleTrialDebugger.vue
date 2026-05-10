@@ -5,12 +5,12 @@ import Button from "@/components/Button.vue";
 import { sleep } from "@/lib/utils";
 import { getDefaultPuzzles, type TestResult } from "../puzzle.service";
 import type { Puzzle } from "../puzzle.types";
-import { syncPuzzleProgress } from "../puzzle-progress.service";
+import { syncProgressMap } from "../puzzle-progress.service";
 import PuzzleTrial from "./PuzzleTrial.vue";
 
 const puzzles = ref(getDefaultPuzzles());
 
-const progressMap = ref(syncPuzzleProgress(puzzles.value, false));
+const progressMap = ref(syncProgressMap(puzzles.value, {}));
 const isCheating = ref(false);
 const isRunContinuously = ref(false);
 const puzzleTrial = useTemplateRef("puzzle-trial");
@@ -18,7 +18,7 @@ const puzzleTrial = useTemplateRef("puzzle-trial");
 reset();
 
 function reset() {
-	progressMap.value = syncPuzzleProgress(puzzles.value, false);
+	progressMap.value = syncProgressMap(puzzles.value, {});
 	puzzleTrial.value?.setPuzzle(0);
 }
 

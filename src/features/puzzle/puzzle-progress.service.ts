@@ -1,15 +1,18 @@
 import { tryOr } from "@/lib/utils";
 import type { Puzzle, PuzzleProgress, PuzzleProgressMap } from "./puzzle.types";
 
-export function syncPuzzleProgress(puzzles: Puzzle[], save = true) {
-	const map = getPuzzleProgressMap();
+export function createLockedProgress(puzzleId: string): PuzzleProgress {
+	return {
+		puzzleId,
+		puzzleState: "locked",
+		lastCode: undefined,
+	};
+}
+
+export function syncProgressMap(puzzles: Puzzle[], map: PuzzleProgressMap) {
 	for (const puzzle of puzzles) {
 		if (map[puzzle.id] === undefined) {
-			map[puzzle.id] = {
-				puzzleId: puzzle.id,
-				puzzleState: "locked",
-				lastCode: undefined,
-			};
+			map[puzzle.id] = createLockedProgress(puzzle.id);
 		}
 	}
 
@@ -21,37 +24,47 @@ export function syncPuzzleProgress(puzzles: Puzzle[], save = true) {
 		}
 	}
 
-	if (save) {
-		savePuzzleProgressMap(map);
-	}
 	return map;
 }
 
-export function getPuzzleProgressMap(): PuzzleProgressMap {
+export function syncLocalProgressMap(puzzles: Puzzle[]) {
+	const map = getLocalProgressMap();
+	syncProgressMap(puzzles, map);
+	saveLocalProgressMap(map);
+	return map;
+}
+
+export function getLocalProgressMap(): PuzzleProgressMap {
 	const item = localStorage.getItem("puzzle-progress-map");
-	if (!item) return {};
+	if (!item) {
+		return {};
+	}
 	const parsed = tryOr(() => JSON.parse(item), {});
 	return parsed;
 }
 
-export function getPuzzleProgress(puzzleId: string) {
-	const map = getPuzzleProgressMap();
+export function getLocalProgress(puzzleId: string) {
+	const map = getLocalProgressMap();
 	const progress = map[puzzleId];
-	if (progress) return progress;
-	return savePuzzleProgress({ puzzleId, puzzleState: "locked" });
+
+	if (progress) {
+		return progress;
+	}
+
+	return saveLocalProgress(createLockedProgress(puzzleId));
 }
 
-export function savePuzzleProgressMap(map: PuzzleProgressMap) {
+export function saveLocalProgressMap(map: PuzzleProgressMap) {
 	localStorage.setItem("puzzle-progress-map", JSON.stringify(map));
 }
 
-export function savePuzzleProgress(progress: PuzzleProgress): PuzzleProgress {
-	const map = getPuzzleProgressMap();
+export function saveLocalProgress(progress: PuzzleProgress): PuzzleProgress {
+	const map = getLocalProgressMap();
 	map[progress.puzzleId] = progress;
 	localStorage.setItem("puzzle-progress-map", JSON.stringify(map));
 	return progress;
 }
 
-export function deletePuzzleProgressMap() {
+export function deleteLocalProgressMap() {
 	localStorage.removeItem("puzzle-progress-map");
 }

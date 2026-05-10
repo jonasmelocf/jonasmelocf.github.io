@@ -2,8 +2,8 @@
 import { ref } from "vue";
 import type { Puzzle } from "../puzzle.types";
 import {
-	getPuzzleProgress,
-	savePuzzleProgress,
+	getLocalProgress,
+	saveLocalProgress,
 } from "../puzzle-progress.service";
 import PuzzleExamples from "./PuzzleExamples.vue";
 import PuzzleIDE from "./PuzzleIDE.vue";
@@ -11,12 +11,13 @@ import PuzzleIDE from "./PuzzleIDE.vue";
 const props = defineProps<{
 	puzzle: Puzzle;
 }>();
+
 const code = ref(
-	getPuzzleProgress(props.puzzle.id).lastCode ?? props.puzzle.code,
+	getLocalProgress(props.puzzle.id).lastCode ?? props.puzzle.code,
 );
 
 function saveProgress() {
-	savePuzzleProgress({
+	saveLocalProgress({
 		puzzleId: props.puzzle.id,
 		puzzleState: "done",
 		lastCode: code.value,
