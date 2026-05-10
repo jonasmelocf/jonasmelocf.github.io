@@ -105,6 +105,8 @@ async function onSuccess() {
 }
 
 function onTest(test: TestResult, isRunningAll: boolean) {
+	emit("test", test, isRunningAll);
+
 	const currentId = currentPuzzle.value?.id;
 	if (!currentId) {
 		return;
