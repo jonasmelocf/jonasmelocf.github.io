@@ -1,39 +1,67 @@
 <script setup lang="ts">
+import { RefreshCcw } from "@lucide/vue";
 import { ref, useTemplateRef } from "vue";
 import Button from "@/components/Button.vue";
-import { getDefaultPuzzles } from "../puzzle.service";
+import { sleep } from "@/lib/utils";
+import { getDefaultPuzzles, type TestResult } from "../puzzle.service";
+import type { Puzzle } from "../puzzle.types";
 import { syncPuzzleProgress } from "../puzzle-progress.service";
 import PuzzleTrial from "./PuzzleTrial.vue";
 
-const puzzles = getDefaultPuzzles();
-syncPuzzleProgress(puzzles);
+const puzzles = ref(getDefaultPuzzles());
 
-const progressMap = ref(syncPuzzleProgress(puzzles, false));
+const progressMap = ref(syncPuzzleProgress(puzzles.value, false));
+const isCheating = ref(false);
+const isRunContinuously = ref(false);
 const puzzleTrial = useTemplateRef("puzzle-trial");
 
 reset();
 
 function reset() {
-	progressMap.value = syncPuzzleProgress(puzzles, false);
-	progressMap.value["add-two-numbers"].lastCode =
-		"console.log(input().reduce((a,b)=>a- -b))";
+	progressMap.value = syncPuzzleProgress(puzzles.value, false);
 	puzzleTrial.value?.setPuzzle(0);
 }
 
-function runAll() {
-	puzzleTrial.value?.puzzleIde?.runAllTests();
+function onTest(result: TestResult) {
+	if (isCheating.value) {
+		result[1] = true;
+		result[2] = undefined;
+	}
 }
 
-function resetRunAll() {
-	reset();
-	runAll();
+async function onUnlock(_puzzle: Puzzle) {
+	if (isRunContinuously.value) {
+		await sleep(128);
+		puzzleTrial.value?.puzzleIde?.runAllTests();
+	}
 }
 </script>
 <template>
-	<menu class="flex gap-1">
-		<Button @click="reset">reset</Button>
-		<Button @click="runAll">run all</Button>
-		<Button @click="resetRunAll">reset run all</Button>
-	</menu>
-	<PuzzleTrial :puzzles :progressMap ref="puzzle-trial" />
+	<div>
+		<menu class="p-2 flex gap-1 rounded-t bg-(--vp-c-bg-alt)">
+			<Button size="icon" label="Reset" @click="reset"> <RefreshCcw /> </Button>
+			<Button
+				:variant="isCheating ? 'primary' : 'secondary'"
+				@click="() => isCheating = !isCheating"
+			>
+				Cheat{{ isCheating ? "ing" : "" }}
+			</Button>
+			<Button
+				:variant="isRunContinuously ? 'primary' : 'secondary'"
+				@click="() => isRunContinuously = !isRunContinuously"
+			>
+				Run{{ isRunContinuously ? 'ning' : '' }}
+				on unlock
+			</Button>
+		</menu>
+
+		<PuzzleTrial
+			ref="puzzle-trial"
+			class="rounded-t-none"
+			:puzzles
+			:progressMap
+			@test="onTest"
+			@unlock="onUnlock"
+		/>
+	</div>
 </template>
