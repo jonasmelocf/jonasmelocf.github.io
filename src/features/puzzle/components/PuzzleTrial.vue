@@ -33,10 +33,30 @@ const getTrialButton = (puzzleId: string) =>
 defineExpose({ setPuzzle, puzzleIde });
 
 async function onSuccess() {
+	if (currentProgress.value?.puzzleState === "done") {
+		return;
+	}
+
 	const currentId = currentPuzzle.value?.id;
 	if (!currentId) {
 		return;
 	}
+
+	const currentButton = getTrialButton(currentId);
+	const currentEl = currentButton?.getButtonElement();
+	if (!currentEl) {
+		return;
+	}
+
+	currentEl.scrollIntoView({
+		block: "center",
+		inline: "center",
+		behavior: "smooth",
+	});
+	await sleep(2 ** 9 + 2 ** 5);
+	progressMap.value[currentId].puzzleState = "done";
+	progressMap.value[currentId].lastCode = ideCode.value;
+	await playPop(currentEl);
 
 	const nextIndex = puzzleIndex.value + 1;
 	const nextPuzzle = props.puzzles.at(nextIndex);
@@ -44,24 +64,25 @@ async function onSuccess() {
 		return;
 	}
 
-	const currentButton = getTrialButton(currentId);
+	const nextProgress = progressMap.value[nextPuzzle.id];
+	if (nextProgress.puzzleState !== "locked") {
+		return;
+	}
+
 	const nextButton = getTrialButton(nextPuzzle.id);
 	if (!nextButton) {
 		return;
 	}
 
-	const currentEl: HTMLButtonElement = currentButton?.$el;
-	const nextEl: HTMLButtonElement = nextButton.$el;
+	const nextEl = nextButton?.getButtonElement();
+	if (!nextEl) {
+		return;
+	}
 	nextEl.scrollIntoView({
 		block: "center",
 		inline: "center",
 		behavior: "smooth",
 	});
-
-	await sleep(2 ** 9 + 2 ** 5);
-	progressMap.value[currentId].puzzleState = "done";
-	progressMap.value[currentId].lastCode = ideCode.value;
-	await playPop(currentEl);
 
 	await sleep(128);
 	await playLockOpen(nextEl);
@@ -77,7 +98,8 @@ function setPuzzle(index: number) {
 		return;
 	}
 	puzzleIndex.value = index;
-	ideCode.value = currentProgress.value?.lastCode ?? currentPuzzle.value?.code ?? "";
+	ideCode.value =
+		currentProgress.value?.lastCode ?? currentPuzzle.value?.code ?? "";
 }
 
 onMounted(() => {
@@ -89,13 +111,26 @@ onMounted(() => {
 	<div class="flex flex-col" v-if="currentPuzzle">
 		<PuzzleTrialMenu>
 			<PuzzleTrialMenuEntry v-for="puzzle, i in props.puzzles" :i>
-				<PuzzleTrialButton ref="trial-buttons" :active="puzzle === currentPuzzle" :puzzle
-					:progress="progressMap[puzzle.id]" @click="setPuzzle(i)" />
+				<PuzzleTrialButton
+					ref="trial-buttons"
+					:active="puzzle === currentPuzzle"
+					:puzzle
+					:progress="progressMap[puzzle.id]"
+					@click="setPuzzle(i)"
+				/>
 			</PuzzleTrialMenuEntry>
 		</PuzzleTrialMenu>
 
-		<PuzzleExamples class="bg-(--vp-c-bg-alt) rounded-none" :puzzle="currentPuzzle" />
-		<PuzzleIDE ref="puzzle-ide" :puzzle="currentPuzzle" v-model:code="ideCode" @success="onSuccess"
-			class="rounded-tl-none rounded-tr-none" />
+		<PuzzleExamples
+			class="bg-(--vp-c-bg-alt) rounded-none"
+			:puzzle="currentPuzzle"
+		/>
+		<PuzzleIDE
+			ref="puzzle-ide"
+			:puzzle="currentPuzzle"
+			v-model:code="ideCode"
+			@success="onSuccess"
+			class="rounded-tl-none rounded-tr-none"
+		/>
 	</div>
 </template>
