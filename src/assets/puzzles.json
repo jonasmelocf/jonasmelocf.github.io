@@ -277,7 +277,7 @@
 	},
 	"square": {
 		"id": "square",
-		"code": "const inputs = input();\nconst c = inputs.shift();\nconst [h, w] = inputs.map(Number);\n\nconsole.log(c, h, w);",
+		"code": "const inputs = input();\nconst s = Number(inputs.shift());\nconst [tb, lr] = inputs;\n\nconsole.log(s, tb, lr);",
 		"tests": [
 			{
 				"input": ["1", "~", "~"],
