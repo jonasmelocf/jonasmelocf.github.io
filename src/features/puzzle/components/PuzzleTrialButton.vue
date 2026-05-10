@@ -32,6 +32,7 @@ defineExpose({
 		:title="puzzle.id"
 		:variant="progress.puzzleState === 'locked' ? 'secondary' : progress.puzzleState === 'unlocked' ? 'yellow' : 'green'"
 		size="icon-circle-xl"
+		:class="{ 'brightness-128': active }"
 	>
 		<Lock v-if="progress.puzzleState === 'locked'" />
 		<LockOpen v-if="progress.puzzleState === 'unlocked'" />
