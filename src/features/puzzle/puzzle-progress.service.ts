@@ -1,10 +1,7 @@
 import { tryOr } from "@/lib/utils";
 import type { Puzzle, PuzzleProgress, PuzzleProgressMap } from "./puzzle.types";
 
-export function syncPuzzleProgress(
-	puzzles: Puzzle[],
-	save = true,
-): PuzzleProgressMap {
+export function syncPuzzleProgress(puzzles: Puzzle[], save = true) {
 	const map = getPuzzleProgressMap();
 	for (const puzzle of puzzles) {
 		if (map[puzzle.id] === undefined) {
@@ -33,7 +30,7 @@ export function syncPuzzleProgress(
 export function getPuzzleProgressMap(): PuzzleProgressMap {
 	const item = localStorage.getItem("puzzle-progress-map");
 	if (!item) return {};
-	const parsed = tryOr(() => JSON.parse(item), undefined);
+	const parsed = tryOr(() => JSON.parse(item), {});
 	return parsed;
 }
 
