@@ -106,7 +106,10 @@ function runSingleTest(index: number, opts: HandleRunTestOpts = {}) {
 </script>
 
 <template>
-	<div class="relative rounded-lg shadow bg-(--vp-c-bg-alt)" @keydown.ctrl.enter.capture.stop.prevent="runAllTests">
+	<div
+		class="relative rounded-lg shadow bg-(--vp-c-bg-alt)"
+		@keydown.ctrl.enter.capture.stop.prevent="runAllTests"
+	>
 		<!-- Code editor -->
 		<CodeEditor class="rounded px-1 pt-1" v-model="code" />
 
@@ -119,7 +122,11 @@ function runSingleTest(index: number, opts: HandleRunTestOpts = {}) {
 						{{ t("Run all") }}
 					</Button>
 				</div>
-				<TestCaseButton ref="test-case-buttons" v-for="test, i in puzzle.tests" @click.stop="() => runSingleTest(i)">
+				<TestCaseButton
+					ref="test-case-buttons"
+					v-for="test, i in puzzle.tests"
+					@click.stop="() => runSingleTest(i)"
+				>
 					{{ t("Case") }} {{ test.input }}
 					<Play class="rounded p-1 size-6" />
 				</TestCaseButton>
