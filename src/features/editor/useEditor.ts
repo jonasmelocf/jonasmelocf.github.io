@@ -22,12 +22,10 @@ export function useEditor(opts: Opts) {
 
 	const getCode = () => editor?.getValue() ?? "";
 	const setCode = (code = "") => void editor?.setValue(code);
-	let setTheme: (theme: string) => void = () => {};
+	const setTheme = monaco.editor.setTheme;
 
 	onMounted(async () => {
 		if (!containerRef.value) return;
-
-		setTheme = monaco.editor.setTheme;
 
 		editor = monaco.editor.create(containerRef.value, {
 			value: code,
