@@ -23,7 +23,7 @@
 					"fix": "safe",
 					"level": "warn",
 					"options": {
-						"functions": ["merge", "clsx", "twMerge"]
+						"functions": ["merge", "clsx", "twMerge", "cva"]
 					}
 				}
 			}
