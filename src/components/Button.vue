@@ -4,7 +4,7 @@ import { cva, type VariantProps } from "cva";
 import { useTemplateRef } from "vue";
 import { merge } from "@/lib/utils";
 
-const button = cva({
+const getClass = cva({
 	base: "group/button inline-flex shrink-0 select-none items-center justify-center whitespace-nowrap rounded-lg border border-transparent bg-clip-padding font-medium text-sm outline-none transition-all focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0",
 	variants: {
 		variant: {
@@ -43,7 +43,7 @@ const button = cva({
 	},
 });
 
-type ButtonProps = VariantProps<typeof button>;
+type ButtonProps = VariantProps<typeof getClass>;
 
 const el = useTemplateRef("button");
 
@@ -61,20 +61,13 @@ const props = withDefaults(
 	},
 );
 
-defineExpose({
-	getEl: () => {
-		if (!el.value) {
-			throw new Error("tried to get undefined button element");
-		}
-		return el.value;
-	},
-});
+defineExpose({ el });
 </script>
 <template>
 	<button
 		ref="button"
 		:type="props.type"
-		:class="merge(button(props), props.class)"
+		:class="merge(getClass(props), props.class)"
 	>
 		<slot />
 	</button>
