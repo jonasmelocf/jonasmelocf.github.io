@@ -1,28 +1,28 @@
 <script setup lang="ts">
 import type { ClassValue } from "clsx";
 import { useTemplateRef } from "vue";
-import { clamp, merge } from "@/lib/utils";
+import { merge } from "@/lib/utils";
 
-const buttonRef = useTemplateRef("button");
+const button = useTemplateRef("button");
 const props = defineProps<{
 	class?: ClassValue;
 	state?: "success" | "fail" | undefined;
 }>();
 
 function setState(state: "success" | "fail" | undefined) {
-	if (!buttonRef.value) return;
+	if (!button.value) return;
 	switch (state) {
 		case "success":
-			buttonRef.value.style.background = "var(--vp-c-success-3)";
-			buttonRef.value.style.color = "var(--vp-c-white)";
+			button.value.style.background = "var(--vp-c-success-3)";
+			button.value.style.color = "var(--vp-c-white)";
 			break;
 		case "fail":
-			buttonRef.value.style.background = "var(--vp-c-danger-3)";
-			buttonRef.value.style.color = "var(--vp-c-white)";
+			button.value.style.background = "var(--vp-c-danger-3)";
+			button.value.style.color = "var(--vp-c-white)";
 			break;
 		default:
-			buttonRef.value.style.background = "var(--vp-button-alt-bg)";
-			buttonRef.value.style.color = "var(--vp-button-alt-text)";
+			button.value.style.background = "var(--vp-button-alt-bg)";
+			button.value.style.color = "var(--vp-button-alt-text)";
 			break;
 	}
 }
