@@ -16,8 +16,6 @@ type Opts = {
 	theme?: string;
 };
 export function useEditor(opts: Opts) {
-	const { code, onUpdate, containerRef } = opts;
-
 	let editor: Editor | undefined;
 
 	const getCode = () => editor?.getValue() ?? "";
@@ -25,12 +23,12 @@ export function useEditor(opts: Opts) {
 	const setTheme = monaco.editor.setTheme;
 
 	onMounted(async () => {
-		if (!containerRef.value) return;
+		if (!opts.containerRef.value) return;
 
-		editor = monaco.editor.create(containerRef.value, {
-			value: code,
+		editor = monaco.editor.create(opts.containerRef.value, {
+			value: opts.code,
 			language: "javascript",
-			theme: "vs-dark",
+			theme: opts.theme,
 			automaticLayout: true,
 			wordBasedSuggestions: "currentDocument",
 			scrollBeyondLastLine: false,
@@ -39,7 +37,8 @@ export function useEditor(opts: Opts) {
 			},
 		});
 
-		if (onUpdate) editor.onDidChangeModelContent(() => onUpdate(getCode()));
+		if (opts.onUpdate)
+			editor.onDidChangeModelContent(() => opts.onUpdate?.(getCode()));
 	});
 
 	onUnmounted(() => {

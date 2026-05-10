@@ -19,10 +19,14 @@ const editor = useEditor({
 	// when the editor change, also change model.value
 	onUpdate: (code) => (model.value = code),
 	containerRef: codeEditorContainer,
-	theme: isDark.value ? "vs-dark" : "vs",
 });
 
-watch(isDark, () => editor.setTheme(isDark.value ? "vs-dark" : "vs"));
+watch(
+	isDark,
+	() => editor.setTheme(isDark.value ? "vs-dark" : "vs"),
+	// let `watch` handle the current theme
+	{ immediate: true },
+);
 watch(model, () => {
 	// if model.value was changed but not by the editor
 	if (model.value !== editor.getCode()) {
