@@ -12,6 +12,7 @@ import Button from "@/components/Button.vue";
 import Field from "@/components/Field.vue";
 import Input from "@/components/Input.vue";
 import Label from "@/components/Label.vue";
+import ToggleButton from "@/components/ToggleButton.vue";
 import { random, safeSolve, tryOr } from "@/lib/utils.ts";
 import { getDefaultPuzzles, type TestResult } from "../puzzle.service";
 import type { Puzzle } from "../puzzle.types";
@@ -89,10 +90,6 @@ function onLorem() {
 	code.value = "console.log(input()[0]);";
 }
 
-function onCheat() {
-	isCheating.value = !isCheating.value;
-}
-
 function onResetStates() {
 	ide.value?.reset();
 }
@@ -137,20 +134,11 @@ function onTest(result: TestResult) {
 					<Button title="Set puzzle to lorem" size="icon" @click="onLorem">
 						<RotateCcw />
 					</Button>
-					<Button
-						title="Cheat"
-						size="icon"
-						@click="onCheat"
-						:variant="isCheating ? 'primary' : 'secondary'"
-					>
+					<ToggleButton title="Cheat" size="icon" v-model="isCheating">
 						<FlaskConical v-if="isCheating" />
 						<FlaskConicalOff v-else />
-					</Button>
-					<Button
-						title="Reset test case buttons"
-						size="icon"
-						@click="onResetStates"
-					>
+					</ToggleButton>
+					<Button title="Reset test cases" size="icon" @click="onResetStates">
 						<BrushCleaning />
 					</Button>
 				</menu>

@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { RefreshCcw } from "@lucide/vue";
+import { FlaskConical, FlaskConicalOff, RefreshCcw, Repeat } from "@lucide/vue";
 import { ref, useTemplateRef } from "vue";
 import Button from "@/components/Button.vue";
+import ToggleButton from "@/components/ToggleButton.vue";
 import { sleep } from "@/lib/utils";
 import { getDefaultPuzzles, type TestResult } from "../puzzle.service";
 import type { Puzzle } from "../puzzle.types";
@@ -12,7 +13,7 @@ const puzzles = ref(getDefaultPuzzles());
 
 const progressMap = ref(syncProgressMap(puzzles.value, {}));
 const isCheating = ref(false);
-const isRunContinuously = ref(false);
+const isRunningOnUnlock = ref(false);
 const puzzleTrial = useTemplateRef("puzzle-trial");
 
 reset();
@@ -30,7 +31,7 @@ function onTest(result: TestResult) {
 }
 
 async function onUnlock(_puzzle: Puzzle) {
-	if (isRunContinuously.value) {
+	if (isRunningOnUnlock.value) {
 		await sleep(128);
 		puzzleTrial.value?.puzzleIde?.onRunAll();
 	}
@@ -39,20 +40,18 @@ async function onUnlock(_puzzle: Puzzle) {
 <template>
 	<div>
 		<menu class="p-2 flex gap-1 rounded-t bg-(--vp-c-bg-alt)">
-			<Button size="icon" label="Reset" @click="reset"> <RefreshCcw /> </Button>
-			<Button
-				:variant="isCheating ? 'primary' : 'secondary'"
-				@click="() => isCheating = !isCheating"
+			<Button size="icon" title="Reset" @click="reset"> <RefreshCcw /> </Button>
+			<ToggleButton size="icon" title="Cheat" v-model="isCheating">
+				<FlaskConical v-if="isCheating" />
+				<FlaskConicalOff v-else />
+			</ToggleButton>
+			<ToggleButton
+				size="icon"
+				title="Run after unlock"
+				v-model="isRunningOnUnlock"
 			>
-				Cheat{{ isCheating ? "ing" : "" }}
-			</Button>
-			<Button
-				:variant="isRunContinuously ? 'primary' : 'secondary'"
-				@click="() => isRunContinuously = !isRunContinuously"
-			>
-				Run{{ isRunContinuously ? 'ning' : '' }}
-				on unlock
-			</Button>
+				<Repeat />
+			</ToggleButton>
 		</menu>
 
 		<PuzzleTrial
