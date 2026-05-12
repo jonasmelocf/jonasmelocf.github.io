@@ -134,13 +134,6 @@ function onTest(result: TestResult) {
 					<Button title="Set puzzle to lorem" size="icon" @click="onLorem">
 						<RotateCcw />
 					</Button>
-					<ToggleButton title="Cheat" size="icon" v-model="isCheating">
-						<FlaskConical v-if="isCheating" />
-						<FlaskConicalOff v-else />
-					</ToggleButton>
-					<Button title="Reset test cases" size="icon" @click="onResetStates">
-						<BrushCleaning />
-					</Button>
 				</menu>
 			</Field>
 		</menu>
@@ -152,6 +145,17 @@ function onTest(result: TestResult) {
 			:puzzle="randomPuzzle ?? puzzle"
 			:getPopInterval
 			@test="onTest"
-		/>
+		>
+			<template #test-case-menu>
+				<ToggleButton title="Cheat" size="icon-sm" v-model="isCheating">
+					<FlaskConical v-if="isCheating" />
+					<FlaskConicalOff v-else />
+				</ToggleButton>
+
+				<Button title="Reset test cases" size="icon-sm" @click="onResetStates">
+					<BrushCleaning />
+				</Button>
+			</template>
+		</PuzzleIDE>
 	</div>
 </template>

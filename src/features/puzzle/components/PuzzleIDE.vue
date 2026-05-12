@@ -123,11 +123,12 @@ function onRunTest(i: number, test: TestCase) {
 			<!-- Test cases -->
 			<menu class="grid gap-2">
 				<!-- Run all button -->
-				<div class="flex items-center justify-between px-2">
+				<div class="flex justify-between px-2">
 					<Label>{{ t("Test cases") }}</Label>
-					<Button @click="onRunAll" class="size-fit py-1 text-xs">
-						{{ t("Run all") }}
-					</Button>
+					<menu class="flex gap-0.5">
+						<slot name="test-case-menu" />
+						<Button size="sm" @click="onRunAll"> {{ t("Run all") }} </Button>
+					</menu>
 				</div>
 				<!-- Test case buttons -->
 				<div class="flex flex-col gap-2 h-48 px-2 pb-4 overflow-y-auto">
