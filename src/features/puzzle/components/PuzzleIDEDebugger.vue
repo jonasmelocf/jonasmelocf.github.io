@@ -1,23 +1,33 @@
 <script setup lang="ts">
+import {
+	BrushCleaning,
+	Dices,
+	FlaskConical,
+	FlaskConicalOff,
+	RotateCcw,
+} from "@lucide/vue";
 import { computed, ref, useTemplateRef } from "vue";
 import lorem from "@/assets/lorem.txt?raw";
+import Button from "@/components/Button.vue";
 import Field from "@/components/Field.vue";
 import Input from "@/components/Input.vue";
 import Label from "@/components/Label.vue";
 import { random, safeSolve, tryOr } from "@/lib/utils.ts";
-import PuzzleIDE from "./PuzzleIDE.vue";
-import type { Puzzle } from "../puzzle.types";
-import Button from "@/components/Button.vue";
-import { BrushCleaning, Dices, FlaskConical, FlaskConicalOff, RotateCcw } from "@lucide/vue";
 import { getDefaultPuzzles, type TestResult } from "../puzzle.service";
+import type { Puzzle } from "../puzzle.types";
+import PuzzleIDE from "./PuzzleIDE.vue";
 
 const defaultPopInterval = "200 * 0.99 ** i";
 const defaultPuzzles = getDefaultPuzzles();
 
 const wordAmount = ref(1);
 const testCaseAmount = ref(32);
-const wordsRegex = computed(() => Array(wordAmount.value).fill("\\w+").join(".*?"));
-const loremWords = computed(() => lorem.match(new RegExp(wordsRegex.value, "g")) ?? []);
+const wordsRegex = computed(() =>
+	Array(wordAmount.value).fill("\\w+").join(".*?"),
+);
+const loremWords = computed(
+	() => lorem.match(new RegExp(wordsRegex.value, "g")) ?? [],
+);
 
 const popInterval = ref(defaultPopInterval);
 const popIntervalSteps = computed(() => {
@@ -40,10 +50,10 @@ const popIntervalSteps = computed(() => {
 const getPopInterval = computed<((i: number) => number) | undefined>(() =>
 	popInterval.value
 		? tryOr(
-			// biome-ignore format: getPopTime function
-			() => new Function("i", `return Number(${popInterval.value});`) as (i: number) => number,
-			() => 1,
-		)
+				// biome-ignore format: getPopTime function
+				() => new Function("i", `return Number(${popInterval.value});`) as (i: number) => number,
+				() => 1,
+			)
 		: undefined,
 );
 
@@ -96,7 +106,9 @@ function onTest(result: TestResult) {
 
 <template>
 	<div class="flex flex-col  bg-(--vp-c-bg-alt)">
-		<menu class="grid grid-cols-1 sm:grid-cols-2 items-start p-2 gap-3 rounded-t">
+		<menu
+			class="grid grid-cols-1 sm:grid-cols-2 items-start p-2 gap-3 rounded-t"
+		>
 			<Field inline label="Test case amount">
 				<Input type="range" :min="1" :max="127" v-model="testCaseAmount" />
 				<code>{{ testCaseAmount }}</code>
@@ -125,18 +137,33 @@ function onTest(result: TestResult) {
 					<Button title="Set puzzle to lorem" size="icon" @click="onLorem">
 						<RotateCcw />
 					</Button>
-					<Button title="Cheat" size="icon" @click="onCheat" :variant="isCheating ? 'primary' : 'secondary'">
+					<Button
+						title="Cheat"
+						size="icon"
+						@click="onCheat"
+						:variant="isCheating ? 'primary' : 'secondary'"
+					>
 						<FlaskConical v-if="isCheating" />
 						<FlaskConicalOff v-else />
 					</Button>
-					<Button title="Reset test case buttons" size="icon" @click="onResetStates">
+					<Button
+						title="Reset test case buttons"
+						size="icon"
+						@click="onResetStates"
+					>
 						<BrushCleaning />
 					</Button>
 				</menu>
 			</Field>
 		</menu>
 
-		<PuzzleIDE ref="puzzle-ide" class="rounded-t-none" v-model:code="code" :puzzle="randomPuzzle ?? puzzle"
-			:getPopInterval @test="onTest" />
+		<PuzzleIDE
+			ref="puzzle-ide"
+			class="rounded-t-none"
+			v-model:code="code"
+			:puzzle="randomPuzzle ?? puzzle"
+			:getPopInterval
+			@test="onTest"
+		/>
 	</div>
 </template>
