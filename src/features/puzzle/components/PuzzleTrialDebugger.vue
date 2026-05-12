@@ -32,7 +32,7 @@ function onTest(result: TestResult) {
 async function onUnlock(_puzzle: Puzzle) {
 	if (isRunContinuously.value) {
 		await sleep(128);
-		puzzleTrial.value?.puzzleIde?.runAllTests();
+		puzzleTrial.value?.puzzleIde?.onRunAll();
 	}
 }
 </script>

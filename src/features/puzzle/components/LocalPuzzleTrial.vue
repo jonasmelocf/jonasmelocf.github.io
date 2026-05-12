@@ -12,7 +12,7 @@ const progressMap = ref(syncLocalProgressMap(puzzles));
 
 //biome-ignore format: biome formats this to single line
 watch(
-	progressMap.value,
+	progressMap,
 	() => saveLocalProgressMap(progressMap.value),
 	{ deep: true },
 );

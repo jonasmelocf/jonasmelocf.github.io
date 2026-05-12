@@ -42,12 +42,15 @@ const emit = defineEmits<{
 defineExpose({ setPuzzle, puzzleIde });
 
 async function onSuccess() {
-	if (currentProgress.value?.puzzleState === "done") {
+	const currentId = currentPuzzle.value?.id;
+	if (!currentId) {
 		return;
 	}
 
-	const currentId = currentPuzzle.value?.id;
-	if (!currentId) {
+	progressMap.value[currentId].lastCode = ideCode.value;
+
+	if (currentProgress.value?.puzzleState === "done") {
+		emit("success", currentPuzzle.value);
 		return;
 	}
 
@@ -64,7 +67,6 @@ async function onSuccess() {
 	});
 	await sleep(2 ** 9 + 2 ** 5);
 	progressMap.value[currentId].puzzleState = "done";
-	progressMap.value[currentId].lastCode = ideCode.value;
 	await playPop(currentEl);
 	emit("success", currentPuzzle.value);
 
@@ -156,7 +158,7 @@ onMounted(() => {
 		<PuzzleIDE
 			ref="puzzle-ide"
 			:puzzle="currentPuzzle"
-			:code="ideCode"
+			v-model:code="ideCode"
 			@success="onSuccess"
 			@test="onTest"
 			class="rounded-t-none"
