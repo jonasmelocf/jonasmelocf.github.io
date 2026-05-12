@@ -1,36 +1,33 @@
 <script setup lang="ts">
-import { Play } from "@lucide/vue";
 import { ref, useTemplateRef } from "vue";
 import Button from "@/components/Button.vue";
 import Label from "@/components/Label.vue";
 import { useTranslation } from "@/composables/useTranslation";
 import { playPop } from "@/features/animations/pop";
 import CodeEditor from "@/features/editor/CodeEditor.vue";
-import { clamp, nanToZero, sleep } from "@/lib/utils";
+import { sleep } from "@/lib/utils";
 import { runTest, type TestResult } from "../puzzle.service";
-import type { Puzzle } from "../puzzle.types";
+import type { Puzzle, TestCase } from "../puzzle.types";
 import TestCaseButton from "./TestCaseButton.vue";
 
 const props = withDefaults(
 	defineProps<{
 		puzzle: Puzzle;
-		minPopTime?: number;
-		getPopTime?: (index: number) => number;
+		getPopInterval?: (index: number) => number;
 	}>(),
 	{
-		minPopTime: 40,
-		getPopTime: (i: number) => 200 - i * 8,
+		getPopInterval: (i: number) => Math.max(40, 200 * 0.99 ** i),
 	},
 );
-
-const { t } = useTranslation();
-const testCaseButtonRefs = useTemplateRef("test-case-buttons");
-const outputRef = ref("");
-const expectedRef = ref("");
 
 const code = defineModel<string>("code", {
 	default: "",
 });
+
+const { t } = useTranslation();
+const testCaseButtons = useTemplateRef("test-case-buttons");
+const output = ref("");
+const expected = ref("");
 
 const emit = defineEmits<{
 	success: [];
@@ -38,117 +35,118 @@ const emit = defineEmits<{
 }>();
 
 defineExpose({
-	runSingleTest,
-	runAllTests,
+	onRunAll,
+	onRunTest,
 	reset,
 });
 
 function reset() {
-	testCaseButtonRefs.value?.forEach((button) => {
+	testCaseButtons.value?.forEach((button) => {
 		button?.setState(undefined);
 	});
-	outputRef.value = "";
-	expectedRef.value = "";
+	output.value = "";
+	expected.value = "";
 }
 
-async function runAllTests() {
-	reset();
-	let passed: boolean = false;
-	for (let i = 0; i < props.puzzle.tests.length; i++) {
-		const result = runSingleTest(i, {
-			audioRate: 1 + i / props.puzzle.tests.length,
-			center: true,
-			brightnessModifier: i,
-		});
-		emit("test", result, true);
-		passed = result[1];
-		if (!passed) break;
-		const popTime = nanToZero(props.getPopTime(i));
-		await sleep(Math.max(props.minPopTime, popTime));
-	}
+function renderTestResult(i: number, [testOutput, passed, error]: TestResult) {
+	const test = props.puzzle.tests[i];
+	const button = testCaseButtons.value?.[i];
+
 	if (passed) {
-		emit("success");
+		button?.setState("success");
+		expected.value = "";
+	} else {
+		button?.setState("fail");
+		expected.value = `${test.expects}`;
+	}
+
+	if (error) {
+		output.value = `Error: ${error.message}`;
+	} else {
+		output.value = testOutput;
 	}
 }
 
-type HandleRunTestOpts = Partial<{
-	audioRate: number;
-	center: boolean;
-	brightnessModifier: number;
-}>;
-function runSingleTest(index: number, opts: HandleRunTestOpts = {}) {
-	opts.center ??= false;
-	opts.brightnessModifier ??= 0;
+async function onRunAll() {
+	if (!testCaseButtons.value) {
+		return;
+	}
 
-	const test = props.puzzle.tests[index];
-	const editorButton = testCaseButtonRefs.value?.[index];
-	expectedRef.value = "";
+	reset();
+	const testAmount = props.puzzle.tests.length;
+	for (let i = 0; i < testAmount; i++) {
+		const test = props.puzzle.tests[i];
+		const button = testCaseButtons.value[i];
+		const el: HTMLButtonElement = button?.$el;
 
+		const result = runTest(test, code.value);
+		emit("test", result, true);
+		renderTestResult(i, result);
+
+		el.scrollIntoView({ block: "center", behavior: "smooth" });
+		playPop(el, {
+			audioRate: 1 + i / testAmount,
+			brightness: 1 + i / testAmount,
+		});
+		if (result[1] === false) {
+			// test failed
+			return;
+		}
+		await sleep(props.getPopInterval(i));
+	}
+	emit("success");
+}
+
+function onRunTest(i: number, test: TestCase) {
 	const result = runTest(test, code.value);
 	emit("test", result, false);
 
-	const [testOutput, passed, error] = result;
-	if (passed) {
-		editorButton?.setState("success");
-	} else {
-		editorButton?.setState("fail");
-		expectedRef.value = `${test.expects}`;
+	const button = testCaseButtons.value?.[i];
+	renderTestResult(i, result);
+
+	if (button) {
+		const el: HTMLButtonElement = button.$el;
+		playPop(el);
 	}
-
-	outputRef.value = error ? `Error: ${error.message}` : testOutput;
-
-	if (editorButton) {
-		const el: HTMLButtonElement = editorButton.$el;
-		if (opts.center) {
-			el.scrollIntoView({
-				behavior: "smooth",
-				block: "center",
-			});
-		}
-		playPop(el, {
-			brightness: 1 + clamp(opts.brightnessModifier / 10, -1, 8),
-			audioRate: opts.audioRate,
-		});
-	}
-
-	return result;
 }
 </script>
 
 <template>
 	<div
 		class="relative rounded-lg bg-(--vp-c-bg-alt)"
-		@keydown.ctrl.enter.capture.stop.prevent="runAllTests"
+		@keydown.ctrl.enter.capture.stop.prevent="onRunAll"
 	>
 		<!-- Code editor -->
 		<CodeEditor class="rounded px-1 pt-1" v-model="code" />
 
-		<div class="p-5 gap-5 flex items-start justify-evenly *:w-full">
+		<div class="flex flex-col sm:flex-row *:w-full px-5 pt-5 pb-1 gap-5">
 			<!-- Test cases -->
-			<menu class="overflow-visible gap-2 grid">
-				<div class="flex items-center">
+			<menu class="grid gap-2">
+				<!-- Run all button -->
+				<div class="flex items-center justify-between px-2">
 					<Label>{{ t("Test cases") }}</Label>
-					<Button @click="runAllTests" class="size-fit py-1 text-xs ml-auto">
+					<Button @click="onRunAll" class="size-fit py-1 text-xs">
 						{{ t("Run all") }}
 					</Button>
 				</div>
-				<TestCaseButton
-					ref="test-case-buttons"
-					v-for="test, i in props.puzzle.tests"
-					@click.stop="() => runSingleTest(i)"
-				>
-					{{ t("Case") }} {{ test.input }}
-					<Play class="rounded p-1 size-6" />
-				</TestCaseButton>
+				<!-- Test case buttons -->
+				<div class="flex flex-col gap-2 h-48 px-2 pb-4 overflow-y-auto">
+					<TestCaseButton
+						ref="test-case-buttons"
+						v-for="test, i in props.puzzle.tests"
+						:test
+						@click.stop="() => onRunTest(i, test)"
+					>
+						{{ t("Case") }} {{ test.input }}
+					</TestCaseButton>
+				</div>
 			</menu>
 			<!-- Output -->
 			<div class="overflow-auto">
 				<Label>{{ t("Output") }}</Label>
 				<div class="font-mono whitespace-break-spaces">
-					{{ outputRef }}
-					<div v-if="expectedRef">
-						<br>{{ t("Expected") }}:<br>{{ expectedRef }}
-					</div>
+					{{ output }}
+					<div v-if="expected"><br>{{ t("Expected") }}:<br>{{ expected }}</div>
 				</div>
 			</div>
 		</div>

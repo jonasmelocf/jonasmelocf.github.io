@@ -44,6 +44,7 @@ const getClass = cva({
 });
 
 type ButtonProps = VariantProps<typeof getClass>;
+export type ButtonVariants = ButtonProps["variant"];
 
 const el = useTemplateRef("button");
 

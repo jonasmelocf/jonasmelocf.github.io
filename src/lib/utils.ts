@@ -76,3 +76,18 @@ export function random<T>(arrOrMin: T[] | number, max?: number) {
 	max ??= arrOrMin;
 	return Math.floor(Math.random() * (max - arrOrMin + 1) + arrOrMin);
 }
+
+/** Solves a mathematical expression. Returns null on error. */
+export function safeSolve(expression: string, vars?: Record<string, number>) {
+	const varNames = vars ? Object.keys(vars) : [];
+	const varValues = vars ? Object.values(vars) : [];
+	const returnStatement = `return Number(${expression});`;
+	// first tryOr checks for syntax errors
+	const func = tryOr(() => new Function(...varNames, returnStatement), null);
+	if (!func) {
+		return null;
+	}
+	// second tryOr checks for "variable not defined" errors (ReferenceError)
+	const result = tryOr(() => Number(func(...varValues)), null);
+	return result;
+}

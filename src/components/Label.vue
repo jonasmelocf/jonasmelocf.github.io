@@ -6,7 +6,9 @@ const props = defineProps<{
 }>();
 </script>
 <template>
-	<span :class="merge('font-semibold text-neutral-500 text-xs', props.class)">
+	<span
+		:class="merge('whitespace-nowrap font-semibold text-neutral-500 text-xs', props.class)"
+	>
 		<slot />
 	</span>
 </template>
