@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {
+	BookOpenText,
 	BrushCleaning,
 	Dices,
 	FlaskConical,
@@ -15,7 +16,7 @@ import Label from "@/components/Label.vue";
 import ToggleButton from "@/components/ToggleButton.vue";
 import { random, safeSolve, tryOr } from "@/lib/utils.ts";
 import { getDefaultPuzzles, type TestResult } from "../puzzle.service";
-import type { Puzzle } from "../puzzle.types";
+import type { Puzzle, TestCase } from "../puzzle.types";
 import PuzzleIDE from "./PuzzleIDE.vue";
 
 const defaultPopInterval = "200 * 0.99 ** i";
@@ -51,10 +52,10 @@ const popIntervalSteps = computed(() => {
 const getPopInterval = computed<((i: number) => number) | undefined>(() =>
 	popInterval.value
 		? tryOr(
-				// biome-ignore format: getPopTime function
-				() => new Function("i", `return Number(${popInterval.value});`) as (i: number) => number,
-				() => 1,
-			)
+			// biome-ignore format: getPopTime function
+			() => new Function("i", `return Number(${popInterval.value});`) as (i: number) => number,
+			() => 1,
+		)
 		: undefined,
 );
 
@@ -72,6 +73,7 @@ const puzzle = computed(() => ({
 
 const randomPuzzle = ref<Puzzle>();
 const isCheating = ref(false);
+const isLongOutput = ref(false);
 
 const ide = useTemplateRef("puzzle-ide");
 
@@ -86,12 +88,21 @@ function onRandomPuzzle() {
 }
 
 function onLorem() {
+	wordAmount.value = 1;
 	randomPuzzle.value = undefined;
 	code.value = "console.log(input()[0]);";
 }
 
 function onResetStates() {
 	ide.value?.reset();
+}
+
+function onBeforeTest(ctx: { test: TestCase; code: string }) {
+	if (isLongOutput.value) {
+		const absurdlyLongText = lorem.replaceAll(" ", "");
+		ctx.test.expects = `${absurdlyLongText} ~> expected`;
+		ctx.code = `console.log(\`${absurdlyLongText}\`);`;
+	}
 }
 
 function onTest(result: TestResult) {
@@ -103,9 +114,7 @@ function onTest(result: TestResult) {
 
 <template>
 	<div class="flex flex-col  bg-(--vp-c-bg-alt)">
-		<menu
-			class="grid grid-cols-1 sm:grid-cols-2 items-start p-2 gap-3 rounded-t"
-		>
+		<menu class="grid grid-cols-1 sm:grid-cols-2 items-start p-2 gap-3 rounded-t">
 			<Field inline label="Test case amount">
 				<Input type="range" :min="1" :max="127" v-model="testCaseAmount" />
 				<code>{{ testCaseAmount }}</code>
@@ -138,18 +147,16 @@ function onTest(result: TestResult) {
 			</Field>
 		</menu>
 
-		<PuzzleIDE
-			ref="puzzle-ide"
-			class="rounded-t-none"
-			v-model:code="code"
-			:puzzle="randomPuzzle ?? puzzle"
-			:getPopInterval
-			@test="onTest"
-		>
+		<PuzzleIDE ref="puzzle-ide" class="rounded-t-none" v-model:code="code" :puzzle="randomPuzzle ?? puzzle"
+			:getPopInterval @test="onTest" @before-test="onBeforeTest">
 			<template #test-case-menu>
 				<ToggleButton title="Cheat" size="icon-sm" v-model="isCheating">
 					<FlaskConical v-if="isCheating" />
 					<FlaskConicalOff v-else />
+				</ToggleButton>
+
+				<ToggleButton title="Long output" size="icon-sm" v-model="isLongOutput">
+					<BookOpenText />
 				</ToggleButton>
 
 				<Button title="Reset test cases" size="icon-sm" @click="onResetStates">

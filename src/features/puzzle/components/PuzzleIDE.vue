@@ -9,6 +9,7 @@ import { sleep } from "@/lib/utils";
 import { runTest, type TestResult } from "../puzzle.service";
 import type { Puzzle, TestCase } from "../puzzle.types";
 import TestCaseButton from "./TestCaseButton.vue";
+import Field from "@/components/Field.vue";
 
 const props = withDefaults(
 	defineProps<{
@@ -31,6 +32,7 @@ const expected = ref("");
 
 const emit = defineEmits<{
 	success: [];
+	'before-test': [{ test: TestCase, code: string, isRunningAll: boolean }];
 	test: [result: TestResult, isRunningAll: boolean];
 }>();
 
@@ -79,7 +81,9 @@ async function onRunAll() {
 		const button = testCaseButtons.value[i];
 		const el: HTMLButtonElement = button?.$el;
 
-		const result = runTest(test, code.value);
+		const ctx = { test, code: code.value, isRunningAll: true };
+		emit('before-test', ctx);
+		const result = runTest(ctx.test, ctx.code);
 		emit("test", result, true);
 		renderTestResult(i, result);
 
@@ -98,7 +102,9 @@ async function onRunAll() {
 }
 
 function onRunTest(i: number, test: TestCase) {
-	const result = runTest(test, code.value);
+	const ctx = { test, code: code.value, isRunningAll: false };
+	emit('before-test', ctx);
+	const result = runTest(ctx.test, ctx.code);
 	emit("test", result, false);
 
 	const button = testCaseButtons.value?.[i];
@@ -112,16 +118,13 @@ function onRunTest(i: number, test: TestCase) {
 </script>
 
 <template>
-	<div
-		class="relative rounded-lg bg-(--vp-c-bg-alt)"
-		@keydown.ctrl.enter.capture.stop.prevent="onRunAll"
-	>
+	<div class="relative rounded-lg bg-(--vp-c-bg-alt)" @keydown.ctrl.enter.capture.stop.prevent="onRunAll">
 		<!-- Code editor -->
 		<CodeEditor class="rounded px-1 pt-1" v-model="code" />
 
-		<div class="flex flex-col sm:flex-row *:w-full px-5 pt-5 pb-1 gap-5">
+		<div class="grid grid-flow-row sm:grid-cols-2 px-5 pt-5 pb-1 gap-5 h-63">
 			<!-- Test cases -->
-			<menu class="grid gap-2">
+			<menu class="flex flex-col gap-2">
 				<!-- Run all button -->
 				<div class="flex justify-between px-2">
 					<Label>{{ t("Test cases") }}</Label>
@@ -132,24 +135,23 @@ function onRunTest(i: number, test: TestCase) {
 				</div>
 				<!-- Test case buttons -->
 				<div class="flex flex-col gap-2 h-48 px-2 pb-4 overflow-y-auto">
-					<TestCaseButton
-						ref="test-case-buttons"
-						v-for="test, i in props.puzzle.tests"
-						:test
-						@click.stop="() => onRunTest(i, test)"
-					>
+					<TestCaseButton ref="test-case-buttons" v-for="test, i in props.puzzle.tests" :test
+						@click.stop="() => onRunTest(i, test)">
 						{{ t("Case") }} {{ test.input }}
 					</TestCaseButton>
 				</div>
 			</menu>
 			<!-- Output -->
-			<div class="overflow-auto">
-				<Label>{{ t("Output") }}</Label>
-				<div class="font-mono whitespace-break-spaces">
-					{{ output }}
-					<div v-if="expected"><br>{{ t("Expected") }}:<br>{{ expected }}</div>
-				</div>
-			</div>
+			<menu :class="['grid gap-2 overflow-hidden', { 'grid-rows-2': expected }]">
+				<Field :label="t('Output')">
+					<div class="font-mono overflow-auto whitespace-pre-wrap">
+						{{ output }}
+					</div>
+				</Field>
+				<Field :label="t('Expected')" v-if="expected">
+					<div class="font-mono overflow-auto whitespace-pre-wrap">{{ expected }}</div>
+				</Field>
+			</menu>
 		</div>
 	</div>
 </template>

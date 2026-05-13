@@ -10,7 +10,7 @@ const { label, inline = false } = defineProps<{
 
 <template>
 	<div
-		:class="merge({ 'flex items-center gap-2': inline, 'grid gap-3': !inline })"
+		:class="merge('overflow-auto', { 'flex items-center gap-2': inline, 'flex flex-col gap-3': !inline })"
 	>
 		<Label>{{ label }}</Label>
 		<slot />
