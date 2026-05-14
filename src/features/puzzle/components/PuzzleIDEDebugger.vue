@@ -52,10 +52,10 @@ const popIntervalSteps = computed(() => {
 const getPopInterval = computed<((i: number) => number) | undefined>(() =>
 	popInterval.value
 		? tryOr(
-			// biome-ignore format: getPopTime function
-			() => new Function("i", `return Number(${popInterval.value});`) as (i: number) => number,
-			() => 1,
-		)
+				// biome-ignore format: getPopTime function
+				() => new Function("i", `return Number(${popInterval.value});`) as (i: number) => number,
+				() => 1,
+			)
 		: undefined,
 );
 
@@ -100,8 +100,15 @@ function onResetStates() {
 function onBeforeTest(ctx: { test: TestCase; code: string }) {
 	if (isLongOutput.value) {
 		const absurdlyLongText = lorem.replaceAll(" ", "");
-		ctx.test.expects = `${absurdlyLongText} ~> expected`;
+		ctx.test = {
+			...ctx.test, // copy `test` to not change the original
+			expects: `${absurdlyLongText} ~> expected`,
+		};
 		ctx.code = `console.log(\`${absurdlyLongText}\`);`;
+	}
+	if (isCheating.value) {
+		const sanitized = ctx.test.expects.replaceAll("`", "\\`");
+		ctx.code = `console.log(\`${sanitized}\`);`;
 	}
 }
 
@@ -114,7 +121,9 @@ function onTest(result: TestResult) {
 
 <template>
 	<div class="flex flex-col  bg-(--vp-c-bg-alt)">
-		<menu class="grid grid-cols-1 sm:grid-cols-2 items-start p-2 gap-3 rounded-t">
+		<menu
+			class="grid grid-cols-1 sm:grid-cols-2 items-start p-2 gap-3 rounded-t"
+		>
 			<Field inline label="Test case amount">
 				<Input type="range" :min="1" :max="127" v-model="testCaseAmount" />
 				<code>{{ testCaseAmount }}</code>
@@ -147,8 +156,15 @@ function onTest(result: TestResult) {
 			</Field>
 		</menu>
 
-		<PuzzleIDE ref="puzzle-ide" class="rounded-t-none" v-model:code="code" :puzzle="randomPuzzle ?? puzzle"
-			:getPopInterval @test="onTest" @before-test="onBeforeTest">
+		<PuzzleIDE
+			ref="puzzle-ide"
+			class="rounded-t-none"
+			v-model:code="code"
+			:puzzle="randomPuzzle ?? puzzle"
+			:getPopInterval
+			@test="onTest"
+			@before-test="onBeforeTest"
+		>
 			<template #test-case-menu>
 				<ToggleButton title="Cheat" size="icon-sm" v-model="isCheating">
 					<FlaskConical v-if="isCheating" />

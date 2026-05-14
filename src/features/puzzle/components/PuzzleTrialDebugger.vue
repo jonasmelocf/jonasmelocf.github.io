@@ -1,5 +1,12 @@
 <script setup lang="ts">
-import { FlaskConical, FlaskConicalOff, RefreshCcw, Repeat } from "@lucide/vue";
+import {
+	CheckCircle,
+	FlaskConical,
+	FlaskConicalOff,
+	LockOpen,
+	RefreshCcw,
+	Repeat,
+} from "@lucide/vue";
 import { ref, useTemplateRef } from "vue";
 import Button from "@/components/Button.vue";
 import ToggleButton from "@/components/ToggleButton.vue";
@@ -23,6 +30,30 @@ function reset() {
 	puzzleTrial.value?.setPuzzle(0);
 }
 
+async function unlockAll() {
+	for (const puzzle of puzzles.value) {
+		const progress = progressMap.value[puzzle.id];
+		if (progress.puzzleState !== "locked") {
+			continue;
+		}
+
+		puzzleTrial.value?.unlockPuzzle(puzzle);
+		await sleep(128);
+	}
+}
+
+async function completeAll() {
+	for (const puzzle of puzzles.value) {
+		const progress = progressMap.value[puzzle.id];
+		if (progress.puzzleState === "done") {
+			continue;
+		}
+
+		puzzleTrial.value?.completePuzzle(puzzle);
+		await sleep(64);
+	}
+}
+
 function onTest(result: TestResult) {
 	if (isCheating.value) {
 		result[1] = true;
@@ -41,6 +72,12 @@ async function onUnlock(_puzzle: Puzzle) {
 	<div>
 		<menu class="p-2 flex gap-1 rounded-t bg-(--vp-c-bg-alt)">
 			<Button size="icon" title="Reset" @click="reset"> <RefreshCcw /> </Button>
+			<Button size="icon" title="Unlock all" @click="unlockAll">
+				<LockOpen />
+			</Button>
+			<Button size="icon" title="Complete all" @click="completeAll">
+				<CheckCircle />
+			</Button>
 			<ToggleButton size="icon" title="Cheat" v-model="isCheating">
 				<FlaskConical v-if="isCheating" />
 				<FlaskConicalOff v-else />

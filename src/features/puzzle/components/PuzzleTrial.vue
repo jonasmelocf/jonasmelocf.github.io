@@ -6,7 +6,6 @@ import { playPop } from "@/features/animations/pop";
 import { merge, sleep } from "@/lib/utils";
 import type { TestResult } from "../puzzle.service";
 import type { Puzzle, PuzzleProgressMap } from "../puzzle.types";
-import PuzzleExamples from "./PuzzleExamples.vue";
 import PuzzleIDE from "./PuzzleIDE.vue";
 import PuzzleTrialButton from "./PuzzleTrialButton.vue";
 import PuzzleTrialMenu from "./PuzzleTrialMenu.vue";
@@ -30,8 +29,8 @@ const currentProgress = computed(
 const trialButtons = useTemplateRef("trial-buttons");
 const puzzleIde = useTemplateRef("puzzle-ide");
 
-const getTrialButton = (puzzleId: string) =>
-	trialButtons.value?.find((btn) => btn?.puzzle.id === puzzleId);
+const getTrialButton = (puzzle: Puzzle) =>
+	trialButtons.value?.[props.puzzles.indexOf(puzzle)];
 
 const emit = defineEmits<{
 	test: [result: TestResult, isRunningAll: boolean];
@@ -39,22 +38,10 @@ const emit = defineEmits<{
 	unlock: [puzzle: Puzzle];
 }>();
 
-defineExpose({ setPuzzle, puzzleIde });
+defineExpose({ setPuzzle, completePuzzle, unlockPuzzle, puzzleIde });
 
-async function onSuccess() {
-	const currentId = currentPuzzle.value?.id;
-	if (!currentId) {
-		return;
-	}
-
-	progressMap.value[currentId].lastCode = ideCode.value;
-
-	if (currentProgress.value?.puzzleState === "done") {
-		emit("success", currentPuzzle.value);
-		return;
-	}
-
-	const currentButton = getTrialButton(currentId);
+async function completePuzzle(puzzle: Puzzle) {
+	const currentButton = getTrialButton(puzzle);
 	const currentEl = currentButton?.getButtonElement();
 	if (!currentEl) {
 		return;
@@ -66,9 +53,51 @@ async function onSuccess() {
 		behavior: "smooth",
 	});
 	await sleep(2 ** 9 + 2 ** 5);
-	progressMap.value[currentId].puzzleState = "done";
+	progressMap.value[puzzle.id].puzzleState = "done";
 	await playPop(currentEl);
-	emit("success", currentPuzzle.value);
+	emit("success", puzzle);
+}
+
+async function unlockPuzzle(puzzle: Puzzle) {
+	const button = getTrialButton(puzzle);
+	if (!button) {
+		return;
+	}
+
+	const el = button?.getButtonElement();
+	if (!el) {
+		return;
+	}
+
+	el.scrollIntoView({
+		block: "center",
+		inline: "center",
+		behavior: "smooth",
+	});
+
+	await sleep(128);
+	await playLockOpen(el);
+	progressMap.value[puzzle.id].puzzleState = "unlocked";
+	await playPop(el, { audio: false });
+
+	await nextTick();
+	emit("unlock", puzzle);
+}
+
+async function onSuccess() {
+	const puzzle = currentPuzzle.value;
+	if (!puzzle) {
+		return;
+	}
+
+	progressMap.value[puzzle.id].lastCode = ideCode.value;
+
+	if (currentProgress.value?.puzzleState === "done") {
+		emit("success", currentPuzzle.value);
+		return;
+	}
+
+	await completePuzzle(puzzle);
 
 	const nextIndex = puzzleIndex.value + 1;
 	const nextPuzzle = props.puzzles.at(nextIndex);
@@ -81,29 +110,8 @@ async function onSuccess() {
 		return;
 	}
 
-	const nextButton = getTrialButton(nextPuzzle.id);
-	if (!nextButton) {
-		return;
-	}
-
-	const nextEl = nextButton?.getButtonElement();
-	if (!nextEl) {
-		return;
-	}
-	nextEl.scrollIntoView({
-		block: "center",
-		inline: "center",
-		behavior: "smooth",
-	});
-
-	await sleep(128);
-	await playLockOpen(nextEl);
-	progressMap.value[nextPuzzle.id].puzzleState = "unlocked";
-	await playPop(nextEl, { audio: false });
-
-	await nextTick();
+	await unlockPuzzle(nextPuzzle);
 	setPuzzle(nextIndex);
-	emit("unlock", nextPuzzle);
 }
 
 function onTest(test: TestResult, isRunningAll: boolean) {
@@ -151,10 +159,6 @@ onMounted(() => {
 			</PuzzleTrialMenuEntry>
 		</PuzzleTrialMenu>
 
-		<PuzzleExamples
-			class="bg-(--vp-c-bg-alt) rounded-none"
-			:puzzle="currentPuzzle"
-		/>
 		<PuzzleIDE
 			ref="puzzle-ide"
 			:puzzle="currentPuzzle"
