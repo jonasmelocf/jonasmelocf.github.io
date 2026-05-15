@@ -2,8 +2,8 @@
 import { Check, Lock, LockOpen } from "@lucide/vue";
 import { useTemplateRef } from "vue";
 import Button from "@/components/Button.vue";
-import type { Puzzle, PuzzleProgress } from "../puzzle.types";
 import Label from "@/components/Label.vue";
+import type { Puzzle, PuzzleProgress } from "../puzzle.types";
 
 const props = withDefaults(
 	defineProps<{
@@ -27,14 +27,21 @@ defineExpose({
 </script>
 
 <template>
-	<Button ref="button" :disabled="progress?.puzzleState === 'locked'" :title="puzzle.id"
+	<Button
+		ref="button"
+		:disabled="progress?.puzzleState === 'locked'"
+		:title="puzzle.id"
 		:variant="progress.puzzleState === 'locked' ? 'secondary' : progress.puzzleState === 'unlocked' ? 'yellow' : 'green'"
-		size="icon-circle-xl" :class="['relative', { 'brightness-128': active }]">
+		size="icon-circle-xl"
+		:class="['relative', { 'brightness-128': active }]"
+	>
 		<Lock v-if="progress.puzzleState === 'locked'" />
 		<LockOpen v-if="progress.puzzleState === 'unlocked'" />
 		<Check v-if="progress.puzzleState === 'done'" />
 
-		<Label :class="['absolute top-full pt-1.5', { 'brightness-128': active, 'opacity-40': !active }]">
+		<Label
+			:class="['absolute top-full pt-1.5', { 'brightness-128': active, 'opacity-40': !active }]"
+		>
 			{{ puzzle.id }}
 		</Label>
 	</Button>
