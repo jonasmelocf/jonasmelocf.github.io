@@ -90,7 +90,7 @@ Uso vários **agentes de IA**, incluindo **Claude** e **Copilot**, para:
 
 ## Contato
 
-Entre em contato comigo pelo email djjjonas02@gmail.com.
+Entre em contato comigo pelo email jonasmelocf@gmail.com.
 
 [LinkedIn](https://linkedin.com/in/ojonasdemelo).
 

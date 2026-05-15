@@ -1,5 +1,5 @@
 {
-	"name": "djjjonas.github.io",
+	"name": "jonasmelocf.github.io",
 	"scripts": {
 		"bublish": "npm run build && npm run publish",
 		"publish": "gh-pages -d ./docs/.vitepress/dist",
@@ -9,7 +9,7 @@
 		"format": "prettier --write ./docs/**/*.md",
 		"check": "biome check --write --unsafe"
 	},
-	"author": "DJJJonas",
+	"author": "Jonas de Melo",
 	"license": "MIT",
 	"type": "module",
 	"devDependencies": {

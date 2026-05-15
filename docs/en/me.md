@@ -90,7 +90,7 @@ I use several AI agents, including Claude and Copilot, to:
 
 ## Contact
 
-Get in touch with me via email at djjjonas02@gmail.com.
+Get in touch with me via email at jonasmelocf@gmail.com.
 
 [LinkedIn](https://linkedin.com/in/ojonasdemelo)
 
