@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import PuzzleDisplay from "@/features/puzzle/components/PuzzleDisplay.vue";
 import { getQueryParam } from "@/lib/utils";
 import type { Puzzle } from "../puzzle.types";
+import LocalPuzzleIDE from "./LocalPuzzleIDE.vue";
 
 const b64puzzle = getQueryParam("puzzle");
 const puzzle =
@@ -10,6 +10,6 @@ const puzzle =
 </script>
 
 <template>
-	<PuzzleDisplay v-if="puzzle" :puzzle />
+	<LocalPuzzleIDE v-if="puzzle" :puzzle />
 	<h1 v-if="!puzzle">error</h1>
 </template>
