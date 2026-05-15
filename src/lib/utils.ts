@@ -27,17 +27,20 @@ export function stringify(data: unknown) {
 
 /** Run JavaScript code inside a sandbox and returns an array of logs from `console.log` calls */
 export function runSandboxedCode(code: string): string[] {
-	const logs: unknown[] = [];
+	const logs: unknown[][] = [];
 	const sandboxConsole = {
-		log: (...args: unknown[]) => logs.push(...args),
+		log: (...args: unknown[]) => void logs.push(args),
 	};
 
 	const runSandbox = new Function("console", code);
 	runSandbox(sandboxConsole);
 
-	return logs.map((data) =>
-		typeof data === "object" ? JSON.stringify(data) : String(data),
-	);
+	return logs
+		.map((logs) =>
+			logs.map(log =>
+				typeof log === "object" ? JSON.stringify(log) : String(log),
+			).join(" ")
+		);
 }
 
 export function copy<T>(value: T): T {
