@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import type { TestResult } from "../puzzle.service";
 import type { Puzzle } from "../puzzle.types";
 import {
 	getLocalProgress,
 	saveLocalProgress,
 } from "../puzzle-progress.service";
 import PuzzleIDE from "./PuzzleIDE.vue";
-import type { TestResult } from "../puzzle.service";
 
 const props = defineProps<{
 	puzzle: Puzzle;

@@ -35,12 +35,13 @@ export function runSandboxedCode(code: string): string[] {
 	const runSandbox = new Function("console", code);
 	runSandbox(sandboxConsole);
 
-	return logs
-		.map((logs) =>
-			logs.map(log =>
+	return logs.map((logs) =>
+		logs
+			.map((log) =>
 				typeof log === "object" ? JSON.stringify(log) : String(log),
-			).join(" ")
-		);
+			)
+			.join(" "),
+	);
 }
 
 export function copy<T>(value: T): T {
