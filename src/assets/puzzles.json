@@ -1,6 +1,6 @@
 {
 	"add-two-numbers": {
-		"id": "add-two-numbers",
+		"id": "sum",
 		"code": "const [x, y] = input().map(Number);\nconsole.log(x, y);",
 		"tests": [
 			{
