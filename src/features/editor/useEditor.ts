@@ -35,6 +35,9 @@ export function useEditor(opts: Opts) {
 			scrollbar: {
 				alwaysConsumeMouseWheel: false,
 			},
+			minimap: {
+				enabled: false,
+			},
 		});
 
 		if (opts.onUpdate)
