@@ -40,6 +40,7 @@ defineExpose({
 		<Check v-if="progress.puzzleState === 'done'" />
 
 		<Label
+			v-if="progress.puzzleState !== 'locked'"
 			:class="['absolute top-full pt-1.5', { 'brightness-128': active, 'opacity-40': !active }]"
 		>
 			{{ puzzle.id }}
