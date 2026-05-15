@@ -61,7 +61,7 @@ export function saveLocalProgressMap(map: PuzzleProgressMap) {
 export function saveLocalProgress(progress: PuzzleProgress): PuzzleProgress {
 	const map = getLocalProgressMap();
 	map[progress.puzzleId] = progress;
-	localStorage.setItem("puzzle-progress-map", JSON.stringify(map));
+	saveLocalProgressMap(map);
 	return progress;
 }
 
