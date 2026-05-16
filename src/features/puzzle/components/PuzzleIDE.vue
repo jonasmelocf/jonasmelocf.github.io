@@ -155,12 +155,12 @@ function onRunTest(i: number, test: TestCase) {
 			<menu
 				:class="['grid gap-2 overflow-hidden', { 'grid-rows-2': expected }]"
 			>
-				<Field :label="t('Output')">
+				<Field :label="t('Output')" class="overflow-auto">
 					<div class="font-mono overflow-auto whitespace-pre-wrap">
 						{{ output }}
 					</div>
 				</Field>
-				<Field :label="t('Expected')" v-if="expected">
+				<Field :label="t('Expected')" v-if="expected" class="overflow-auto">
 					<div class="font-mono overflow-auto whitespace-pre-wrap">
 						{{ expected }}
 					</div>

@@ -9,7 +9,9 @@ import {
 } from "@lucide/vue";
 import { ref, useTemplateRef } from "vue";
 import Button from "@/components/Button.vue";
+import Label from "@/components/Label.vue";
 import ToggleButton from "@/components/ToggleButton.vue";
+import { playParticles } from "@/features/animations/particles";
 import { sleep } from "@/lib/utils";
 import { getDefaultPuzzles, type TestResult } from "../puzzle.service";
 import type { Puzzle } from "../puzzle.types";
@@ -21,6 +23,7 @@ const puzzles = ref(getDefaultPuzzles());
 const progressMap = ref(syncProgressMap(puzzles.value, {}));
 const isCheating = ref(false);
 const isRunningOnUnlock = ref(false);
+const isParticle = ref(false);
 const puzzleTrial = useTemplateRef("puzzle-trial");
 
 reset();
@@ -61,16 +64,23 @@ function onTest(result: TestResult) {
 	}
 }
 
-async function onUnlock(_puzzle: Puzzle) {
+async function onUnlock(_puzzle: Puzzle, el: HTMLButtonElement) {
+	if (isParticle.value) {
+		playParticles(8, {
+			el,
+			text: "✨",
+		});
+	}
+
 	if (isRunningOnUnlock.value) {
-		await sleep(128);
+		await sleep(256 + 128);
 		puzzleTrial.value?.puzzleIde?.onRunAll();
 	}
 }
 </script>
 <template>
 	<div>
-		<menu class="p-2 flex gap-1 rounded-t bg-(--vp-c-bg-alt)">
+		<menu class="p-2 flex gap-1 rounded-t bg-(--vp-c-bg-alt) items-center">
 			<Button size="icon" title="Reset" @click="reset"> <RefreshCcw /> </Button>
 			<Button size="icon" title="Unlock all" @click="unlockAll">
 				<LockOpen />
@@ -89,6 +99,12 @@ async function onUnlock(_puzzle: Puzzle) {
 			>
 				<Repeat />
 			</ToggleButton>
+
+			<div class="w-px h-8 mx-4 bg-neutral-500" />
+
+			<Label class="mr-2">Tests</Label>
+
+			<ToggleButton v-model="isParticle"> Particles </ToggleButton>
 		</menu>
 
 		<PuzzleTrial

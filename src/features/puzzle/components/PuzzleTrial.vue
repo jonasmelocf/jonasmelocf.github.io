@@ -35,7 +35,7 @@ const getTrialButton = (puzzle: Puzzle) =>
 const emit = defineEmits<{
 	test: [result: TestResult, isRunningAll: boolean];
 	success: [puzzle: Puzzle];
-	unlock: [puzzle: Puzzle];
+	unlock: [puzzle: Puzzle, el: HTMLButtonElement];
 }>();
 
 defineExpose({ setPuzzle, completePuzzle, unlockPuzzle, puzzleIde });
@@ -78,10 +78,10 @@ async function unlockPuzzle(puzzle: Puzzle) {
 	await sleep(128);
 	await playLockOpen(el);
 	progressMap.value[puzzle.id].puzzleState = "unlocked";
+	emit("unlock", puzzle, el);
 	await playPop(el, { audio: false });
 
 	await nextTick();
-	emit("unlock", puzzle);
 }
 
 async function onSuccess() {
